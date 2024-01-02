@@ -1,24 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import Header from "./components/Header";
+import { ThemeProvider, createTheme } from "@mui/material";
+import HeroSection from "./components/HeroSection";
+import { Home } from "./views";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#212121",
+    },
+    secondary: {
+      main: "#fafafa",
+    },
+  },
+
+  typography: {
+    fontFamily: [
+      "OSWALD",
+      "-apple-system",
+      "BlinkMacSystemFont",
+      '"Segoe UI"',
+      "Roboto",
+      '"Helvetica Neue"',
+      "Arial",
+      "sans-serif",
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join,
+  },
+});
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <Home />
+      </div>
+    </ThemeProvider>
   );
 }
 
