@@ -1,16 +1,14 @@
-import Header from "./components/Header";
 import { ThemeProvider, createTheme } from "@mui/material";
-import HeroSection from "./components/HeroSection";
-import { Home } from "./views";
+import { Home, Header } from "./views";
 
 const theme = createTheme({
   palette: {
-    primary: {
-      main: "#212121",
-    },
-    secondary: {
-      main: "#fafafa",
-    },
+    // primary: {
+    //   main: "#212121",
+    // },
+    // secondary: {
+    //   main: "#fafafa",
+    // },
   },
 
   typography: {
@@ -33,7 +31,13 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <div className="App">
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <Home />
       </div>
     </ThemeProvider>

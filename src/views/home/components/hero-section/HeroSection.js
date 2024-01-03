@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import React from "react";
 import { Fade } from "react-slideshow-image";
 import "react-slideshow-image/dist/styles.css";
@@ -8,7 +9,9 @@ const divStyle = {
   justifyContent: "center",
   backgroundSize: "cover",
   height: "400px",
+  width: "100% ",
   backgroundPosition: "center",
+  border: "1px solid red",
 };
 const slideImages = [
   {
@@ -25,20 +28,18 @@ const slideImages = [
   },
 ];
 
-const HeroSection = () => {
+export const HeroSection = () => {
   return (
-    <div className="slide-container" style={{ marginTop: "7.4rem" }}>
-      <Fade indicators={true} arrows={false} duration={1000}>
+    <Box style={{ border: "1px solid black" }}>
+      <Fade indicators={true} arrows={false}>
         {slideImages.map((slideImage, index) => (
-          <div key={index}>
-            <div
+          <Box key={index}>
+            <Box
               style={{ ...divStyle, backgroundImage: `url(${slideImage.url})` }}
-            ></div>
-          </div>
+            ></Box>
+          </Box>
         ))}
       </Fade>
-    </div>
+    </Box>
   );
 };
-
-export default HeroSection;
