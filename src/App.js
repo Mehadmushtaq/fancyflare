@@ -2,15 +2,17 @@
 
 import React from "react";
 import { Home } from "./views/home/Home";
-import { Footer } from "./components";
+import { Footer, SignUp } from "./components";
+import SignIn from "./components/signIn/SignIn";
 
 function App() {
   return (
     <>
-      <Home />
+      <SignUp />
+      {/* <Home /> */}
 
       {/* FOOTER   */}
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

@@ -12,7 +12,7 @@ export const Home = () => {
       {/* <Header /> */}
       <HeroSection />
 
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" sx={{ marginBottom: "5rem" }}>
         {/* CATEGORY SECTION */}
         <h2>CATEGORIES</h2>
         <Grid container spacing={2}>
