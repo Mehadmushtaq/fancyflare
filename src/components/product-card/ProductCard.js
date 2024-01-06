@@ -36,25 +36,20 @@ export function ProductCard({ item }) {
 
           {item.salePrice ? (
             <>
-              <Badge badgeContent={4} color="primary">
-                <Typography
-                  variant="body2"
-                  sx={{
-                    fontWeight: fontsWeight.fontSemiBold,
-                  }}
-                >
-                  {item.salePrice}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    fontWeight: fontsWeight.fontSemiBold,
-                    textDecoration: "line-through",
-                  }}
-                >
+              {/* <Badge badgeContent={4} color="primary"> */}
+              <Typography
+                variant="body2"
+                sx={{
+                  fontWeight: fontsWeight.fontSemiBold,
+                }}
+              >
+                {item.salePrice}{" "}
+                <span style={{ textDecoration: "line-through" }}>
                   {item.price}
-                </Typography>
-              </Badge>
+                </span>
+              </Typography>
+
+              {/* </Badge> */}
             </>
           ) : (
             <Typography

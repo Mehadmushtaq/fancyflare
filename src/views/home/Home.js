@@ -14,7 +14,7 @@ export const Home = () => {
 
       <Container maxWidth="lg">
         {/* CATEGORY SECTION */}
-        <p>CATEGOREIS</p>
+        <h2>CATEGORIES</h2>
         <Grid container spacing={2}>
           {categoriesList.map((category) => {
             return (
@@ -31,13 +31,13 @@ export const Home = () => {
           })}
         </Grid>
 
-        <p>PRODUCTS</p>
+        <h2>LATEST PRODUCTS</h2>
 
         {/* PRODUCTS SECTION */}
         <Grid container spacing={2}>
           {products?.map((product) => {
             return (
-              <Grid item xs={12} sm={4}>
+              <Grid item xs={6} sm={3}>
                 <ProductCard key={product.id} item={product} />
               </Grid>
             );
