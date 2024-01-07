@@ -1,86 +1,62 @@
 import React, { useState } from "react";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  IconButton,
-  Box,
-  Grid,
-} from "@mui/material";
+import { Typography, Box, Grid, Card } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-
-import { Menu, Space } from "antd";
-
-// import { Link } from 'react-router-dom';
-
-import { MdPersonOutline } from "react-icons/md";
+import { Menu, Space, Drawer } from "antd";
 import { FaWhatsapp } from "react-icons/fa";
-import { MdOutlineShoppingCart } from "react-icons/md";
+import {
+  MdPersonOutline,
+  MdOutlineShoppingCart,
+  MdOutlineArrowDropDown,
+} from "react-icons/md";
 
 export function Header() {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [collectionAnchorEl, setCollectionAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const collectionOpen = Boolean(collectionAnchorEl);
-
-  const handleClick = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    setCollectionAnchorEl(event.currentTarget);
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const showDrawer = () => {
+    console.log("drawer opened");
+    setOpenDrawer(true);
   };
-  // const handleCollectionClose = () => {
-  //   setCollectionAnchorEl(null);
-  // };
-
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-    setCollectionAnchorEl(null);
+  const onCloseDrawer = () => {
+    setOpenDrawer(false);
   };
 
   return (
     <>
-      {/* <Grid
+      <Grid
         container
         spacing={2}
         sx={{
-          backgroundColor: "white",
-          color: "black",
           alignItems: "center",
           paddingX: { xs: "0.5rem", sm: "1rem", md: "2rem" },
           paddingY: "0.5rem",
-          border: "1px solid black",
         }}
       >
-        <Grid
-          item
-          xs={3}
-          sx={{
-            display: "flex",
-            justifyContent: "flex-start",
-            alignItems: "center",
-          }}
-        >
-          <FaWhatsapp />
-          <Typography> +123456789</Typography>
+        <Grid item xs={3}>
+          <Box
+            sx={{
+              display: { xs: "none", sm: "inline" },
+            }}
+          >
+            <FaWhatsapp />
+            <Typography sx={{ display: "inline-block" }}>+123456789</Typography>
+          </Box>
+
+          <Box sx={{ display: { xs: "inline", sm: "none" } }}>
+            <MenuIcon onClick={showDrawer} />
+          </Box>
         </Grid>
         <Grid
           item
-          xs={5}
+          xs={6}
           sx={{
             display: "flex",
             justifyContent: "center",
           }}
         >
-          <Typography>LOGO</Typography>
+          <Typography variant="h6">LOGO</Typography>
         </Grid>
         <Grid
           item
-          xs={4}
+          xs={3}
           sx={{
             display: "flex",
             justifyContent: "flex-end",
@@ -88,19 +64,23 @@ export function Header() {
           }}
         >
           <MdPersonOutline />
-          <Typography sx={{ mr: "1rem" }}>Login</Typography>
 
           <MdOutlineShoppingCart />
-          <Typography>0</Typography>
         </Grid>
-      </Grid> */}
+      </Grid>
+
       <Menu
         mode="horizontal"
+        style={{
+          display: "none",
+          display: { sm: "inline" },
+          border: "1px solid red",
+        }}
         items={[
           {
             label: "Women",
             key: "women",
-            // icon: <MenuIcon />,
+            icon: <MdOutlineArrowDropDown />,
             children: [
               {
                 label: "item 1.1",
@@ -124,27 +104,31 @@ export function Header() {
           {
             label: "New Arrivals",
             key: "NewArrivals",
+            icon: <MdOutlineArrowDropDown />,
             children: [
               {
                 label: <MegaMenu />,
                 key: "MegaMenu",
-                style: { height: "fit-content" },
+                style: {
+                  height: "fit-content",
+                  backgroundColor: "white",
+                  p: "1rem",
+                },
               },
             ],
           },
         ]}
-      ></Menu>
+      />
     </>
   );
 }
 
-function MegaMenu() {
+function MegaMenu({ onCloseDrawer, openDrawer }) {
   return (
-    <Box>
-      <Typography>CATEGORIES</Typography>
-
+    <Box sx={{ backgroundColor: "white" }}>
       <Space direction="horizontal">
         <Menu
+          style={{ boxShadow: "none", border: "none" }}
           items={[
             {
               label: "Refrigerators",
@@ -186,8 +170,68 @@ function MegaMenu() {
               key: "Refrigerators2",
             },
           ]}
-        ></Menu>
+        />
+        <Menu
+          style={{ boxShadow: "none", border: "none" }}
+          items={[
+            {
+              label: "Refrigerators",
+              key: "Refrigerators",
+              type: "group",
+            },
+            {
+              label: "Refrigerators1",
+              key: "Refrigerators1",
+            },
+            {
+              label: "Refrigerators2",
+              key: "Refrigerators2",
+            },
+            {
+              label: "Refrigerators",
+              key: "Refrigerators",
+              type: "group",
+            },
+            {
+              label: "Refrigerators1",
+              key: "Refrigerators1",
+            },
+            {
+              label: "Refrigerators2",
+              key: "Refrigerators2",
+            },
+            {
+              label: "Refrigerators",
+              key: "Refrigerators",
+              type: "group",
+            },
+            {
+              label: "Refrigerators1",
+              key: "Refrigerators1",
+            },
+            {
+              label: "Refrigerators2",
+              key: "Refrigerators2",
+            },
+          ]}
+        />
+        <Box>
+          <img
+            src="https://sameersain.pk/cdn/shop/products/728A2729.jpg?v=1649608059"
+            width={200}
+          />
+        </Box>
       </Space>
+      <Drawer
+        title="Basic Drawer"
+        placement="left"
+        onClose={onCloseDrawer}
+        open={openDrawer}
+      >
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Drawer>
     </Box>
   );
 }
