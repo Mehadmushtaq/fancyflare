@@ -21,7 +21,12 @@ export function Footer() {
             </Box>
           </Grid>
           <Grid item xs={12} sm={3}>
-            <Box sx={{ "& .MuiTypography-root": { mb: "0.2rem" } }}>
+            <Box
+              sx={{
+                display: { xs: "none", sm: "inline" },
+                "& .MuiTypography-root": { mb: "0.2rem" },
+              }}
+            >
               <Typography style={{ fontWeight: fontsWeight.fontBold }}>
                 INFORMATION
               </Typography>
@@ -31,9 +36,17 @@ export function Footer() {
               <Typography>link 4</Typography>
               <Typography>link 5</Typography>
             </Box>
+            <Box>
+              <Accordion />
+            </Box>
           </Grid>
           <Grid item xs={12} sm={3}>
-            <Box sx={{ "& .MuiTypography-root": { mb: "0.2rem" } }}>
+            <Box
+              sx={{
+                display: { xs: "none", sm: "inline" },
+                "& .MuiTypography-root": { mb: "0.2rem" },
+              }}
+            >
               <Typography sx={{ fontWeight: fontsWeight.fontBold }}>
                 CONTACT US
               </Typography>
