@@ -61,7 +61,7 @@ export function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            CREATE ACCOUNT
           </Typography>
           <Box
             component="form"
@@ -117,7 +117,7 @@ export function SignUp() {
                   control={
                     <Checkbox value="allowExtraEmails" color="primary" />
                   }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                  label="SUBSCRIBE TO OUR NEWSLETTER?"
                 />
               </Grid>
             </Grid>
@@ -132,7 +132,7 @@ export function SignUp() {
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="#" variant="body2">
-                  Already have an account? Sign in
+                  Returning customer? SIGN IN
                 </Link>
               </Grid>
             </Grid>

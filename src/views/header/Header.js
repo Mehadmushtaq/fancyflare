@@ -11,7 +11,11 @@ import {
   Grid,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+
 // import { Link } from 'react-router-dom';
+
+import { MdPersonOutline } from "react-icons/md";
+import { FaWhatsapp } from "react-icons/fa";
 
 export function Header() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -41,7 +45,7 @@ export function Header() {
     <AppBar>
       <Grid
         container
-        spacing={12}
+        spacing={2}
         sx={{
           backgroundColor: "white",
           color: "black",
@@ -58,6 +62,7 @@ export function Header() {
             justifyContent: "flex-start",
           }}
         >
+          <FaWhatsapp width={10} height={10} />
           <Typography>+123456789</Typography>
         </Grid>
         <Grid
@@ -88,140 +93,6 @@ export function Header() {
           </Button>
         </Grid>
       </Grid>
-
-      <Toolbar sx={{ justifyContent: "space-between" }}>
-        {/* Logo */}
-        <Typography
-          variant="h6"
-          component="div"
-          sx={{
-            // flexGrow: 1,
-            alignItems: "flex-start",
-          }}
-        >
-          {/* <Link to="/" style={{ textDecoration: 'none', color: 'white' }}> */}
-          Fancy Flare
-          {/* </Link> */}
-        </Typography>
-
-        {/* Navbar - Desktop */}
-        <Box
-          className="desktop-nav"
-          sx={{ display: { xs: "none", sm: "flex", md: "flex" } }}
-        >
-          <Button
-            color="inherit"
-            //    component={Link} to="/new-arrivals"
-          >
-            New Arrivals
-          </Button>
-          <Button
-            color="inherit"
-            //    component={Link} to="/collections"
-          >
-            Collections
-          </Button>
-          <Button
-            color="inherit"
-            //    component={Link} to="/contact"
-          >
-            Contact Us
-          </Button>
-          <Button
-            color="inherit"
-            //    component={Link} to="/about"
-          >
-            About Us
-          </Button>
-        </Box>
-
-        {/* Mobile Menu - Icon/Button */}
-        <IconButton
-          size="large"
-          edge="start"
-          color="inherit"
-          aria-label="menu"
-          onClick={handleMenu}
-          sx={{ display: { xs: "block", md: "none", sm: "none" } }}
-        >
-          <MenuIcon />
-        </IconButton>
-
-        {/* Mobile Menu - Popup */}
-        <Menu
-          id="menu-appbar"
-          anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          keepMounted
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          open={open}
-          onClose={handleClose}
-        >
-          <MenuItem
-            //    component={Link} to='/new-arrivals'
-            onClick={handleClose}
-          >
-            New Arrivals
-          </MenuItem>
-          <MenuItem
-            id="collection-button"
-            onClick={(event) => handleClick(event)}
-            onClose={handleClose}
-          >
-            Collections
-          </MenuItem>
-          <MenuItem
-            //    component={Link} to='/contact'
-            onClick={handleClose}
-          >
-            Contact Us
-          </MenuItem>
-          <MenuItem
-            //   component={Link} to='/about'
-            onClick={handleClose}
-          >
-            About Us
-          </MenuItem>
-          <MenuItem
-            //   component={Link} to='/about'
-            onClick={handleClose}
-          >
-            <Button
-              variant="contained"
-              sx={{
-                borderRadius: "0",
-                mx: "0.2rem",
-              }}
-            >
-              Register
-            </Button>
-            <Button
-              variant="outlined"
-              sx={{
-                borderRadius: "0",
-              }}
-            >
-              Register
-            </Button>
-          </MenuItem>
-        </Menu>
-
-        <Menu
-          id="collection-menu"
-          anchorEl={collectionAnchorEl}
-          open={collectionOpen}
-          onClose={handleClose}
-        >
-          <MenuItem onClick={handleClose}>category 1</MenuItem>
-          <MenuItem onClick={handleClose}>category 2</MenuItem>
-        </Menu>
-      </Toolbar>
     </AppBar>
   );
 }
