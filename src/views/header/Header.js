@@ -10,13 +10,16 @@ import {
 } from "react-icons/md";
 
 export function Header() {
-  const [openDrawer, setOpenDrawer] = useState(false);
+  const [open, setOpen] = useState(false);
   const showDrawer = () => {
-    console.log("drawer opened");
-    setOpenDrawer(true);
+    console.log("show Drawer ");
+
+    setOpen(true);
   };
-  const onCloseDrawer = () => {
-    setOpenDrawer(false);
+
+  const onClose = () => {
+    console.log("close Drawer");
+    setOpen(false);
   };
 
   return (
@@ -72,8 +75,7 @@ export function Header() {
       <Menu
         mode="horizontal"
         style={{
-          display: "none",
-          display: { sm: "inline" },
+          display: { xs: "none", sm: "inline" },
           border: "1px solid red",
         }}
         items={[
@@ -107,7 +109,7 @@ export function Header() {
             icon: <MdOutlineArrowDropDown />,
             children: [
               {
-                label: <MegaMenu />,
+                label: <MegaMenu onClose={onClose} open={open} />,
                 key: "MegaMenu",
                 style: {
                   height: "fit-content",
@@ -123,7 +125,7 @@ export function Header() {
   );
 }
 
-function MegaMenu({ onCloseDrawer, openDrawer }) {
+function MegaMenu({ onClose, open }) {
   return (
     <Box sx={{ backgroundColor: "white" }}>
       <Space direction="horizontal">
@@ -224,9 +226,10 @@ function MegaMenu({ onCloseDrawer, openDrawer }) {
       </Space>
       <Drawer
         title="Basic Drawer"
-        placement="left"
-        onClose={onCloseDrawer}
-        open={openDrawer}
+        placement="right"
+        width={500}
+        onClose={onClose}
+        open={open}
       >
         <p>Some contents...</p>
         <p>Some contents...</p>
