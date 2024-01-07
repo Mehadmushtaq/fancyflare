@@ -5,17 +5,18 @@ import {
   Typography,
   Button,
   IconButton,
-  Menu,
-  MenuItem,
   Box,
   Grid,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
+import { Menu, Space } from "antd";
+
 // import { Link } from 'react-router-dom';
 
 import { MdPersonOutline } from "react-icons/md";
 import { FaWhatsapp } from "react-icons/fa";
+import { MdOutlineShoppingCart } from "react-icons/md";
 
 export function Header() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -42,8 +43,8 @@ export function Header() {
   };
 
   return (
-    <AppBar>
-      <Grid
+    <>
+      {/* <Grid
         container
         spacing={2}
         sx={{
@@ -52,47 +53,141 @@ export function Header() {
           alignItems: "center",
           paddingX: { xs: "0.5rem", sm: "1rem", md: "2rem" },
           paddingY: "0.5rem",
+          border: "1px solid black",
         }}
       >
         <Grid
           item
-          xs={6}
+          xs={3}
           sx={{
             display: "flex",
             justifyContent: "flex-start",
+            alignItems: "center",
           }}
         >
-          <FaWhatsapp width={10} height={10} />
-          <Typography>+123456789</Typography>
+          <FaWhatsapp />
+          <Typography> +123456789</Typography>
         </Grid>
         <Grid
           item
-          xs={6}
+          xs={5}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Typography>LOGO</Typography>
+        </Grid>
+        <Grid
+          item
+          xs={4}
           sx={{
             display: "flex",
             justifyContent: "flex-end",
+            alignItems: "center",
           }}
         >
-          <Button
-            variant="contained"
-            sx={{
-              borderRadius: "0",
-              marginX: "0.5rem",
-            }}
-          >
-            Login
-          </Button>
-          <Button
-            variant="outlined"
-            sx={{
-              borderRadius: "0",
-              display: { xs: "none", md: "inline-block", sm: "inline-block" },
-            }}
-          >
-            Register
-          </Button>
+          <MdPersonOutline />
+          <Typography sx={{ mr: "1rem" }}>Login</Typography>
+
+          <MdOutlineShoppingCart />
+          <Typography>0</Typography>
         </Grid>
-      </Grid>
-    </AppBar>
+      </Grid> */}
+      <Menu
+        mode="horizontal"
+        items={[
+          {
+            label: "Women",
+            key: "women",
+            // icon: <MenuIcon />,
+            children: [
+              {
+                label: "item 1.1",
+                key: "item1.1",
+              },
+              {
+                label: "item 1.2",
+                key: "item1.2",
+              },
+            ],
+          },
+          {
+            label: "Men",
+            key: "men",
+          },
+          {
+            label: "Kids",
+            key: "kids",
+          },
+
+          {
+            label: "New Arrivals",
+            key: "NewArrivals",
+            children: [
+              {
+                label: <MegaMenu />,
+                key: "MegaMenu",
+                style: { height: "fit-content" },
+              },
+            ],
+          },
+        ]}
+      ></Menu>
+    </>
+  );
+}
+
+function MegaMenu() {
+  return (
+    <Box>
+      <Typography>CATEGORIES</Typography>
+
+      <Space direction="horizontal">
+        <Menu
+          items={[
+            {
+              label: "Refrigerators",
+              key: "Refrigerators",
+              type: "group",
+            },
+            {
+              label: "Refrigerators1",
+              key: "Refrigerators1",
+            },
+            {
+              label: "Refrigerators2",
+              key: "Refrigerators2",
+            },
+            {
+              label: "Refrigerators",
+              key: "Refrigerators",
+              type: "group",
+            },
+            {
+              label: "Refrigerators1",
+              key: "Refrigerators1",
+            },
+            {
+              label: "Refrigerators2",
+              key: "Refrigerators2",
+            },
+            {
+              label: "Refrigerators",
+              key: "Refrigerators",
+              type: "group",
+            },
+            {
+              label: "Refrigerators1",
+              key: "Refrigerators1",
+            },
+            {
+              label: "Refrigerators2",
+              key: "Refrigerators2",
+            },
+          ]}
+        ></Menu>
+      </Space>
+    </Box>
   );
 }
