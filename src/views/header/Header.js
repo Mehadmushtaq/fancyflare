@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Typography, Box, Grid, Card } from "@mui/material";
+import { Typography, Box, Grid, Card, Badge } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Menu, Space, Drawer } from "antd";
 import { FaWhatsapp } from "react-icons/fa";
@@ -39,7 +39,7 @@ export function Header() {
               display: { xs: "none", sm: "inline" },
             }}
           >
-            <FaWhatsapp />
+            {/* <FaWhatsapp style={{ height: "5rem", width: "5rem" }} /> */}
             <Typography sx={{ display: "inline-block" }}>+123456789</Typography>
           </Box>
 
@@ -55,7 +55,7 @@ export function Header() {
             justifyContent: "center",
           }}
         >
-          <Typography variant="h6">LOGO</Typography>
+          <Typography variant="h4">LOGO</Typography>
         </Grid>
         <Grid
           item
@@ -66,17 +66,21 @@ export function Header() {
             alignItems: "center",
           }}
         >
-          <MdPersonOutline />
+          <MdPersonOutline style={{ height: "2rem", width: "2rem" }} />
 
-          <MdOutlineShoppingCart />
+          <Badge badgeContent={4} color="error">
+            <MdOutlineShoppingCart style={{ height: "2rem", width: "2rem" }} />
+          </Badge>
         </Grid>
       </Grid>
 
       <Menu
         mode="horizontal"
         style={{
-          display: { xs: "none", sm: "inline" },
-          border: "1px solid red",
+          // display: { xs: "none", sm: "inline" },
+          borderBottom: "1px solid lightgrey",
+          display: "flex",
+          justifyContent: "center",
         }}
         items={[
           {

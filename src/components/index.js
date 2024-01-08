@@ -1,4 +1,4 @@
-export { Footer } from "./footer/Footer";
+// export { Footer } from "./footer/Footer";
 export { SignIn } from "./signIn/SignIn";
 export { SignUp } from "./singUp/SignUp";
 export { Checkout } from "./checkout/Checkout";

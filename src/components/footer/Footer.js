@@ -3,8 +3,9 @@ import Box from "@mui/material/Box";
 import { Typography, Grid, Container, Button, TextField } from "@mui/material";
 // import dummy_logo from "../../assets/images/cropped-logo-dummy.png";
 import { colors, fontsWeight } from "../../utils";
+import { CustomizedAccordions } from "../accordion/Accordion";
 
-export function Footer() {
+export default function Footer() {
   return (
     <Box sx={{ mt: "auto", borderTop: "1px solid lightgrey" }}>
       <Container maxWidth="lg">
@@ -36,9 +37,7 @@ export function Footer() {
               <Typography>link 4</Typography>
               <Typography>link 5</Typography>
             </Box>
-            <Box>
-              <Accordion />
-            </Box>
+            <Box>{/* <CustomizedAccordions /> */}</Box>
           </Grid>
           <Grid item xs={12} sm={3}>
             <Box

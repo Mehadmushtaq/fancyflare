@@ -2,16 +2,17 @@
 
 import React from "react";
 import { Home } from "./views/home/Home";
-import { Checkout, Footer, SignUp } from "./components";
+import { Checkout, SignUp } from "./components";
 import SignIn from "./components/signIn/SignIn";
 import { Header } from "./views";
+import Footer from "./components/footer/Footer";
 
 function App() {
   return (
     <>
-      {/* <Header /> */}
+      <Header />
       {/* <SignUp /> */}
-      {/* <Home /> */}
+      <Home />
 
       {/* FOOTER   */}
 
