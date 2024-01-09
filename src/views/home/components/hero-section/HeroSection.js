@@ -16,7 +16,7 @@ const divStyle = {
 
 export const HeroSection = () => {
   return (
-    <Box>
+    <Box sx={{ ".indicators": { paddingLeft: "0" } }}>
       <Fade indicators={true} arrows={false}>
         {sliderImages.map((slideImage, index) => (
           <Box key={index}>

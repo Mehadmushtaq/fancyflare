@@ -1,25 +1,18 @@
 // src/App.js
 
 import React from "react";
-import { Home } from "./views/home/Home";
-import { Checkout, SignUp } from "./components";
-import SignIn from "./components/signIn/SignIn";
+import { BrowserRouter } from "react-router-dom";
+import Routes from "./views/routes/Routes";
 import { Header } from "./views";
 import Footer from "./components/footer/Footer";
 
 function App() {
   return (
-    <>
+    <BrowserRouter>
       <Header />
-      {/* <SignUp /> */}
-      <Home />
-
-      {/* FOOTER   */}
-
+      <Routes />
       <Footer />
-
-      {/* <Checkout /> */}
-    </>
+    </BrowserRouter>
   );
 }
 
