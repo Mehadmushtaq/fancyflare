@@ -1,28 +1,27 @@
 import React, { useState } from "react";
 import { Typography, Box, Grid, Card, Badge } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import "../../styles.css";
 import { Menu, Space, Drawer } from "antd";
+
+import { submenu } from "../../data/menuItems";
+
 import {
   MdPersonOutline,
   MdOutlineShoppingCart,
   MdOutlineArrowDropDown,
 } from "react-icons/md";
+import "../../Styles.css";
 
 import { Link } from "react-router-dom";
 
 export function Header() {
-  //use State to open and close Drawer to menu on mobile
   const [open, setOpen] = useState(false);
 
   const showDrawer = () => {
-    console.log("show Drawer ");
-
     setOpen(true);
   };
 
   const onClose = () => {
-    console.log("close Drawer");
     setOpen(false);
   };
 
@@ -96,16 +95,7 @@ export function Header() {
               label: "Women",
               key: "women",
               icon: <MdOutlineArrowDropDown />,
-              children: [
-                {
-                  label: "item 1.1",
-                  key: "item1.1",
-                },
-                {
-                  label: "item 1.2",
-                  key: "item1.2",
-                },
-              ],
+              children: submenu,
             },
             {
               label: "Men",
@@ -122,7 +112,7 @@ export function Header() {
               icon: <MdOutlineArrowDropDown />,
               children: [
                 {
-                  label: <MegaMenu onClose={onClose} open={open} />,
+                  label: <MegaMenu />,
                   key: "MegaMenu",
                   style: {
                     height: "fit-content",
@@ -136,23 +126,23 @@ export function Header() {
         />
       </Grid>
 
-      <Drawer placement="left" width={200} onClose={onClose} open={open}>
+      <Drawer
+        placement="left"
+        width={200}
+        closeIcon={false}
+        onClose={onClose}
+        open={open}
+      >
         <Menu
+          style={{
+            border: "none",
+          }}
           mode="inline"
           items={[
             {
               label: "Women",
               key: "women",
-              children: [
-                {
-                  label: "item 1.1",
-                  key: "item1.1",
-                },
-                {
-                  label: "item 1.2",
-                  key: "item1.2",
-                },
-              ],
+              children: submenu,
             },
             {
               label: "Men",
