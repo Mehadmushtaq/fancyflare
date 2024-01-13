@@ -10,7 +10,7 @@ import {
   MdOutlineShoppingCart,
   MdOutlineArrowDropDown,
 } from "react-icons/md";
-import "../../Styles.css";
+// import "../../Styles.css";
 
 import { Link } from "react-router-dom";
 
