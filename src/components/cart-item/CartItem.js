@@ -6,12 +6,20 @@ import {
   Typography,
   Box,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 function CartItem() {
+  const [quantity, setQuantity] = useState(1);
+  const handleIncrement = () => {
+    setQuantity(quantity + 1);
+  };
+
+  const handleDecrement = () => {
+    setQuantity(quantity - 1);
+  };
   return (
     <Grid
       container
@@ -26,9 +34,13 @@ function CartItem() {
         "& .MuiTypography-root.MuiTypography-body1": {
           margin: "auto",
         },
+        "& .MuiGrid-root.MuiGrid-item.MuiGrid-grid-sm-2": {
+          display: "flex",
+          justifyContent: "center",
+        },
       }}
     >
-      <Grid item sm={7}>
+      <Grid item sm={5}>
         <Stack direction="row" spacing={2}>
           <Box
             component="img"
@@ -43,17 +55,17 @@ function CartItem() {
           </Typography>
         </Stack>
       </Grid>
-      <Grid item sm={1}>
+      <Grid item sm={2}>
         <Typography>PKR 3,983</Typography>
       </Grid>
       <Grid item sm={2}>
         <Stack direction="row">
-          <IconButton color="primary" onClick={() => {}}>
+          <IconButton color="primary" onClick={handleDecrement}>
             <RemoveIcon />
           </IconButton>
           <TextField
             type="number"
-            // value={quantity}
+            value={quantity}
             disabled
             variant="outlined"
             size="small"
@@ -61,12 +73,12 @@ function CartItem() {
               style: { textAlign: "center" },
             }}
           />
-          <IconButton color="primary" onClick={() => {}}>
+          <IconButton color="primary" onClick={handleIncrement}>
             <AddIcon />
           </IconButton>
         </Stack>
       </Grid>
-      <Grid item sm={1}>
+      <Grid item sm={2}>
         <Typography>PKR 3,983</Typography>
       </Grid>
       <Grid item sm={1}>

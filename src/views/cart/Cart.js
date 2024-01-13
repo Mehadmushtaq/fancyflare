@@ -16,6 +16,10 @@ export default function Cart() {
       maxWidth="lg"
       sx={{
         padding: "1rem",
+        "& .MuiGrid-root.MuiGrid-grid-xs-2": {
+          display: "flex",
+          justifyContent: "center",
+        },
       }}
     >
       <Typography variant="h5">My Cart</Typography>
@@ -40,16 +44,16 @@ export default function Cart() {
               borderRadius: "0.2rem",
             }}
           >
-            <Grid items xs={7}>
+            <Grid items xs={5}>
               Products
             </Grid>
-            <Grid items xs={1}>
+            <Grid items xs={2}>
               Price
             </Grid>
             <Grid items xs={2}>
               Quantity
             </Grid>
-            <Grid items xs={1}>
+            <Grid items xs={2}>
               Total
             </Grid>
             <Grid items xs={1}></Grid>
