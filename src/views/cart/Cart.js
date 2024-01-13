@@ -1,31 +1,87 @@
-import { Box, Container, Grid, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Divider,
+  Grid,
+  Stack,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import CartItem from "../../components/cart-item/CartItem";
 
 export default function Cart() {
   return (
-    <Container maxWidth="lg">
-      <Typography>My Cart</Typography>
+    <Container
+      maxWidth="lg"
+      sx={{
+        padding: "1rem",
+      }}
+    >
+      <Typography variant="h5">My Cart</Typography>
 
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={9}>
-          <Box
+      <Grid container>
+        <Grid
+          item
+          xs={12}
+          sm={9}
+          sx={{
+            padding: "1rem 0rem",
+          }}
+        >
+          <Grid
+            container
             sx={{
-              backgroundColor: "grey",
+              backgroundColor: "lightgrey",
               justifyContent: "space-between",
               display: "flex",
+              padding: "0.5rem",
+              marginBottom: "0.5rem",
+              borderRadius: "0.2rem",
             }}
           >
-            <Typography>Products</Typography>
-            <Stack direction="row" spacing={15}>
-              <Typography>Price</Typography>
-              <Typography>Quantity</Typography>
-              <Typography>Total</Typography>
-            </Stack>
-          </Box>
+            <Grid items xs={7}>
+              Products
+            </Grid>
+            <Grid items xs={1}>
+              Price
+            </Grid>
+            <Grid items xs={2}>
+              Quantity
+            </Grid>
+            <Grid items xs={1}>
+              Total
+            </Grid>
+            <Grid items xs={1}></Grid>
+          </Grid>
+          <CartItem />
+          <CartItem />
           <CartItem />
         </Grid>
-        <Grid item xs={12} sm={3}></Grid>
+        <Grid item xs={12} sm={3}>
+          <Box
+            sx={{
+              margin: "1rem",
+              padding: "1rem",
+              border: "1px solid grey",
+              borderRadius: "0.5rem",
+            }}
+          >
+            <Typography variant="h6">ORDER SUMMARY</Typography>
+            <Divider light />
+            <Stack direction="row" justifyContent="space-between">
+              <Typography>Sub Total:</Typography>
+              <Typography>PKR 3,983</Typography>
+            </Stack>
+            <Divider light />
+            <Stack direction="row" justifyContent="space-between">
+              <Typography>Total:</Typography>
+              <Typography>PKR 3,983</Typography>
+            </Stack>
+
+            <Button variant="primary">Proceed to checkout</Button>
+          </Box>
+        </Grid>
       </Grid>
     </Container>
   );

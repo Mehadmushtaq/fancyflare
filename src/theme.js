@@ -12,4 +12,18 @@ export const theme = createTheme({
       main: "#ffffff",
     },
   },
+  // components: {
+  //   MuiContainer: {
+  //     styleOverrides: {
+  //       root: {
+  //         "& .MuiContainer-root ": {
+  //           marginTop: 0,
+  //         },
+  //         "& ..MuiGrid-root": {
+  //           marginTop: 0,
+  //         },
+  //       },
+  //     },
+  //   },
+  // },
 });

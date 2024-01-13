@@ -14,14 +14,6 @@ code {
     monospace;
 }
 
-
-/* Overriding MUI default container item margin-top default=-16px */
-
-.MuiGrid-container{
-  margin-top: 0px;
-}
-
-
 /* Drawer menu styling */
 
 .ant-drawer-body{

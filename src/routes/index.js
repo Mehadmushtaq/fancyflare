@@ -5,6 +5,7 @@ import SignUp from "../components/singUp";
 import SignIn from "../components/signIn";
 import Product from "../views/single-product/Product";
 import Cart from "../views/cart/Cart";
+import { Checkout } from "../components/checkout/Checkout";
 
 const Routes = () => {
   return (
@@ -17,6 +18,7 @@ const Routes = () => {
 
       {/* Protected routes */}
       <Route path="/cart" element={<Cart />} />
+      <Route path="/checkout-dummy" element={<Checkout />} />
 
       {/* catch all */}
       <Route path="*" element={<p>Missing Route</p>} />
