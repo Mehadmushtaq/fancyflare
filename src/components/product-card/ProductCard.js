@@ -3,16 +3,46 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActionArea, Rating, Badge } from "@mui/material";
+import { CardActionArea, Rating, Box } from "@mui/material";
 import { fontsWeight } from "../../utils";
 
 export function ProductCard({ item }) {
   return (
-    <Card>
+    <Card
+      elevation={0}
+      sx={{
+        position: "relative",
+        overflow: "visible",
+        border: "1px solid lightgrey",
+      }}
+    >
+      {/* SALE BADGE */}
+      {item?.salePrice ? (
+        <Box
+          sx={{
+            width: "50px",
+            height: "50px",
+            backgroundColor: "red",
+            borderRadius: "50%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            position: "absolute",
+            zIndex: "1",
+            top: "-10px",
+            right: "-10px",
+          }}
+        >
+          <Typography>Sale</Typography>
+        </Box>
+      ) : (
+        " "
+      )}
+
       <CardActionArea>
         <CardMedia
           component="img"
-          height="400"
+          height="300"
           image={item.url}
           alt="green iguana"
         />
@@ -24,7 +54,7 @@ export function ProductCard({ item }) {
             alignItems: "center",
           }}
         >
-          <Typography gutterBottom variant="h6" component="div">
+          <Typography gutterBottom variant="h6">
             {item.name}
           </Typography>
           <Rating
@@ -36,27 +66,20 @@ export function ProductCard({ item }) {
 
           {item.salePrice ? (
             <>
-              <Typography
-                variant="body2"
-                sx={{
-                  fontWeight: fontsWeight.fontSemiBold,
-                }}
-              >
+              <Typography variant="body1">
                 {item.salePrice}
-                <span style={{ textDecoration: "line-through" }}>
+                <span
+                  style={{
+                    textDecoration: "line-through",
+                    marginLeft: "0.5rem",
+                  }}
+                >
                   {item.price}
                 </span>
               </Typography>
-
-              {/* </Badge> */}
             </>
           ) : (
-            <Typography
-              variant="body2"
-              sx={{ fontWeight: fontsWeight.fontSemiBold }}
-            >
-              {item.price}
-            </Typography>
+            <Typography variant="body1">{item.price}</Typography>
           )}
         </CardContent>
       </CardActionArea>

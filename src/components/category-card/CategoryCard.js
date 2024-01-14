@@ -14,7 +14,7 @@ export default function CategoryCard({
     <Box className={Styles.box}>
       <img alt="" src={imageUrl} />
       <Box className={Styles.overlay}>
-        <Typography variant="h4">{title}</Typography>
+        <Typography variant="h5">{title}</Typography>
         <Typography>{description}</Typography>
         <Button
           variant="contained"

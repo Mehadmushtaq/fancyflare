@@ -1,7 +1,7 @@
 import React from "react";
 import CategoryCard from "../../components/category-card/CategoryCard";
 import { HeroSection } from "./components";
-import { Grid, Box, Container } from "@mui/material";
+import { Grid, Box, Container, Typography, Divider } from "@mui/material";
 import { categoriesList } from "../../data/categories";
 import { ProductCard } from "../../components/product-card/ProductCard";
 import { products } from "../../data/products";
@@ -12,10 +12,14 @@ export const Home = () => {
       {/* <Header /> */}
       <HeroSection />
 
-      <Container maxWidth="lg" sx={{ marginBottom: "5rem" }}>
+      <Container maxWidth="lg" sx={{ marginY: "2rem" }}>
         {/* CATEGORY SECTION */}
-        <h2>CATEGORIES</h2>
-        <Grid container spacing={2}>
+
+        <Divider color="light">
+          <Typography variant="h4">CATEGORIES</Typography>
+        </Divider>
+
+        <Grid container spacing={2} sx={{ marginTop: "0" }}>
           {categoriesList.map((category) => {
             return (
               <Grid item xs={12} sm={4}>
@@ -31,10 +35,13 @@ export const Home = () => {
           })}
         </Grid>
 
-        <h2>LATEST PRODUCTS</h2>
-
         {/* PRODUCTS SECTION */}
-        <Grid container spacing={2}>
+
+        <Divider color="light" sx={{ marginTop: "2rem" }}>
+          <Typography variant="h4">LATEST PRODUCTS</Typography>
+        </Divider>
+
+        <Grid container spacing={2} sx={{ marginY: "0.5rem" }}>
           {products?.map((product) => {
             return (
               <Grid item xs={6} sm={3}>

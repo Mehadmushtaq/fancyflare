@@ -40,7 +40,7 @@ function CartItem() {
         },
       }}
     >
-      <Grid item sm={5}>
+      <Grid item xs={12} sm={5}>
         <Stack direction="row" spacing={2}>
           <Box
             component="img"
@@ -55,10 +55,10 @@ function CartItem() {
           </Typography>
         </Stack>
       </Grid>
-      <Grid item sm={2}>
+      <Grid item xs={3} sm={2}>
         <Typography>PKR 3,983</Typography>
       </Grid>
-      <Grid item sm={2}>
+      <Grid item xs={5} sm={2}>
         <Stack direction="row">
           <IconButton color="primary" onClick={handleDecrement}>
             <RemoveIcon />
@@ -78,7 +78,7 @@ function CartItem() {
           </IconButton>
         </Stack>
       </Grid>
-      <Grid item sm={2}>
+      <Grid item xs={3} sm={2}>
         <Typography>PKR 3,983</Typography>
       </Grid>
       <Grid item sm={1}>

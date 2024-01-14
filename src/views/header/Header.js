@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Typography, Box, Grid, Card, Badge } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Menu, Space, Drawer } from "antd";
-
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { submenu } from "../../data/menuItems";
 
 import {
@@ -10,7 +10,6 @@ import {
   MdOutlineShoppingCart,
   MdOutlineArrowDropDown,
 } from "react-icons/md";
-// import "../../Styles.css";
 
 import { Link } from "react-router-dom";
 
@@ -39,11 +38,12 @@ export function Header() {
         <Grid item xs={3}>
           <Box
             sx={{
-              display: { xs: "none", sm: "inline" },
+              display: { xs: "none", sm: "flex" },
+              alignItems: "center",
             }}
           >
-            {/* <FaWhatsapp style={{ height: "5rem", width: "5rem" }} /> */}
-            <Typography sx={{ display: "inline-block" }}>+123456789</Typography>
+            <WhatsAppIcon style={{ height: "2rem", width: "2rem" }} />
+            <Typography variant="body2">+123456789</Typography>
           </Box>
 
           <Box sx={{ display: { xs: "inline", sm: "none" } }}>
@@ -61,7 +61,9 @@ export function Header() {
             justifyContent: "center",
           }}
         >
-          <Typography variant="h4">LOGO</Typography>
+          <Link to="/">
+            <Typography variant="h4">LOGO</Typography>
+          </Link>
         </Grid>
         <Grid
           item
@@ -76,12 +78,16 @@ export function Header() {
             <MdPersonOutline style={{ height: "2rem", width: "2rem" }} />
           </Link>
 
-          <Badge badgeContent={4} color="error">
-            <MdOutlineShoppingCart style={{ height: "2rem", width: "2rem" }} />
-          </Badge>
+          <Link to="/cart">
+            <Badge badgeContent={4} color="error">
+              <MdOutlineShoppingCart
+                style={{ height: "2rem", width: "2rem", mL: "0.5rem" }}
+              />
+            </Badge>
+          </Link>
         </Grid>
       </Grid>
-
+      {/* MENU */}
       <Grid container sx={{ display: { xs: "none", sm: "inline" } }}>
         <Menu
           mode="horizontal"
@@ -125,7 +131,7 @@ export function Header() {
           ]}
         />
       </Grid>
-
+      {/* MOBILE MENU */}
       <Drawer
         placement="left"
         width={200}
@@ -190,11 +196,11 @@ function MegaMenu() {
               type: "group",
             },
             {
-              label: "Refrigerators1",
+              label: "Refrigerators3",
               key: "Refrigerators1",
             },
             {
-              label: "Refrigerators2",
+              label: "Refrigerators4",
               key: "Refrigerators2",
             },
             {
@@ -203,11 +209,11 @@ function MegaMenu() {
               type: "group",
             },
             {
-              label: "Refrigerators1",
+              label: "Refrigerators5",
               key: "Refrigerators1",
             },
             {
-              label: "Refrigerators2",
+              label: "Refrigerators6",
               key: "Refrigerators2",
             },
           ]}
@@ -221,11 +227,11 @@ function MegaMenu() {
               type: "group",
             },
             {
-              label: "Refrigerators1",
+              label: "Refrigerators7",
               key: "Refrigerators1",
             },
             {
-              label: "Refrigerators2",
+              label: "Refrigerators8",
               key: "Refrigerators2",
             },
             {
@@ -234,11 +240,11 @@ function MegaMenu() {
               type: "group",
             },
             {
-              label: "Refrigerators1",
+              label: "Refrigerators9",
               key: "Refrigerators1",
             },
             {
-              label: "Refrigerators2",
+              label: "Refrigerators10",
               key: "Refrigerators2",
             },
             {
@@ -247,11 +253,11 @@ function MegaMenu() {
               type: "group",
             },
             {
-              label: "Refrigerators1",
+              label: "Refrigerators11",
               key: "Refrigerators1",
             },
             {
-              label: "Refrigerators2",
+              label: "Refrigerators12",
               key: "Refrigerators2",
             },
           ]}

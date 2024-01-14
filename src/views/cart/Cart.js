@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import CartItem from "../../components/cart-item/CartItem";
+import { fontsWeight } from "../../utils";
 
 export default function Cart() {
   return (
@@ -16,10 +17,6 @@ export default function Cart() {
       maxWidth="lg"
       sx={{
         padding: "1rem",
-        "& .MuiGrid-root.MuiGrid-grid-xs-2": {
-          display: "flex",
-          justifyContent: "center",
-        },
       }}
     >
       <Typography variant="h5">My Cart</Typography>
@@ -42,9 +39,13 @@ export default function Cart() {
               padding: "0.5rem",
               marginBottom: "0.5rem",
               borderRadius: "0.2rem",
+              "& .MuiGrid-root.MuiGrid-grid-xs-2.css-13x2423-MuiGrid-root": {
+                display: { xs: "none", sm: "flex" },
+                justifyContent: "center",
+              },
             }}
           >
-            <Grid items xs={5}>
+            <Grid items xs={12} sm={5}>
               Products
             </Grid>
             <Grid items xs={2}>
@@ -65,25 +66,30 @@ export default function Cart() {
         <Grid item xs={12} sm={3}>
           <Box
             sx={{
-              margin: "1rem",
+              margin: { sm: "1rem" },
               padding: "1rem",
               border: "1px solid grey",
-              borderRadius: "0.5rem",
+              borderRadius: "0.2rem",
             }}
           >
-            <Typography variant="h6">ORDER SUMMARY</Typography>
-            <Divider light />
+            <Typography variant="body1" fontWeight={fontsWeight.fontBold}>
+              ORDER SUMMARY
+            </Typography>
+            <Divider dark sx={{ marginBottom: "1rem" }} />
             <Stack direction="row" justifyContent="space-between">
               <Typography>Sub Total:</Typography>
               <Typography>PKR 3,983</Typography>
             </Stack>
-            <Divider light />
+            <Divider light sx={{ marginBottom: "1rem" }} />
             <Stack direction="row" justifyContent="space-between">
               <Typography>Total:</Typography>
               <Typography>PKR 3,983</Typography>
             </Stack>
+            <Divider light sx={{ marginBottom: "1rem" }} />
 
-            <Button variant="primary">Proceed to checkout</Button>
+            <Button variant="contained" size="small" sx={{ width: "100%" }}>
+              Proceed to checkout
+            </Button>
           </Box>
         </Grid>
       </Grid>
