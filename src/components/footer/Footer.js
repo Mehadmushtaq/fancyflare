@@ -163,13 +163,15 @@ export default function Footer() {
                 sx={{
                   "& > :not(style)": {
                     width: {
-                      xs: "25ch",
+                      xs: "20ch",
+                      sm: "25ch",
                     },
                   },
                   "& .MuiButtonBase-root": {
                     width: { xs: "15ch", md: "29ch" },
                     height: "3.5rem",
                     mt: { xs: "0rem", md: "0.5rem" },
+                    ml: { xs: "0.2rem", md: "0" },
                   },
                 }}
                 noValidate

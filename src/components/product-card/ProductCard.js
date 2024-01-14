@@ -14,6 +14,10 @@ export function ProductCard({ item }) {
         position: "relative",
         overflow: "visible",
         border: "1px solid lightgrey",
+        // "& MuiCardMedia-root.MuiCardMedia-media.MuiCardMedia-img.css-o69gx8-MuiCardMedia-root":
+        //   {
+        //     height: { xs: "200px !important" },
+        //   },
       }}
     >
       {/* SALE BADGE */}
@@ -54,7 +58,12 @@ export function ProductCard({ item }) {
             alignItems: "center",
           }}
         >
-          <Typography gutterBottom variant="h6">
+          <Typography
+            gutterBottom
+            sx={{
+              typography: { xs: "body2", sm: "h6" },
+            }}
+          >
             {item.name}
           </Typography>
           <Rating

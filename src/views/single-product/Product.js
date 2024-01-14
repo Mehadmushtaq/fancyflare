@@ -30,10 +30,11 @@ const images = [
 ];
 
 const item = {
-  title: "here is dummy Title",
+  title: "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
   price: 1599,
   salePrice: 899,
-  description: "bla bla bla bla bla bla",
+  description:
+    "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
 };
 
 export default function Product() {
@@ -49,7 +50,18 @@ export default function Product() {
 
   return (
     <Container maxwidth="lg">
-      <Grid container spacing={2} sx={{ minHeight: "60vh", padding: "2rem" }}>
+      <Grid
+        container
+        spacing={2}
+        sx={{
+          minHeight: "60vh",
+          padding: "2rem",
+          "& .MuiButtonBase-root.MuiIconButton-root": {
+            backgroundColor: "lightgrey",
+            borderRadius: "0px",
+          },
+        }}
+      >
         <Grid item xs={12} sm={6}>
           <ImageGallery
             items={images}
@@ -60,7 +72,7 @@ export default function Product() {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Typography variant="h4">{item.title}</Typography>
+          <Typography variant="h5">{item.title}</Typography>
           <Rating
             name="read-only"
             defaultValue={2.5}
@@ -69,20 +81,24 @@ export default function Product() {
           />
           {item.salePrice ? (
             <>
-              <Typography variant="h5">
+              <Typography variant="h6">
                 RS. {item.salePrice}
-                <span style={{ textDecoration: "line-through" }}>
+                <span
+                  style={{
+                    textDecoration: "line-through",
+                    marginLeft: "0.5rem",
+                  }}
+                >
                   RS. {item.price}
                 </span>
               </Typography>
-
-              {/* </Badge> */}
             </>
           ) : (
             <Typography variant="h5">{item.price}</Typography>
           )}
-          <Typography variant="h4">Details: {item.description}</Typography>
-          <Typography variant="h4">Qty:</Typography>
+          <Typography variant="h6">Details: </Typography>
+          <Typography variant="body1"> {item.description}</Typography>
+          <Typography variant="h6">Qty:</Typography>
 
           <Stack direction="row">
             <IconButton color="primary" onClick={handleDecrement}>
@@ -103,9 +119,9 @@ export default function Product() {
             </IconButton>
           </Stack>
 
-          <Stack direction="row">
-            <Button>Buy Now</Button>
-            <Button>Add to Cart</Button>
+          <Stack direction="row" spacing={1} sx={{ marginY: "1rem" }}>
+            <Button variant="contained">Buy Now</Button>
+            <Button variant="contained">Add to Cart</Button>
           </Stack>
         </Grid>
       </Grid>

@@ -16,7 +16,13 @@ export const Home = () => {
         {/* CATEGORY SECTION */}
 
         <Divider color="light">
-          <Typography variant="h4">CATEGORIES</Typography>
+          <Typography
+            sx={{
+              typography: { xs: "h5", sm: "h4" },
+            }}
+          >
+            CATEGORIES
+          </Typography>
         </Divider>
 
         <Grid container spacing={2} sx={{ marginTop: "0" }}>
@@ -38,7 +44,13 @@ export const Home = () => {
         {/* PRODUCTS SECTION */}
 
         <Divider color="light" sx={{ marginTop: "2rem" }}>
-          <Typography variant="h4">LATEST PRODUCTS</Typography>
+          <Typography
+            sx={{
+              typography: { xs: "h5", sm: "h4" },
+            }}
+          >
+            LATEST PRODUCTS
+          </Typography>
         </Divider>
 
         <Grid container spacing={2} sx={{ marginY: "0.5rem" }}>
