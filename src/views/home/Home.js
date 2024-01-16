@@ -9,8 +9,10 @@ import { products } from "../../data/products";
 export const Home = () => {
   return (
     <Box>
-      {/* <Header /> */}
-      <HeroSection />
+      <Container disableGutters maxWidth="xl">
+        {/* <Header /> */}
+        <HeroSection />
+      </Container>
 
       <Container maxWidth="lg" sx={{ marginY: "2rem" }}>
         {/* CATEGORY SECTION */}

@@ -19,7 +19,7 @@ export default function Cart() {
         padding: "1rem",
       }}
     >
-      <Typography variant="h5">My Cart</Typography>
+      <Typography variant="h4">My Cart</Typography>
 
       <Grid container>
         <Grid
@@ -33,8 +33,8 @@ export default function Cart() {
           <Grid
             container
             sx={{
-              backgroundColor: "lightgrey",
               justifyContent: "space-between",
+              borderBottom: "1px solid lightgrey",
               display: "flex",
               padding: "0.5rem",
               marginBottom: "0.5rem",

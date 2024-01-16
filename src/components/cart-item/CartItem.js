@@ -25,9 +25,6 @@ function CartItem() {
       container
       sx={{
         padding: "1.5rem 1rem",
-        border: "1px solid grey",
-        borderRadius: "0.2rem",
-        marginBottom: "1rem",
         "& .MuiGrid-root.MuiGrid-item": {
           margin: "auto",
         },

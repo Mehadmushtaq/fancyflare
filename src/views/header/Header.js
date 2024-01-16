@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Typography, Box, Grid, Card, Badge } from "@mui/material";
+import { Typography, Box, Grid, Card, Badge, Container } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Menu, Space, Drawer } from "antd";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
@@ -25,7 +25,7 @@ export function Header() {
   };
 
   return (
-    <>
+    <Container disableGutters maxWidth="xl">
       <Grid
         container
         spacing={2}
@@ -92,7 +92,6 @@ export function Header() {
         <Menu
           mode="horizontal"
           style={{
-            borderBottom: "1px solid lightgrey",
             display: "flex",
             justifyContent: "center",
           }}
@@ -166,7 +165,7 @@ export function Header() {
           ]}
         />
       </Drawer>
-    </>
+    </Container>
   );
 }
 
