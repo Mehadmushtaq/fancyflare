@@ -39,7 +39,7 @@ export default function Cart() {
               padding: "0.5rem",
               marginBottom: "0.5rem",
               borderRadius: "0.2rem",
-              "& .MuiGrid-root.MuiGrid-grid-xs-2.css-1gg7nhz": {
+              "& .MuiGrid-root.MuiGrid-grid-xs-2": {
                 display: { xs: "none", md: "flex" },
                 justifyContent: "center",
               },
