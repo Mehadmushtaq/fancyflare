@@ -27,7 +27,10 @@ const SubscribeForm = () => {
               </Button>
             </InputAdornment>
           ),
-          sx: { borderRadius: "5rem" },
+          sx: {
+            borderRadius: "5rem",
+            width: { xs: "90%", sm: "100%", md: "90%" },
+          },
         }}
       />
     </div>

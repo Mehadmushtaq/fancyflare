@@ -3,10 +3,11 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActionArea, Rating, Box } from "@mui/material";
-import { fontsWeight } from "../../utils";
+import { CardActionArea, Rating, Box, useTheme } from "@mui/material";
 
 export function ProductCard({ item }) {
+  const theme = useTheme();
+
   return (
     <Card
       elevation={0}
@@ -14,10 +15,6 @@ export function ProductCard({ item }) {
         position: "relative",
         overflow: "visible",
         border: "1px solid lightgrey",
-        // "& MuiCardMedia-root.MuiCardMedia-media.MuiCardMedia-img.css-o69gx8-MuiCardMedia-root":
-        //   {
-        //     height: { xs: "200px !important" },
-        //   },
       }}
     >
       {/* SALE BADGE */}
@@ -46,9 +43,11 @@ export function ProductCard({ item }) {
       <CardActionArea>
         <CardMedia
           component="img"
-          height="300"
           image={item.url}
           alt="green iguana"
+          sx={{
+            height: { xs: "12rem", md: "20rem" },
+          }}
         />
         <CardContent
           sx={{
@@ -59,9 +58,8 @@ export function ProductCard({ item }) {
           }}
         >
           <Typography
-            gutterBottom
             sx={{
-              typography: { xs: "body2", sm: "h6" },
+              typography: { xs: "subtitle2", md: "body1" },
             }}
           >
             {item.name}
