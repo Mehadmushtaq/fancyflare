@@ -1,22 +1,23 @@
-import { Box } from "@mui/material";
-import React from "react";
-import { Fade } from "react-slideshow-image";
-import { sliderImages } from "../../../../data/slideImages";
-import "react-slideshow-image/dist/styles.css";
+import { Box } from '@mui/material';
+import React from 'react';
+import { Fade } from 'react-slideshow-image';
+import { sliderImages } from '../../../../data/slideImages';
+import 'react-slideshow-image/dist/styles.css';
 
 const divStyle = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  backgroundSize: "cover",
-  height: "400px",
-  width: "100% ",
-  backgroundPosition: "center",
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundSize: 'cover',
+  // minHeight: '400px',
+  height: '40vh ',
+  width: '100% ',
+  backgroundPosition: 'center',
 };
 
 export const HeroSection = () => {
   return (
-    <Box sx={{ ".indicators": { paddingLeft: "0" } }}>
+    <Box sx={{ '.indicators': { paddingLeft: '0' } }}>
       <Fade indicators={true} arrows={false}>
         {sliderImages.map((slideImage, index) => (
           <Box key={index}>
