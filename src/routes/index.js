@@ -5,7 +5,8 @@ import SignUp from "../views/singUp";
 import SignIn from "../views/signIn";
 import Product from "../views/single-product/Product";
 import Cart from "../views/cart/Cart";
-import { Checkout } from "../components/checkout/Checkout";
+import { CheckoutDummy } from "../components/checkout/Checkout";
+import Checkout from "../views/checkout/Checkout";
 
 const Routes = () => {
   return (
@@ -21,7 +22,9 @@ const Routes = () => {
       {/* Protected routes */}
       {/* <Route element={<RequireAuth />}> */}
       <Route path="/cart" element={<Cart />} />
-      <Route path="/checkout-dummy" element={<Checkout />} />
+
+      <Route path="/checkout" element={<Checkout />} />
+      <Route path="/checkout-dummy" element={<CheckoutDummy />} />
       {/* <Route /> */}
 
       {/* catch all */}

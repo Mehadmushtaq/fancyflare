@@ -12,4 +12,32 @@ export const theme = createTheme({
       main: "#ffffff",
     },
   },
+  MuiInput: {
+    styleOverrides: {
+      root: {
+        borderRadius: "0",
+      },
+    },
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          border: "none",
+          boxShadow: "none",
+          borderRadius: "0",
+          "&:hover": {
+            boxShadow: "none",
+          },
+        },
+      },
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          padding: "1rem 0",
+        },
+      },
+    },
+  },
 });

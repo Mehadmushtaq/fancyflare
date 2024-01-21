@@ -141,6 +141,7 @@ export default function SignUp() {
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundPosition: "center",
+          borderRadius: "0rem 1rem 1rem 0rem",
         }}
       />
     </Grid>

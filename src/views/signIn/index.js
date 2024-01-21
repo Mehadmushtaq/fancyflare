@@ -38,6 +38,7 @@ export default function SignIn() {
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundPosition: "center",
+          borderRadius: "1rem 0rem 0rem 1rem",
         }}
       />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={0} square>

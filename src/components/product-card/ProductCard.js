@@ -14,7 +14,6 @@ export function ProductCard({ item }) {
       sx={{
         position: "relative",
         overflow: "visible",
-        border: "1px solid lightgrey",
       }}
     >
       {/* SALE BADGE */}
@@ -47,6 +46,7 @@ export function ProductCard({ item }) {
           alt="green iguana"
           sx={{
             height: { xs: "12rem", md: "20rem" },
+            borderRadius: "0.2rem",
           }}
         />
         <CardContent

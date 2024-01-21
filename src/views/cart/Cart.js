@@ -34,11 +34,10 @@ export default function Cart() {
             container
             sx={{
               justifyContent: "space-between",
-              borderBottom: "1px solid lightgrey",
               display: "flex",
               padding: "0.5rem",
               marginBottom: "0.5rem",
-              borderRadius: "0.2rem",
+              borderBottom: "1px solid grey",
               "& .MuiGrid-root.MuiGrid-grid-xs-2": {
                 display: { xs: "none", md: "flex" },
                 justifyContent: "center",
