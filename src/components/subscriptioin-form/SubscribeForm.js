@@ -29,7 +29,7 @@ const SubscribeForm = () => {
           ),
           sx: {
             borderRadius: "5rem",
-            width: { xs: "90%", sm: "100%", md: "90%" },
+            width: { xs: "90%", sm: "100%" },
           },
         }}
       />

@@ -1,9 +1,6 @@
 import * as React from "react";
-import CssBaseline from "@mui/material/CssBaseline";
-import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import Toolbar from "@mui/material/Toolbar";
 import Paper from "@mui/material/Paper";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -14,19 +11,6 @@ import Typography from "@mui/material/Typography";
 import AddressForm from "../address-form/AddressForm";
 import PaymentForm from "../payment-form/PaymentForm";
 import Review from "../review/Review";
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 
 const steps = ["Shipping address", "Payment details", "Review your order"];
 
@@ -43,7 +27,7 @@ function getStepContent(step) {
   }
 }
 
-export function Checkout() {
+export function CheckoutDummy() {
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
@@ -56,22 +40,6 @@ export function Checkout() {
 
   return (
     <React.Fragment>
-      <CssBaseline />
-      <AppBar
-        position="absolute"
-        color="default"
-        elevation={0}
-        sx={{
-          position: "relative",
-          borderBottom: (t) => `1px solid ${t.palette.divider}`,
-        }}
-      >
-        <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
-            Company name
-          </Typography>
-        </Toolbar>
-      </AppBar>
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
         <Paper
           variant="outlined"
@@ -119,7 +87,6 @@ export function Checkout() {
             </React.Fragment>
           )}
         </Paper>
-        <Copyright />
       </Container>
     </React.Fragment>
   );

@@ -9,7 +9,7 @@ const divStyle = {
   alignItems: "center",
   justifyContent: "center",
   backgroundSize: "cover",
-  height: "400px",
+  height: "75vh",
   width: "100% ",
   backgroundPosition: "center",
 };
@@ -17,7 +17,7 @@ const divStyle = {
 export const HeroSection = () => {
   return (
     <Box sx={{ ".indicators": { paddingLeft: "0" } }}>
-      <Fade indicators={true} arrows={false}>
+      <Fade indicators={true}>
         {sliderImages.map((slideImage, index) => (
           <Box key={index}>
             <Box
