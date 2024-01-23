@@ -10,8 +10,9 @@ import {
 import React from "react";
 import CartItem from "../../components/cart-item/CartItem";
 import { fontsWeight } from "../../utils";
+import { Link } from "react-router-dom";
 
-export default function Cart() {
+export function Cart() {
   return (
     <Container
       maxWidth="lg"
@@ -86,9 +87,11 @@ export default function Cart() {
             </Stack>
             <Divider light sx={{ marginBottom: "1rem" }} />
 
-            <Button variant="contained" size="small" sx={{ width: "100%" }}>
-              Proceed to checkout
-            </Button>
+            <Link to="/checkout">
+              <Button variant="contained" size="medium" sx={{ width: "100%" }}>
+                Proceed to checkout
+              </Button>
+            </Link>
           </Box>
         </Grid>
       </Grid>

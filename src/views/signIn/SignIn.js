@@ -10,7 +10,7 @@ import { IconButton, InputAdornment, Typography } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-export default function SignIn() {
+export function SignIn() {
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -25,27 +25,25 @@ export default function SignIn() {
   };
 
   return (
-    <Grid container component="main" sx={{ height: "100vh" }}>
-      <CssBaseline />
-      <Grid
-        item
-        xs={false}
-        sm={4}
-        md={7}
-        sx={{
-          backgroundImage:
-            "url(https://images.pexels.com/photos/10557901/pexels-photo-10557901.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          borderRadius: "1rem 0rem 0rem 1rem",
-        }}
-      />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={0} square>
+    <Grid container component="main">
+      <Grid item xs={false} sm={6} md={7} padding="0.5rem">
         <Box
           sx={{
-            my: 8,
-            mx: 4,
+            backgroundImage:
+              "url(https://images.pexels.com/photos/10557901/pexels-photo-10557901.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            width: "auto",
+            height: "100%",
+            borderRadius: "0.5rem 0rem 0rem 0.5rem",
+          }}
+        />
+      </Grid>
+      <Grid item xs={12} sm={6} md={5} component={Paper} elevation={0} square>
+        <Box
+          sx={{
+            margin: { xs: "2rem", md: "3rem", lg: "5rem" },
           }}
         >
           <Typography variant="h5">WELCOME</Typography>
@@ -63,7 +61,7 @@ export default function SignIn() {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Email"
               name="email"
               autoComplete="email"
               autoFocus
@@ -91,10 +89,20 @@ export default function SignIn() {
                 ),
               }}
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+
+              <Typography>Forget Password</Typography>
+            </Box>
             <Button
               type="submit"
               fullWidth

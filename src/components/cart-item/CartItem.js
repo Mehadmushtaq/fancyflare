@@ -61,13 +61,16 @@ function CartItem() {
             <RemoveIcon />
           </IconButton>
           <TextField
-            type="number"
+            type="te"
             value={quantity}
             disabled
             variant="outlined"
             size="small"
             inputProps={{
-              style: { textAlign: "center" },
+              style: {
+                textAlign: "center",
+                width: "1rem",
+              },
             }}
           />
           <IconButton color="primary" onClick={handleIncrement}>

@@ -1,12 +1,7 @@
 import React from "react";
 import { Route, Routes as Router } from "react-router-dom";
-import { Home } from "../views/home/Home";
-import SignUp from "../views/singUp";
-import SignIn from "../views/signIn";
-import Product from "../views/single-product/Product";
-import Cart from "../views/cart/Cart";
+import { Home, SignUp, SignIn, Product, Products, Cart } from "../views";
 import { CheckoutDummy } from "../components/checkout/Checkout";
-import Checkout from "../views/checkout/Checkout";
 
 const Routes = () => {
   return (
@@ -17,14 +12,16 @@ const Routes = () => {
       <Route path="/signup" element={<SignUp />} />
       <Route path="/login" element={<SignIn />} />
       <Route path="/product" element={<Product />} />
+      <Route path="/products" element={<Products />} />
+
       {/* <Route /> */}
 
       {/* Protected routes */}
       {/* <Route element={<RequireAuth />}> */}
       <Route path="/cart" element={<Cart />} />
 
-      <Route path="/checkout" element={<Checkout />} />
-      <Route path="/checkout-dummy" element={<CheckoutDummy />} />
+      <Route path="/checkout" element={<CheckoutDummy />} />
+      {/* <Route path="/checkout-dummy" element={<CheckoutDummy />} /> */}
       {/* <Route /> */}
 
       {/* catch all */}

@@ -36,7 +36,7 @@ const item = {
     "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
 };
 
-export default function Product() {
+export function Product() {
   const [quantity, setQuantity] = useState(1);
 
   const handleIncrement = () => {

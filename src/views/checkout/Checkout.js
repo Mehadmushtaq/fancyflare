@@ -18,9 +18,8 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-function Checkout() {
+export function Checkout() {
   const [expandedAccordion, setExpandedAccordion] = useState(null);
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState("creditCard");
@@ -154,5 +153,3 @@ function Checkout() {
     </Container>
   );
 }
-
-export default Checkout;

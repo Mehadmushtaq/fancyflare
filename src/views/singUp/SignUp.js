@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-export default function SignUp() {
+export function SignUp() {
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -26,13 +26,12 @@ export default function SignUp() {
   };
 
   return (
-    <Grid container component="main" x={{ height: "100vh" }}>
+    <Grid container component="main">
       <CssBaseline />
-      <Grid tem xs={12} sm={8} md={5} component={Paper} elevation={0} square>
+      <Grid tem xs={12} sm={6} md={5} component={Paper} elevation={0} square>
         <Box
           sx={{
-            my: 8,
-            mx: 4,
+            margin: { xs: "2rem", md: "3rem", lg: "5rem" },
           }}
         >
           <Typography component="h1" variant="h5">
@@ -103,14 +102,14 @@ export default function SignUp() {
                   }}
                 />
               </Grid>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <FormControlLabel
                   control={
                     <Checkbox value="allowExtraEmails" color="primary" />
                   }
                   label="SUBSCRIBE TO OUR NEWSLETTER?"
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
             <Button
               type="submit"
@@ -130,20 +129,20 @@ export default function SignUp() {
           </Box>
         </Box>
       </Grid>
-      <Grid
-        item
-        xs={false}
-        sm={4}
-        md={7}
-        sx={{
-          backgroundImage:
-            "url(https://images.pexels.com/photos/10557901/pexels-photo-10557901.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          borderRadius: "0rem 1rem 1rem 0rem",
-        }}
-      />
+      <Grid item xs={false} sm={6} md={7} padding="0.5rem">
+        <Box
+          sx={{
+            backgroundImage:
+              "url(https://images.pexels.com/photos/10557901/pexels-photo-10557901.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundPosition: "center center",
+            width: "auto",
+            height: "100%",
+            borderRadius: "0rem 0.5rem 0.5rem 0rem",
+          }}
+        />
+      </Grid>
     </Grid>
   );
 }
