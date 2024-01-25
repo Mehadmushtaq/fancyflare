@@ -1,12 +1,9 @@
 import * as React from "react";
-import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Cards from "react-credit-cards-2";
 
-export default function PaymentForm() {
+const PaymentForm = () => {
   const [state, setState] = React.useState({
     number: "",
     expiry: "",
@@ -92,13 +89,9 @@ export default function PaymentForm() {
             onFocus={handleInputFocus}
           />
         </Grid>
-        {/* <Grid item xs={12}>
-          <FormControlLabel
-            control={<Checkbox color="secondary" name="saveCard" value="yes" />}
-            label="Remember credit card details for next time"
-          />
-        </Grid> */}
       </Grid>
     </React.Fragment>
   );
-}
+};
+
+export default PaymentForm;

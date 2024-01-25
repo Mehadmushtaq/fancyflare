@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes as Router } from "react-router-dom";
-import { Home, SignUp, SignIn, Product, Products, Cart } from "../views";
-import { CheckoutDummy } from "../components/checkout/Checkout";
+import { Home, SignUp, SignIn, Product, Products, Cart, PageNotFound } from "../views";
+import { Checkout} from "../components";  //update this
 
 const Routes = () => {
   return (
@@ -20,12 +20,12 @@ const Routes = () => {
       {/* <Route element={<RequireAuth />}> */}
       <Route path="/cart" element={<Cart />} />
 
-      <Route path="/checkout" element={<CheckoutDummy />} />
+      <Route path="/checkout" element={<Checkout />} />
       {/* <Route path="/checkout-dummy" element={<CheckoutDummy />} /> */}
       {/* <Route /> */}
 
       {/* catch all */}
-      <Route path="*" element={<p>Missing Route</p>} />
+      <Route path="*" element={<PageNotFound/>} />
     </Router>
   );
 };

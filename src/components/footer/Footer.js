@@ -42,7 +42,7 @@ const CopyRightStyle = {
   justifyContent: "center",
 };
 
-export default function Footer() {
+export const Footer=()=> {
   return (
     <Container
       disableGutters

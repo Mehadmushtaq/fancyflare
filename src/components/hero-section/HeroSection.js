@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import React from "react";
 import { Fade } from "react-slideshow-image";
-import { sliderImages } from "../../../../data/slideImages";
+import { sliderImages } from "../../data/slideImages"
 import "react-slideshow-image/dist/styles.css";
 
 const divStyle = {

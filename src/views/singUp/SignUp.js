@@ -2,8 +2,6 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import { Grid, IconButton, InputAdornment, Paper } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -11,7 +9,7 @@ import { Link } from "react-router-dom";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-export function SignUp() {
+export const SignUp = () => {
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -26,8 +24,7 @@ export function SignUp() {
   };
 
   return (
-    <Grid container component="main">
-      <CssBaseline />
+    <Grid container maxWidth="xl" margin="auto">
       <Grid tem xs={12} sm={6} md={5} component={Paper} elevation={0} square>
         <Box
           sx={{
@@ -102,14 +99,6 @@ export function SignUp() {
                   }}
                 />
               </Grid>
-              {/* <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="SUBSCRIBE TO OUR NEWSLETTER?"
-                />
-              </Grid> */}
             </Grid>
             <Button
               type="submit"
@@ -145,4 +134,4 @@ export function SignUp() {
       </Grid>
     </Grid>
   );
-}
+};

@@ -122,8 +122,8 @@ export function Product() {
                   <Box
                     className="magnifier-image"
                     sx={{
-                      width: "200px",
-                      height: "200px",
+                      width: "250px",
+                      height: "250px",
                       backgroundImage: `url(${selectedImage})`,
                       backgroundPosition: `${position.x}% ${position.y}%`,
                     }}

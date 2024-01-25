@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import CartItem from "../../components/cart-item/CartItem";
+import {CartItem} from "../../components";
 import { fontsWeight } from "../../utils";
 import { Link } from "react-router-dom";
 

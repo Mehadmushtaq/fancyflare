@@ -27,7 +27,7 @@ function getStepContent(step) {
   }
 }
 
-export function CheckoutDummy() {
+export const Checkout=()=> {
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {

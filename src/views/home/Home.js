@@ -1,10 +1,8 @@
 import React from "react";
-import CategoryCard from "../../components/category-card/CategoryCard";
-import { HeroSection } from "./components";
 import { Grid, Box, Container, Typography, Divider } from "@mui/material";
 import { categoriesList } from "../../data/categories";
-import { ProductCard } from "../../components/product-card/ProductCard";
 import { products } from "../../data/products";
+import {HeroSection, ProductCard, CategoryCard} from "../../components"
 
 export const Home = () => {
   return (

@@ -1,7 +1,7 @@
-// export { Footer } from "./footer/Footer";
-export { SignIn } from "./signIn/SignIn";
-export { SignUp } from "./singUp/SignUp";
-export { Checkout } from "./checkout/Checkout";
-// export { AddressForm } from "./address-form/AddressForm";
-// export { PaymentForm } from "./payment-form/PaymentForm";
-// export { Review } from "./review/Review";
+export {HeroSection} from "./hero-section/HeroSection"
+export {CartItem} from "./cart-item/CartItem"
+export {CategoryCard} from './category-card/CategoryCard'
+export {Checkout} from "./checkout/Checkout"
+export {Footer} from "./footer/Footer"
+export {ProductCard} from './product-card/ProductCard'
+export {Header} from "./header/Header"

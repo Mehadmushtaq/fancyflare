@@ -25,7 +25,7 @@ export function SignIn() {
   };
 
   return (
-    <Grid container component="main">
+    <Grid container maxWidth="xl" margin="auto">
       <Grid item xs={false} sm={6} md={7} padding="0.5rem">
         <Box
           sx={{

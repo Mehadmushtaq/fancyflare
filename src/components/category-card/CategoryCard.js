@@ -5,12 +5,12 @@ import { Box } from "@mui/material";
 import Styles from "./CategoryCard.module.css";
 import { Link } from "react-router-dom";
 
-export default function CategoryCard({
+export const CategoryCard=({
   imageUrl,
   title,
   description,
   ctaText,
-}) {
+})=> {
   return (
     <Link to="/products">
       <Box className={Styles.box}>

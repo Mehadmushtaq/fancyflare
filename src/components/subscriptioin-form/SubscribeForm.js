@@ -37,4 +37,4 @@ const SubscribeForm = () => {
   );
 };
 
-export default SubscribeForm;
+export default SubscribeForm

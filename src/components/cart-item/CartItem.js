@@ -11,7 +11,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-function CartItem() {
+export function CartItem() {
   const [quantity, setQuantity] = useState(1);
   const handleIncrement = () => {
     setQuantity(quantity + 1);
@@ -87,5 +87,3 @@ function CartItem() {
     </Grid>
   );
 }
-
-export default CartItem;
