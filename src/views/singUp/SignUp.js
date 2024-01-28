@@ -8,20 +8,31 @@ import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useRegisterFormSchema, useRegisterSubmit } from "../../hooks";
+import { useFormik } from "formik";
+import { isError, isErrorMessage } from "../../helpers";
 
 export const SignUp = () => {
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
+  const signupFormSchema = useRegisterFormSchema();
+  const { initialValues, onSubmit } = useRegisterSubmit();
+
+  const {
+    handleSubmit,
+    getFieldProps,
+    errors,
+    touched,
+    isValid,
+    isSubmitting,
+    dirty,
+  } = useFormik({
+    initialValues,
+    validationSchema: signupFormSchema,
+    onSubmit,
+  });
 
   return (
     <Grid container maxWidth="xl" margin="auto">
@@ -46,23 +57,23 @@ export const SignUp = () => {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  autoComplete="given-name"
                   name="firstName"
                   required
                   fullWidth
-                  id="firstName"
                   label="First Name"
-                  autoFocus
+                  helperText={isErrorMessage("firstName", errors)}
+                  error={isError("firstName", errors, touched)}
+                  {...getFieldProps("firstName")}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  required
                   fullWidth
-                  id="lastName"
                   label="Last Name"
                   name="lastName"
-                  autoComplete="family-name"
+                  helperText={isErrorMessage("LastName", errors)}
+                  error={isError("LastName", errors, touched)}
+                  {...getFieldProps("LastName")}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -72,7 +83,9 @@ export const SignUp = () => {
                   id="email"
                   label="Email Address"
                   name="email"
-                  autoComplete="email"
+                  helperText={isErrorMessage("email", errors)}
+                  error={isError("email", errors, touched)}
+                  {...getFieldProps("email")}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -82,8 +95,9 @@ export const SignUp = () => {
                   name="password"
                   label="Password"
                   type={showPassword ? "text" : "password"}
-                  id="password"
-                  autoComplete="new-password"
+                  helperText={isErrorMessage("password", errors)}
+                  error={isError("password", errors, touched)}
+                  {...getFieldProps("password")}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
@@ -103,8 +117,10 @@ export const SignUp = () => {
             <Button
               type="submit"
               fullWidth
+              size="large"
               variant="contained"
               sx={{ mt: 3, mb: 2, borderRadius: "5rem" }}
+              disabled={!(isValid && dirty) || isSubmitting}
             >
               Sign Up
             </Button>

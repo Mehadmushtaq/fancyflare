@@ -9,9 +9,9 @@ const divStyle = {
   alignItems: "center",
   justifyContent: "center",
   backgroundSize: "cover",
-  height: "75vh",
+  height: "60vh",
   width: "100% ",
-  backgroundPosition: "center",
+  backgroundPosition: "center center",
 };
 
 export const HeroSection = () => {

@@ -1,7 +1,7 @@
 .box {
 	position: relative;
 	overflow: hidden;
-    height: 60vh;
+    height: 50vh;
     width: 100%;
 	display: flex;
 	justify-content: center;

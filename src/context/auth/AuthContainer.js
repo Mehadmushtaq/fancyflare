@@ -1,7 +1,7 @@
 import { useState, useContext, useCallback } from "react";
-import { AuthContext, AuthProvider } from "context/auth/AuthContext";
-import { defaultAuthContext } from "context/auth/AuthInterface";
-import jwt_decode from "jwt-decode";
+import { AuthContext, AuthProvider } from "./AuthContext";
+import { defaultAuthContext } from "./AuthInterface";
+import {jwtDecode} from "jwt-decode";
 
 export const AuthContextContainer = ({ children }) => {
   const [state, setState] = useState(() => {
@@ -18,7 +18,7 @@ export const AuthContextContainer = ({ children }) => {
   });
 
   const decodeJwt = useCallback((token) => {
-    const decoded = jwt_decode(token, { header: false });
+    const decoded = jwtDecode(token, { header: false });
     const { iat, exp, ...user } = decoded;
     return user;
   }, []);

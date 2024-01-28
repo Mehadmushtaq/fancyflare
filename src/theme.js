@@ -25,7 +25,7 @@ export const theme = createTheme({
         root: {
           border: "none",
           boxShadow: "none",
-          borderRadius: "0",
+          borderRadius: "0.2rem",
           "&:hover": {
             boxShadow: "none",
           },

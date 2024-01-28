@@ -9,20 +9,31 @@ import { Link } from "react-router-dom";
 import { IconButton, InputAdornment, Typography } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useLoginFormSchema, useLoginSubmit } from "../../hooks";
+import { useFormik } from "formik";
+import { isError, isErrorMessage } from "../../helpers";
 
 export function SignIn() {
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
+  const loginFormSchema = useLoginFormSchema();
+  const { initialValues, onSubmit } = useLoginSubmit();
+
+  const {
+    handleSubmit,
+    getFieldProps,
+    errors,
+    touched,
+    isValid,
+    isSubmitting,
+    dirty,
+  } = useFormik({
+    initialValues,
+    validationSchema: loginFormSchema,
+    onSubmit,
+  });
 
   return (
     <Grid container maxWidth="xl" margin="auto">
@@ -58,23 +69,22 @@ export function SignIn() {
           >
             <TextField
               margin="normal"
-              required
               fullWidth
-              id="email"
               label="Email"
-              name="email"
               autoComplete="email"
-              autoFocus
+              helperText={isErrorMessage("email", errors)}
+              error={isError("email", errors, touched)}
+              {...getFieldProps("email")}
             />
             <TextField
               margin="normal"
-              required
               fullWidth
-              name="password"
               label="Password"
               type={showPassword ? "text" : "password"}
-              id="password"
               autoComplete="current-password"
+              helperText={isErrorMessage("password", errors)}
+              error={isError("password", errors, touched)}
+              {...getFieldProps("password")}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -106,15 +116,17 @@ export function SignIn() {
             <Button
               type="submit"
               fullWidth
+              size="large"
               variant="contained"
               sx={{ mt: 3, mb: 2, borderRadius: "5rem" }}
+              disabled={!(isValid && dirty) || isSubmitting}
             >
-              Sign In
+              Login
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link to="/signup" variant="body2">
-                  Don't have an account? create new
+                  Don't have an account? CREATE NEW
                 </Link>
               </Grid>
             </Grid>

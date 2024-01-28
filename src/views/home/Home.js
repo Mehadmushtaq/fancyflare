@@ -2,15 +2,13 @@ import React from "react";
 import { Grid, Box, Container, Typography, Divider } from "@mui/material";
 import { categoriesList } from "../../data/categories";
 import { products } from "../../data/products";
-import {HeroSection, ProductCard, CategoryCard} from "../../components"
+import { HeroSection, ProductCard, CategoryCard } from "../../components";
 
 export const Home = () => {
   return (
-    <Box>
-      <Container disableGutters maxWidth="xl">
-        {/* <Header /> */}
-        <HeroSection />
-      </Container>
+    <Container maxWidth="xl" disableGutters>
+      {/* HERO SECTION */}
+      <HeroSection />
 
       <Container maxWidth="lg" sx={{ marginY: "2rem" }}>
         {/* CATEGORY SECTION */}
@@ -63,6 +61,6 @@ export const Home = () => {
           })}
         </Grid>
       </Container>
-    </Box>
+    </Container>
   );
 };

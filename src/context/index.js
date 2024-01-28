@@ -1,4 +1,3 @@
-export {
-  AuthContextContainer,
-  useAuthContext,
-} from "context/auth/AuthContainer";
+export { AuthContextContainer, useAuthContext } from "./auth/AuthContainer";
+
+export { CartContextContainer, useCartContext } from "./cart/CartContainer";

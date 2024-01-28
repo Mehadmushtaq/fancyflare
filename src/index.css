@@ -15,6 +15,29 @@ code {
     monospace;
 }
 
+/* CUSTOMIZING LINK */
+
+ a:-webkit-any-link {   
+  text-decoration: none;
+  position: relative;
+
+  /* &::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px; 
+    background-color:black; 
+    transition: width 0.5s ease; 
+  }
+
+  &:hover::before {
+    width: 100%; 
+  }   */
+}
+ 
+
 /* Drawer menu styling */
 
 .ant-drawer-body{
@@ -26,7 +49,9 @@ code {
 }
 .ant-menu-item{
   border-radius: 0 !important;
+  border-bottom: 1px solid rgba(5, 5, 5, 0.06) !important;
 }
+
 
 
 

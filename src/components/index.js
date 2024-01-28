@@ -5,3 +5,5 @@ export {Checkout} from "./checkout/Checkout"
 export {Footer} from "./footer/Footer"
 export {ProductCard} from './product-card/ProductCard'
 export {Header} from "./header/Header"
+export {AuthRedirect} from "./auth-redirect/AuthRedirect"
+export {RequireAuth} from "./require-auth/RequireAuth"

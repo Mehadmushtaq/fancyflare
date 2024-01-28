@@ -10,6 +10,7 @@ import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Link } from "react-router-dom";
 
 export function CartItem() {
   const [quantity, setQuantity] = useState(1);
@@ -24,7 +25,7 @@ export function CartItem() {
     <Grid
       container
       sx={{
-        padding: "1.5rem 1rem",
+        my: "1.5rem",
         "& .MuiGrid-root.MuiGrid-item": {
           margin: "auto",
         },
@@ -37,7 +38,7 @@ export function CartItem() {
         },
       }}
     >
-      <Grid item xs={12} sm={5}>
+      <Grid item xs={12} sm={6}>
         <Stack direction="row" spacing={2}>
           <Box
             component="img"
@@ -45,11 +46,15 @@ export function CartItem() {
             sx={{
               width: 80,
               height: "auto",
+              borderRadius: "0.2rem",
             }}
           />
-          <Typography sx={{ padding: "0.5rem" }}>
-            WINTER'23 WOMEN EMBROIDERED JACQUARD
-          </Typography>
+          <Stack direction="column">
+            <Typography>WINTER'23 WOMEN EMBROIDERED JACQUARD</Typography>
+            <Link to="/">
+              <Typography>Remove</Typography>
+            </Link>
+          </Stack>
         </Stack>
       </Grid>
       <Grid item xs={3} sm={2}>
@@ -80,9 +85,6 @@ export function CartItem() {
       </Grid>
       <Grid item xs={3} sm={2}>
         <Typography>PKR 3,983</Typography>
-      </Grid>
-      <Grid item sm={1}>
-        <DeleteIcon />
       </Grid>
     </Grid>
   );
