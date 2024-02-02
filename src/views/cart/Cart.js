@@ -28,7 +28,6 @@ export function Cart() {
             }}
           >
             <Typography variant="h5">Shopping Cart</Typography>
-            <Typography variant="h5">3 items</Typography>
           </Box>
           <Divider variant="middle" />
           <Box
@@ -79,14 +78,17 @@ export function Cart() {
             </Box>
           </Link>
         </Grid>
-        <Grid item xs={12} sm={3} sx={{ backgroundColor: "#E9EAEF" }}>
+        <Grid item xs={12} sm={3} sx={{ display: "block", margin: "auto" }}>
           <Box
             sx={{
+              // marginTop: "5vh",
+              // margin: "auto 0",
               padding: "1rem 1.3rem",
-              height: "100%",
+              // height: "100%",
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
+              backgroundColor: "#E9EAEF",
             }}
           >
             <Box>
