@@ -1,10 +1,29 @@
-import React from "react";
-import { Grid, Box, Container, Typography, Divider } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import {
+  Grid,
+  Box,
+  Container,
+  Typography,
+  Divider,
+  Skeleton,
+} from "@mui/material";
 import { categoriesList } from "../../data/categories";
 import { products } from "../../data/products";
-import { HeroSection, ProductCard, CategoryCard } from "../../components";
+import {
+  HeroSection,
+  ProductCard,
+  CategoryCard,
+  ProductSkeleton,
+} from "../../components";
+import useProductApi from "../../hooks/use-product-api";
 
 export const Home = () => {
+  const { loading, latestProducts, getLatestProducts } = useProductApi();
+
+  useEffect(() => {
+    getLatestProducts();
+  }, []);
+
   return (
     <Container maxWidth="xl" disableGutters>
       {/* HERO SECTION */}
@@ -26,9 +45,8 @@ export const Home = () => {
         <Grid container spacing={2} sx={{ marginTop: "0" }}>
           {categoriesList.map((category) => {
             return (
-              <Grid item xs={12} sm={4}>
+              <Grid item xs={12} sm={4} key={category.id}>
                 <CategoryCard
-                  key={category.id}
                   imageUrl={category.url}
                   title={category.title}
                   description={category.description}
@@ -52,13 +70,25 @@ export const Home = () => {
         </Divider>
 
         <Grid container spacing={2} sx={{ marginY: "0.5rem" }}>
-          {products?.map((product) => {
-            return (
-              <Grid item xs={6} sm={3}>
-                <ProductCard key={product.id} item={product} />
-              </Grid>
-            );
-          })}
+          {loading ? (
+            <>
+              {[...Array(8)].map((_, index) => (
+                <Grid item xs={6} sm={3} key={index}>
+                  <ProductSkeleton />
+                </Grid>
+              ))}
+            </>
+          ) : (
+            <>
+              {latestProducts?.map((item) => {
+                return (
+                  <Grid item xs={6} sm={3} key={item.product.id}>
+                    <ProductCard item={item} />
+                  </Grid>
+                );
+              })}
+            </>
+          )}
         </Grid>
       </Container>
     </Container>

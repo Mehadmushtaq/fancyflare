@@ -1,11 +1,10 @@
 import { useState, useContext, useCallback } from "react";
 import { AuthContext, AuthProvider } from "./AuthContext";
 import { defaultAuthContext } from "./AuthInterface";
-import {jwtDecode} from "jwt-decode";
 
 export const AuthContextContainer = ({ children }) => {
   const [state, setState] = useState(() => {
-    const token = localStorage.getItem(process.env.REACT_APP_TOKEN_FIELD);
+    const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user") || "{}");
     if (token && Object.values(user).length) {
       return {
@@ -17,27 +16,17 @@ export const AuthContextContainer = ({ children }) => {
     return defaultAuthContext;
   });
 
-  const decodeJwt = useCallback((token) => {
-    const decoded = jwtDecode(token, { header: false });
-    const { iat, exp, ...user } = decoded;
-    return user;
+  const authenticateUser = useCallback((user) => {
+    localStorage.setItem("token", user.token);
+    localStorage.setItem("user", JSON.stringify(user));
+    setState((prevState) => ({
+      ...prevState,
+      isAuthenticated: true,
+    }));
   }, []);
 
-  const authenticateUser = useCallback(
-    (token) => {
-      const user = decodeJwt(token);
-      localStorage.setItem(process.env.REACT_APP_TOKEN_FIELD, token);
-      localStorage.setItem("user", JSON.stringify(user));
-      setState((prevState) => ({
-        ...prevState,
-        isAuthenticated: true,
-      }));
-    },
-    [decodeJwt]
-  );
-
   const logoutUser = useCallback(() => {
-    localStorage.removeItem(process.env.REACT_APP_TOKEN_FIELD);
+    localStorage.removeItem("token");
     localStorage.removeItem("user");
     setState((prevState) => ({
       ...prevState,

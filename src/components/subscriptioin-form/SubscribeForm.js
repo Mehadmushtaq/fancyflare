@@ -1,12 +1,20 @@
 // Footer.js
 
-import React from "react";
+import React, { useState } from "react";
 import { TextField, Button, InputAdornment } from "@mui/material";
+import { AxiosClient } from "../../services";
+import { useToast } from "../../hooks/useToast";
 
 const SubscribeForm = () => {
-  const handleSubscribe = () => {
-    // Handle subscribe logic here
-    console.log("Subscribed!");
+  const toast = useToast();
+  const [email, setEmail] = useState("");
+
+  const handleSubscribe = async () => {
+    const result = await AxiosClient.post("api/subscribers/post", email);
+    if (result.status === 200) {
+      toast.success("Subscribed Succesfuly");
+    } else toast.error("Unable to subscribe. Try later!");
+    setEmail("");
   };
 
   return (
@@ -14,6 +22,10 @@ const SubscribeForm = () => {
       <TextField
         variant="outlined"
         label="Email"
+        value={email}
+        onChange={(e) => {
+          setEmail(e.target.value);
+        }}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
@@ -37,4 +49,4 @@ const SubscribeForm = () => {
   );
 };
 
-export default SubscribeForm
+export default SubscribeForm;

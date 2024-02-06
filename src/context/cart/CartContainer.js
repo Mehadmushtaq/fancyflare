@@ -10,11 +10,11 @@ export const CartContextContainer = ({ children }) => {
   });
 
   useEffect(() => {
-    // Update localStorage whenever the cart state changes
     localStorage.setItem("cart", JSON.stringify(state));
   }, [state]);
 
   const addToCart = useCallback((item) => {
+    console.log({ item });
     setState((prevState) => ({
       ...prevState,
       items: [...prevState.items, item],
@@ -42,6 +42,7 @@ export const CartContextContainer = ({ children }) => {
         addToCart,
         removeFromCart,
         clearCart,
+        count: state.items.length,
       }}
     >
       {children}

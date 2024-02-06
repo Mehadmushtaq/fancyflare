@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, CssBaseline, TextField } from "@mui/material";
+import { Button, CircularProgress, TextField } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Paper from "@mui/material/Paper";
@@ -19,7 +19,7 @@ export function SignIn() {
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const loginFormSchema = useLoginFormSchema();
-  const { initialValues, onSubmit } = useLoginSubmit();
+  const { initialValues, onSubmit, loading } = useLoginSubmit();
 
   const {
     handleSubmit,
@@ -121,7 +121,11 @@ export function SignIn() {
               sx={{ mt: 3, mb: 2, borderRadius: "5rem" }}
               disabled={!(isValid && dirty) || isSubmitting}
             >
-              Login
+              {loading ? (
+                <CircularProgress size={24} color="inherit" />
+              ) : (
+                "Login"
+              )}
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>

@@ -4,13 +4,15 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Menu, Space, Drawer } from "antd";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { menuItems } from "../../data/menuItems";
-
 import { MdPersonOutline, MdOutlineShoppingCart } from "react-icons/md";
-
 import { Link } from "react-router-dom";
+import { useAuthContext, useCartContext } from "../../context";
+import { AccountMenu } from "../index";
 
 export const Header = () => {
   const [open, setOpen] = useState(false);
+  const { isAuthenticated } = useAuthContext();
+  const { count } = useCartContext();
 
   const showDrawer = () => {
     setOpen(true);
@@ -43,7 +45,7 @@ export const Header = () => {
               to={`https://api.whatsapp.com/send?phone=${process.env.REACT_APP_WHATSAPP_CONTACT}`}
               style={{ textDecoration: "none" }}
             >
-              <Typography variant="body2">+123456789</Typography>
+              <Typography variant="body2">03001034660</Typography>
             </Link>
           </Box>
 
@@ -76,12 +78,16 @@ export const Header = () => {
             alignItems: "center",
           }}
         >
-          <Link to="/login">
-            <MdPersonOutline style={{ height: "2rem", width: "2rem" }} />
-          </Link>
+          {isAuthenticated ? (
+            <AccountMenu />
+          ) : (
+            <Link to="/login">
+              <MdPersonOutline style={{ height: "2rem", width: "2rem" }} />
+            </Link>
+          )}
 
           <Link to="/cart">
-            <Badge badgeContent={4} color="error">
+            <Badge badgeContent={count} color="error">
               <MdOutlineShoppingCart
                 style={{ height: "2rem", width: "2rem", mL: "0.5rem" }}
               />

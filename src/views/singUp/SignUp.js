@@ -1,8 +1,13 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import { Grid, IconButton, InputAdornment, Paper } from "@mui/material";
+import {
+  CircularProgress,
+  Grid,
+  IconButton,
+  InputAdornment,
+  Paper,
+} from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
@@ -14,11 +19,10 @@ import { isError, isErrorMessage } from "../../helpers";
 
 export const SignUp = () => {
   const [showPassword, setShowPassword] = React.useState(false);
-
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const signupFormSchema = useRegisterFormSchema();
-  const { initialValues, onSubmit } = useRegisterSubmit();
+  const { initialValues, onSubmit, loading } = useRegisterSubmit();
 
   const {
     handleSubmit,
@@ -36,7 +40,7 @@ export const SignUp = () => {
 
   return (
     <Grid container maxWidth="xl" margin="auto">
-      <Grid tem xs={12} sm={6} md={5} component={Paper} elevation={0} square>
+      <Grid item xs={12} sm={6} md={5} component={Paper} elevation={0} square>
         <Box
           sx={{
             margin: { xs: "2rem", md: "3rem", lg: "5rem" },
@@ -58,7 +62,6 @@ export const SignUp = () => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   name="firstName"
-                  required
                   fullWidth
                   label="First Name"
                   helperText={isErrorMessage("firstName", errors)}
@@ -71,16 +74,14 @@ export const SignUp = () => {
                   fullWidth
                   label="Last Name"
                   name="lastName"
-                  helperText={isErrorMessage("LastName", errors)}
-                  error={isError("LastName", errors, touched)}
-                  {...getFieldProps("LastName")}
+                  helperText={isErrorMessage("lastName", errors)}
+                  error={isError("lastName", errors, touched)}
+                  {...getFieldProps("lastName")}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
                   fullWidth
-                  id="email"
                   label="Email Address"
                   name="email"
                   helperText={isErrorMessage("email", errors)}
@@ -90,7 +91,6 @@ export const SignUp = () => {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
                   fullWidth
                   name="password"
                   label="Password"
@@ -122,7 +122,11 @@ export const SignUp = () => {
               sx={{ mt: 3, mb: 2, borderRadius: "5rem" }}
               disabled={!(isValid && dirty) || isSubmitting}
             >
-              Sign Up
+              {loading ? (
+                <CircularProgress size={24} color="inherit" />
+              ) : (
+                "Sign Up"
+              )}
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>

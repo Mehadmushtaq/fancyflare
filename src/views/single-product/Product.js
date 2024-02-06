@@ -16,28 +16,37 @@ import {
   Stack,
   TextField,
   Typography,
-} from "@mui/material";
-import React, { useState } from "react";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
-import { colors } from "../../utils";
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import { colors } from '../../utils';
+import { useCartContext } from '../../context/cart/CartContainer';
+import { useParams } from 'react-router-dom';
+import useProductApi from '../../hooks/use-product-api';
 
 const productImages = [
-  "https://i.pinimg.com/736x/a7/7f/a8/a77fa8b884c6a189fe8e67a0cfe3c031.jpg", // You can replace these with your actual image URLs
-  "https://i.pinimg.com/originals/b6/88/1e/b6881e622c5ed78156c06706a62e2931.jpg",
-  "https://i.pinimg.com/236x/bd/f9/01/bdf9019edf071c9feb0c0e1ef422f829.jpg",
-  "https://i.pinimg.com/236x/bd/f9/01/bdf9019edf071c9feb0c0e1ef422f829.jpg",
+  'https://i.pinimg.com/736x/a7/7f/a8/a77fa8b884c6a189fe8e67a0cfe3c031.jpg', // You can replace these with your actual image URLs
+  'https://i.pinimg.com/originals/b6/88/1e/b6881e622c5ed78156c06706a62e2931.jpg',
+  'https://i.pinimg.com/236x/bd/f9/01/bdf9019edf071c9feb0c0e1ef422f829.jpg',
+  'https://i.pinimg.com/236x/bd/f9/01/bdf9019edf071c9feb0c0e1ef422f829.jpg',
 ];
-const item = {
-  title: "WINTER'23 MEN KAMEEZ SHALWAR PLAIN CHOCOLATE",
-  price: 1599,
-  salePrice: 899,
-  description:
-    "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
-};
 
-export function Product() {
+export const Product = () => {
   const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCartContext();
+  const { getProductById } = useProductApi();
+
+  let { id } = useParams();
+  const [productData, setProductData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getProductById(id);
+      setProductData(data);
+    };
+    fetchData();
+  }, [id, getProductById]);
 
   const handleIncrement = () => {
     setQuantity(quantity + 1);
@@ -69,29 +78,37 @@ export function Product() {
     setCursorPosition({ x: e.pageX - left, y: e.pageY - top });
   };
 
+  const handleAddToCart = () => {
+    addToCart(productData, quantity);
+  };
+
+  if (!productData) return null;
+
+  const { product, review, image_product } = productData;
+
   return (
-    <Container maxwidth="lg" disableGutters>
+    <Container maxwidth='lg' disableGutters>
       <Grid
         container
         spacing={0}
         sx={{
-          "& .MuiButtonBase-root.MuiIconButton-root": {
+          '& .MuiButtonBase-root.MuiIconButton-root': {
             backgroundColor: colors.lightMediumGray,
-            borderRadius: "0px",
+            borderRadius: '0px',
           },
-          "& .MuiInputBase-root": {
-            borderRadius: "0",
+          '& .MuiInputBase-root': {
+            borderRadius: '0',
           },
         }}
       >
-        <Grid item xs={12} sm={6} sx={{ padding: "0rem 1rem" }}>
+        <Grid item xs={12} sm={6} sx={{ padding: '0rem 1rem' }}>
           <Paper elevation={0}>
             {/* Main Image */}
             <Box
               sx={{
-                height: { xs: "30rem", md: "40rem" },
-                overflow: "hidden",
-                position: "relative",
+                height: { xs: '30rem', md: '40rem' },
+                overflow: 'hidden',
+                position: 'relative',
               }}
               onMouseEnter={() => setShowMagnifier(true)}
               onMouseLeave={() => setShowMagnifier(false)}
@@ -99,31 +116,31 @@ export function Product() {
             >
               <img
                 src={selectedImage}
-                alt="Main Product"
+                alt='Main Product'
                 style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  objectPosition: "50% 50%",
-                  transition: "transform 0.3s ease-in-out",
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: '50% 50%',
+                  transition: 'transform 0.3s ease-in-out',
                 }}
               />
 
               {showMagnifier && (
                 <Box
                   sx={{
-                    position: "absolute",
+                    position: 'absolute',
                     left: `${cursorPosition.x - 100}px`,
                     top: `${cursorPosition.y - 100}px`,
-                    pointerEvents: "none",
-                    display: { xs: "none", sm: "inline" },
+                    pointerEvents: 'none',
+                    display: { xs: 'none', sm: 'inline' },
                   }}
                 >
                   <Box
-                    className="magnifier-image"
+                    className='magnifier-image'
                     sx={{
-                      width: "250px",
-                      height: "250px",
+                      width: '250px',
+                      height: '250px',
                       backgroundImage: `url(${selectedImage})`,
                       backgroundPosition: `${position.x}% ${position.y}%`,
                     }}
@@ -133,26 +150,26 @@ export function Product() {
             </Box>
 
             {/* Thumbnails */}
-            <Grid container spacing={1} style={{ marginTop: "0.2rem" }}>
+            <Grid container spacing={1} style={{ marginTop: '0.2rem' }}>
               {productImages.map((image, index) => (
                 <Grid item xs={3} key={index}>
                   <img
                     src={image}
                     alt={`Thumbnail ${index + 1}`}
                     style={{
-                      width: "100%",
-                      height: "10rem",
-                      objectFit: "cover",
-                      objectPosition: "50% 50%",
-                      cursor: "pointer",
-                      transition: "transform 0.3s ease-in-out",
+                      width: '100%',
+                      height: '10rem',
+                      objectFit: 'cover',
+                      objectPosition: '50% 50%',
+                      cursor: 'pointer',
+                      transition: 'transform 0.3s ease-in-out',
                     }}
                     onClick={() => handleImageClick(image)}
                     onMouseEnter={(e) =>
-                      (e.target.style.transform = "scale(1.05)")
+                      (e.target.style.transform = 'scale(1.05)')
                     }
                     onMouseLeave={(e) =>
-                      (e.target.style.transform = "scale(1)")
+                      (e.target.style.transform = 'scale(1)')
                     }
                   />
                 </Grid>
@@ -160,55 +177,55 @@ export function Product() {
             </Grid>
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6} sx={{ padding: "1rem" }}>
-          <Typography variant="h5">{item.title}</Typography>
-          <Divider sx={{ marginBottom: "1rem" }} />
+        <Grid item xs={12} sm={6} sx={{ padding: '1rem' }}>
+          <Typography variant='h5'>{product?.name}</Typography>
+          <Divider sx={{ marginBottom: '1rem' }} />
 
           <Rating
-            name="read-only"
+            name='read-only'
             defaultValue={2.5}
             precision={0.5}
             readOnly
-            size="small"
-            sx={{ color: "black" }}
+            size='small'
+            sx={{ color: 'black' }}
           />
 
-          {item.salePrice ? (
+          {product?.is_discount ? (
             <>
-              <Typography variant="h6">
+              <Typography variant='h6'>
                 <span
                   style={{
-                    textDecoration: "line-through",
+                    textDecoration: 'line-through',
                   }}
                 >
-                  Rs. {item.price}
-                </span>{" "}
-                Rs. {item.salePrice}
+                  Rs. {product?.price}
+                </span>{' '}
+                Rs. {product?.after_discount_price}
               </Typography>
             </>
           ) : (
-            <Typography variant="h4">{item.price}</Typography>
+            <Typography variant='h6'>{product?.price}</Typography>
           )}
 
-          <Grid container spacing={2} sx={{ marginTop: "1rem" }}>
+          <Grid container spacing={2} sx={{ marginTop: '1rem' }}>
             <Grid item xs={12}>
               <Grid container spacing={2}>
                 <Grid item xs={6} md={4}>
-                  <Stack direction="row">
-                    <IconButton color="primary" onClick={handleDecrement}>
+                  <Stack direction='row'>
+                    <IconButton color='primary' onClick={handleDecrement}>
                       <RemoveIcon />
                     </IconButton>
                     <TextField
-                      type="number"
+                      type='number'
                       value={quantity}
                       disabled
-                      variant="outlined"
-                      size="small"
+                      variant='outlined'
+                      size='small'
                       inputProps={{
-                        style: { textAlign: "center" },
+                        style: { textAlign: 'center' },
                       }}
                     />
-                    <IconButton color="primary" onClick={handleIncrement}>
+                    <IconButton color='primary' onClick={handleIncrement}>
                       <AddIcon />
                     </IconButton>
                   </Stack>
@@ -216,10 +233,10 @@ export function Product() {
 
                 <Grid item xs={6} md={8}>
                   <Button
-                    variant="contained"
-                    color="primary"
+                    variant='contained'
+                    color='primary'
                     fullWidth
-                    // onClick={handleAddToCart}
+                    onClick={handleAddToCart}
                   >
                     Add to Cart
                   </Button>
@@ -228,8 +245,8 @@ export function Product() {
             </Grid>
             <Grid item xs={12}>
               <Button
-                variant="contained"
-                color="primary"
+                variant='contained'
+                color='primary'
                 fullWidth
                 // onClick={handleBuyNow}
               >
@@ -238,24 +255,26 @@ export function Product() {
             </Grid>
 
             {/* DETAILS SECTION */}
-            <TableContainer component={Container} sx={{ marginTop: "1rem" }}>
-              <Typography variant="h6">Details: </Typography>
+            <TableContainer component={Container} sx={{ marginTop: '1rem' }}>
+              <Typography variant='h6'>Details: </Typography>
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell sx={{ width: "30%", fontWeight: "bold" }}>
+                    <TableCell sx={{ width: '30%', fontWeight: 'bold' }}>
                       Color
                     </TableCell>
-                    <TableCell style={{ width: "70%" }}>Black</TableCell>
+                    <TableCell style={{ width: '70%' }}>
+                      {product.color}
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   <TableRow>
-                    <TableCell sx={{ fontWeight: "bold" }}>Size</TableCell>
-                    <TableCell>2-Piece</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold' }}>Size</TableCell>
+                    <TableCell>{product.size}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell sx={{ fontWeight: "bold" }}>Category</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold' }}>Category</TableCell>
                     <TableCell>Stiched</TableCell>
                   </TableRow>
                 </TableBody>
@@ -266,4 +285,4 @@ export function Product() {
       </Grid>
     </Container>
   );
-}
+};

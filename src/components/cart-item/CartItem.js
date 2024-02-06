@@ -11,9 +11,12 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Link } from "react-router-dom";
+import { useCartContext } from "../../context";
 
 export function CartItem() {
   const [quantity, setQuantity] = useState(1);
+  const { removeFromCart } = useCartContext();
+
   const handleIncrement = () => {
     setQuantity(quantity + 1);
   };
@@ -21,6 +24,11 @@ export function CartItem() {
   const handleDecrement = () => {
     setQuantity(quantity - 1);
   };
+
+  const handleItemRemove = () => {
+    removeFromCart(1);
+  };
+
   return (
     <Grid
       container
@@ -52,7 +60,7 @@ export function CartItem() {
           <Stack direction="column">
             <Typography>WINTER'23 WOMEN EMBROIDERED JACQUARD</Typography>
             <Link to="/">
-              <Typography>Remove</Typography>
+              <Typography onClick={handleItemRemove}>Remove</Typography>
             </Link>
           </Stack>
         </Stack>

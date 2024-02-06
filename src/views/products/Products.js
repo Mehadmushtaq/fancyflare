@@ -7,16 +7,23 @@ import {
   FormControl,
   Select,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { ProductCard } from "../../components/product-card/ProductCard";
-import { products } from "../../data/products";
+// import { products } from "../../data/products";
+import useProductApi from "../../hooks/use-product-api";
+import { ProductSkeleton } from "../../components";
 
 export const Products = () => {
   const [filter, setFilter] = React.useState("");
+  const { loading, products, getAllProducts } = useProductApi();
 
   const handleChange = (event) => {
     setFilter(event.target.value);
   };
+
+  useEffect(() => {
+    getAllProducts();
+  }, []);
 
   return (
     <Container maxWidth="xl" sx={{ marginY: "1.5rem" }}>
@@ -39,13 +46,25 @@ export const Products = () => {
       </Box>
 
       <Grid container spacing={2} sx={{ marginY: "0.5rem" }}>
-        {products?.map((product) => {
-          return (
-            <Grid item xs={6} sm={3}>
-              <ProductCard key={product.id} item={product} />
-            </Grid>
-          );
-        })}
+        {loading ? (
+          <>
+            {[...Array(8)].map((_, index) => (
+              <Grid item xs={6} sm={3} key={index}>
+                <ProductSkeleton />
+              </Grid>
+            ))}
+          </>
+        ) : (
+          <>
+            {products?.map((product) => {
+              return (
+                <Grid item xs={6} sm={3} key={product.id}>
+                  <ProductCard item={product} />
+                </Grid>
+              );
+            })}
+          </>
+        )}
       </Grid>
     </Container>
   );
