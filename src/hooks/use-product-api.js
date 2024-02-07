@@ -4,11 +4,12 @@ import { useToast } from './useToast';
 import { transformError } from '../helpers';
 import axios from 'axios';
 
-const useProductApi = () => {
+export const useProductApi = () => {
   const toast = useToast();
   const [loading, setLoading] = useState(false);
   const [latestProducts, setLatestProducts] = useState([]);
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const getAllProducts = async () => {
     try {
@@ -61,6 +62,20 @@ const useProductApi = () => {
     }
   };
 
+  const getCategories = async () => {
+    try {
+      setLoading(true);
+      const response = await AxiosClient.get(
+        'api/category/get-all?page=1&limit=3'
+      );
+      setCategories(response?.data?.result);
+    } catch (error) {
+      toast.error(transformError(error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     loading,
     getAllProducts,
@@ -69,7 +84,7 @@ const useProductApi = () => {
     getCategoryProducts,
     products,
     getProductById,
+    getCategories,
+    categories,
   };
 };
-
-export default useProductApi;

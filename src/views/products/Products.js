@@ -6,15 +6,15 @@ import {
   MenuItem,
   FormControl,
   Select,
-} from "@mui/material";
-import React, { useEffect } from "react";
-import { ProductCard } from "../../components/product-card/ProductCard";
+} from '@mui/material';
+import React, { useEffect } from 'react';
+import { ProductCard } from '../../components/product-card/ProductCard';
 // import { products } from "../../data/products";
-import useProductApi from "../../hooks/use-product-api";
-import { ProductSkeleton } from "../../components";
+import { ProductSkeleton } from '../../components';
+import { useProductApi } from '../../hooks';
 
 export const Products = () => {
-  const [filter, setFilter] = React.useState("");
+  const [filter, setFilter] = React.useState('');
   const { loading, products, getAllProducts } = useProductApi();
 
   const handleChange = (event) => {
@@ -26,15 +26,15 @@ export const Products = () => {
   }, []);
 
   return (
-    <Container maxWidth="xl" sx={{ marginY: "1.5rem" }}>
-      <Typography variant="h5" textAlign="center">
+    <Container maxWidth='xl' sx={{ marginY: '1.5rem' }}>
+      <Typography variant='h5' textAlign='center'>
         Products / Category
       </Typography>
 
-      <Box sx={{ display: "flex", justifyContent: "end" }}>
-        <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+      <Box sx={{ display: 'flex', justifyContent: 'end' }}>
+        <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
           <Select value={filter} onChange={handleChange} displayEmpty>
-            <MenuItem value="">
+            <MenuItem value=''>
               <em>SORT BY</em>
             </MenuItem>
             <MenuItem value={10}>ALPHABETICALLY (A-Z)</MenuItem>
@@ -45,7 +45,7 @@ export const Products = () => {
         </FormControl>
       </Box>
 
-      <Grid container spacing={2} sx={{ marginY: "0.5rem" }}>
+      <Grid container spacing={2} sx={{ marginY: '0.5rem' }}>
         {loading ? (
           <>
             {[...Array(8)].map((_, index) => (

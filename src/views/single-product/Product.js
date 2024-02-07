@@ -23,7 +23,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import { colors } from '../../utils';
 import { useCartContext } from '../../context/cart/CartContainer';
 import { useParams } from 'react-router-dom';
-import useProductApi from '../../hooks/use-product-api';
+import { useProductApi } from '../../hooks';
 
 const productImages = [
   'https://i.pinimg.com/736x/a7/7f/a8/a77fa8b884c6a189fe8e67a0cfe3c031.jpg', // You can replace these with your actual image URLs
@@ -31,6 +31,10 @@ const productImages = [
   'https://i.pinimg.com/236x/bd/f9/01/bdf9019edf071c9feb0c0e1ef422f829.jpg',
   'https://i.pinimg.com/236x/bd/f9/01/bdf9019edf071c9feb0c0e1ef422f829.jpg',
 ];
+
+{
+  /* <img src={item.image_product.find(img => img.is_main === 1)?.image_url} alt="Product" /> */
+}
 
 export const Product = () => {
   const [quantity, setQuantity] = useState(1);
@@ -78,13 +82,13 @@ export const Product = () => {
     setCursorPosition({ x: e.pageX - left, y: e.pageY - top });
   };
 
-  const handleAddToCart = () => {
-    addToCart(productData, quantity);
-  };
-
   if (!productData) return null;
 
   const { product, review, image_product } = productData;
+
+  const handleAddToCart = () => {
+    addToCart({ ...productData, quantity });
+  };
 
   return (
     <Container maxwidth='lg' disableGutters>
@@ -275,7 +279,7 @@ export const Product = () => {
                   </TableRow>
                   <TableRow>
                     <TableCell sx={{ fontWeight: 'bold' }}>Category</TableCell>
-                    <TableCell>Stiched</TableCell>
+                    <TableCell>{product.category_name}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>

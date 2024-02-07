@@ -77,25 +77,27 @@ export function ProductCard({ item }) {
                 typography: { xs: 'subtitle2', md: 'body1' },
               }}
             >
-              {product.name.slice(0, 30)}
+              {product.name.toUpperCase().slice(0, 25)}
             </Typography>
             <Rating name='read-only' defaultValue={averageRating} readOnly />
 
+            {/* /* <img src={item.image_product.find(img => img.is_main === 1)?.image_url} alt="Product" /> */}
+
             <Typography variant='body1'>
-              {item.salePrice && (
+              {product.is_discount === 1 && (
                 <>
-                  {item.salePrice}
+                  {product.after_discount_price}
                   <span
                     style={{
                       textDecoration: 'line-through',
                       marginLeft: '0.5rem',
                     }}
                   >
-                    {item.price}
+                    {product.price}
                   </span>
                 </>
               )}
-              {!item.salePrice && `${product?.after_discount_price} PKR`}
+              {!product.is_discount === 1 && `${product?.price} PKR`}
             </Typography>
           </CardContent>
         </CardActionArea>

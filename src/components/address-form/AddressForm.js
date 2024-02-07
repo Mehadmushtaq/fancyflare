@@ -1,105 +1,134 @@
-import * as React from "react";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import { Box } from "@mui/material";
+import * as React from 'react';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import { Box } from '@mui/material';
+import { useAddressFormSchema, useAddressFormSubmit } from '../../hooks';
+import { useFormik } from 'formik';
+import { isError, isErrorMessage } from '../../helpers';
 
-const AddressForm=()=> {
+const AddressForm = () => {
+  const addressFormSchema = useAddressFormSchema();
+  const { initialValues, onSubmit, loading } = useAddressFormSubmit();
+
+  const {
+    handleSubmit,
+    getFieldProps,
+    errors,
+    touched,
+    isValid,
+    isSubmitting,
+    dirty,
+  } = useFormik({
+    initialValues,
+    validationSchema: addressFormSchema,
+    onSubmit,
+  });
+
   return (
-    <Box sx={{ my: "2rem" }}>
-      <Typography variant="h6" gutterBottom>
+    <Box sx={{ my: '2rem' }}>
+      <Typography variant='h6' gutterBottom>
         Shipping address
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
           <TextField
-            required
-            id="firstName"
-            name="firstName"
-            label="First name"
+            label='First name'
             fullWidth
-            autoComplete="given-name"
-            variant="standard"
+            variant='standard'
+            helperText={
+              touched.firstName && isErrorMessage('firstName', errors)
+            }
+            error={touched.firstName && isError('firstName', errors, touched)}
+            {...getFieldProps('firstName')}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
-            required
-            id="lastName"
-            name="lastName"
-            label="Last name"
+            label='Last name'
             fullWidth
-            autoComplete="family-name"
-            variant="standard"
+            variant='standard'
+            helperText={touched.lastName && isErrorMessage('lastName', errors)}
+            error={touched.lastName && isError('lastName', errors, touched)}
+            {...getFieldProps('lastName')}
           />
         </Grid>
         <Grid item xs={12}>
           <TextField
-            required
-            id="address1"
-            name="address1"
-            label="Address line 1"
+            label='Address line 1'
             fullWidth
-            autoComplete="shipping address-line1"
-            variant="standard"
+            variant='standard'
+            helperText={
+              touched.addressLine1 && isErrorMessage('addressLine1', errors)
+            }
+            error={
+              touched.addressLine1 && isError('addressLine1', errors, touched)
+            }
+            {...getFieldProps('addressLine1')}
           />
         </Grid>
         <Grid item xs={12}>
           <TextField
-            id="address2"
-            name="address2"
-            label="Address line 2"
+            label='Address line 2'
             fullWidth
-            autoComplete="shipping address-line2"
-            variant="standard"
+            variant='standard'
+            helperText={
+              touched.addressLine2 && isErrorMessage('addressLine2', errors)
+            }
+            error={
+              touched.addressLine2 && isError('addressLine2', errors, touched)
+            }
+            {...getFieldProps('addressLine2')}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label='City'
+            fullWidth
+            variant='standard'
+            helperText={touched.city && isErrorMessage('city', errors)}
+            error={touched.city && isError('city', errors, touched)}
+            {...getFieldProps('city')}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label='State/Province/Region'
+            fullWidth
+            variant='standard'
+            helperText={touched.state && isErrorMessage('state', errors)}
+            error={touched.state && isError('state', errors, touched)}
+            {...getFieldProps('state')}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label='Zip / Postal code'
+            fullWidth
+            variant='standard'
+            helperText={touched.zipcode && isErrorMessage('zipcode', errors)}
+            error={touched.zipcode && isError('zipcode', errors, touched)}
+            {...getFieldProps('zipcode')}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
             required
-            id="city"
-            name="city"
-            label="City"
+            label='Contact Number'
             fullWidth
-            autoComplete="shipping address-level2"
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="state"
-            name="state"
-            label="State/Province/Region"
-            fullWidth
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="zip"
-            name="zip"
-            label="Zip / Postal code"
-            fullWidth
-            autoComplete="shipping postal-code"
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="country"
-            name="country"
-            label="Country"
-            fullWidth
-            autoComplete="shipping country"
-            variant="standard"
+            variant='standard'
+            helperText={
+              touched.contactNumber && isErrorMessage('contactNumber', errors)
+            }
+            error={
+              touched.contactNumber && isError('contactNumber', errors, touched)
+            }
+            {...getFieldProps('contactNumber')}
           />
         </Grid>
       </Grid>
     </Box>
   );
-}
+};
 
-
-export default AddressForm
+export default AddressForm;

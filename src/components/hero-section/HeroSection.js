@@ -1,17 +1,17 @@
-import { Box, Skeleton } from "@mui/material";
-import React, { useEffect } from "react";
-import { Fade } from "react-slideshow-image";
-import "react-slideshow-image/dist/styles.css";
-import { useFetchImages } from "../../hooks";
+import { Box, Skeleton } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Fade } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css';
+import { useFetchImages } from '../../hooks';
 
 const divStyle = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  backgroundSize: "cover",
-  height: "60vh",
-  width: "100%",
-  backgroundPosition: "center center",
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundSize: 'cover',
+  height: '60vh',
+  width: '100%',
+  backgroundPosition: 'center center',
 };
 
 export const HeroSection = () => {
@@ -22,11 +22,11 @@ export const HeroSection = () => {
   }, []);
 
   return (
-    <Box sx={{ ".indicators": { paddingLeft: "0" } }}>
+    <Box sx={{ '.indicators': { paddingLeft: '0' } }}>
       <Fade indicators={true} arrows={false}>
         {loading ? (
           <Box style={{ ...divStyle }}>
-            <Skeleton variant="rectangular" width="100%" height="60vh" />
+            <Skeleton variant='rectangular' width='100%' height='70vh' />
           </Box>
         ) : (
           heroImages.map((slideImage, index) => (
