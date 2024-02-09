@@ -1,50 +1,32 @@
-import * as React from "react";
-import Typography from "@mui/material/Typography";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-
-const products = [
-  {
-    name: "Product 1",
-    desc: "A nice thing",
-    price: "PKR 9.99",
-  },
-  {
-    name: "Product 2",
-    desc: "Another thing",
-    price: "PKR 3.45",
-  },
-  {
-    name: "Product 3",
-    desc: "Something else",
-    price: "PKR 6.51",
-  },
-  {
-    name: "Product 4",
-    desc: "Best thing of all",
-    price: "PKR 14.11",
-  },
-  { name: "Shipping", desc: "", price: "Free" },
-];
+import * as React from 'react';
+import Typography from '@mui/material/Typography';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import { useCartContext } from '../../context';
 
 const Review = () => {
+  const { items, totalPrice } = useCartContext();
+
   return (
     <React.Fragment>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant='h6' gutterBottom>
         Order summary
       </Typography>
       <List disablePadding>
-        {products.map((product) => (
-          <ListItem key={product.name} sx={{ py: 1, px: 0 }}>
-            <ListItemText primary={product.name} secondary={product.desc} />
-            <Typography variant="body2">{product.price}</Typography>
+        {items.map((item) => (
+          <ListItem key={item.product.id} sx={{ py: 1, px: 0 }}>
+            <ListItemText
+              primary={`${item.product.name} (${item.quantity} items)`}
+              secondary={`color: ${item.product.color} size: ${item.product.size}`}
+            />
+            <Typography variant='body2'>{item.totalPrice}</Typography>
           </ListItem>
         ))}
         <ListItem sx={{ py: 1, px: 0 }}>
-          <ListItemText primary="Total" />
-          <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-            PKR 34.06
+          <ListItemText primary='Total' />
+          <Typography variant='subtitle1' sx={{ fontWeight: 700 }}>
+            PKR {totalPrice}
           </Typography>
         </ListItem>
       </List>

@@ -76,6 +76,20 @@ export const useProductApi = () => {
     }
   };
 
+  const calculateAverageRating = (review) => {
+    let averageRating;
+
+    if (review && review.length > 0) {
+      let totalRatings = 0;
+      for (const rev of review) {
+        totalRatings += rev.review.star;
+      }
+      averageRating = Math.round(totalRatings / review.length);
+    }
+
+    return averageRating;
+  };
+
   return {
     loading,
     getAllProducts,
@@ -86,5 +100,6 @@ export const useProductApi = () => {
     getProductById,
     getCategories,
     categories,
+    calculateAverageRating,
   };
 };

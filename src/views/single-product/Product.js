@@ -1,76 +1,81 @@
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import {
   Box,
   Button,
   Container,
-  Divider,
   Grid,
   IconButton,
   Paper,
   Rating,
+  Skeleton,
+  Stack,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Stack,
   TextField,
   Typography,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { colors } from '../../utils';
 import { useCartContext } from '../../context/cart/CartContainer';
-import { useParams } from 'react-router-dom';
 import { useProductApi } from '../../hooks';
 
-const productImages = [
-  'https://i.pinimg.com/736x/a7/7f/a8/a77fa8b884c6a189fe8e67a0cfe3c031.jpg', // You can replace these with your actual image URLs
-  'https://i.pinimg.com/originals/b6/88/1e/b6881e622c5ed78156c06706a62e2931.jpg',
-  'https://i.pinimg.com/236x/bd/f9/01/bdf9019edf071c9feb0c0e1ef422f829.jpg',
-  'https://i.pinimg.com/236x/bd/f9/01/bdf9019edf071c9feb0c0e1ef422f829.jpg',
-];
-
-{
-  /* <img src={item.image_product.find(img => img.is_main === 1)?.image_url} alt="Product" /> */
-}
-
 export const Product = () => {
-  const [quantity, setQuantity] = useState(1);
+  const { id } = useParams();
   const { addToCart } = useCartContext();
-  const { getProductById } = useProductApi();
-
-  let { id } = useParams();
+  const { loading, getProductById, calculateAverageRating } = useProductApi();
+  const [quantity, setQuantity] = useState(1);
   const [productData, setProductData] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [showMagnifier, setShowMagnifier] = useState(false);
+  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getProductById(id);
-      setProductData(data);
+      if (selectedImage) {
+        return; // No need to fetch data again
+      }
+
+      try {
+        const data = await getProductById(id);
+        setProductData(data);
+        //initialize by main image
+        setSelectedImage(
+          data?.image_product?.find((img) => img.is_main === 1)?.image_url ||
+            null
+        );
+      } catch (error) {
+        console.error('Error fetching product data:', error);
+        setProductData(null);
+      }
     };
     fetchData();
-  }, [id, getProductById]);
+  }, []);
+
+  let averageRating;
+  if (productData?.review) {
+    averageRating = calculateAverageRating(productData?.review);
+  }
 
   const handleIncrement = () => {
     setQuantity(quantity + 1);
   };
 
   const handleDecrement = () => {
-    setQuantity(quantity - 1);
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
   };
-
-  const [selectedImage, setSelectedImage] = useState(productImages[0]);
 
   const handleImageClick = (image) => {
     setSelectedImage(image);
   };
-
-  /////////////// IMAGE MAGNIFIER //////////////////////////////
-
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [showMagnifier, setShowMagnifier] = useState(false);
-  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
 
   const handleMouseHover = (e) => {
     const { left, top, width, height } =
@@ -78,188 +83,159 @@ export const Product = () => {
     const x = ((e.pageX - left) / width) * 100;
     const y = ((e.pageY - top) / height) * 100;
     setPosition({ x, y });
-
     setCursorPosition({ x: e.pageX - left, y: e.pageY - top });
+    setShowMagnifier(true);
   };
 
-  if (!productData) return null;
-
-  const { product, review, image_product } = productData;
-
   const handleAddToCart = () => {
-    addToCart({ ...productData, quantity });
+    if (productData) {
+      addToCart({ ...productData, quantity });
+    }
   };
 
   return (
-    <Container maxwidth='lg' disableGutters>
-      <Grid
-        container
-        spacing={0}
-        sx={{
-          '& .MuiButtonBase-root.MuiIconButton-root': {
-            backgroundColor: colors.lightMediumGray,
-            borderRadius: '0px',
-          },
-          '& .MuiInputBase-root': {
-            borderRadius: '0',
-          },
-        }}
-      >
-        <Grid item xs={12} sm={6} sx={{ padding: '0rem 1rem' }}>
-          <Paper elevation={0}>
-            {/* Main Image */}
-            <Box
-              sx={{
-                height: { xs: '30rem', md: '40rem' },
-                overflow: 'hidden',
-                position: 'relative',
-              }}
-              onMouseEnter={() => setShowMagnifier(true)}
-              onMouseLeave={() => setShowMagnifier(false)}
-              onMouseMove={handleMouseHover}
-            >
-              <img
-                src={selectedImage}
-                alt='Main Product'
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  objectPosition: '50% 50%',
-                  transition: 'transform 0.3s ease-in-out',
+    <Container maxWidth='lg' disableGutters>
+      {loading && (
+        <Grid container maxWidth='xl'>
+          <Grid item xs={12} sm={6}>
+            <Skeleton variant='rectangle' width='100%' height='60vh' />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Stack direction='column' p='1rem'>
+              <Skeleton width={400} height={50} />
+              <Skeleton width={150} />
+              <Skeleton width={150} />
+              <Skeleton width={75} />
+              <Skeleton width={50} />
+            </Stack>
+          </Grid>
+        </Grid>
+      )}
+
+      {productData && (
+        <Grid
+          container
+          spacing={0}
+          sx={{
+            '& .MuiButtonBase-root.MuiIconButton-root': {
+              backgroundColor: colors.lightMediumGray,
+              borderRadius: '0px',
+            },
+            '& .MuiInputBase-root': { borderRadius: '0' },
+          }}
+        >
+          <Grid item xs={12} sm={6} sx={{ p: '1rem' }}>
+            <Paper elevation={0}>
+              {/* Main Image */}
+              <Box
+                sx={{
+                  height: { xs: '30rem', md: '40rem' },
+                  overflow: 'hidden',
+                  position: 'relative',
                 }}
-              />
-
-              {showMagnifier && (
-                <Box
-                  sx={{
-                    position: 'absolute',
-                    left: `${cursorPosition.x - 100}px`,
-                    top: `${cursorPosition.y - 100}px`,
-                    pointerEvents: 'none',
-                    display: { xs: 'none', sm: 'inline' },
-                  }}
-                >
-                  <Box
-                    className='magnifier-image'
-                    sx={{
-                      width: '250px',
-                      height: '250px',
-                      backgroundImage: `url(${selectedImage})`,
-                      backgroundPosition: `${position.x}% ${position.y}%`,
-                    }}
-                  />
-                </Box>
-              )}
-            </Box>
-
-            {/* Thumbnails */}
-            <Grid container spacing={1} style={{ marginTop: '0.2rem' }}>
-              {productImages.map((image, index) => (
-                <Grid item xs={3} key={index}>
+                onMouseMove={handleMouseHover}
+                onMouseEnter={() => setShowMagnifier(true)}
+                onMouseLeave={() => setShowMagnifier(false)}
+              >
+                {selectedImage && (
                   <img
-                    src={image}
-                    alt={`Thumbnail ${index + 1}`}
+                    src={`${process.env.REACT_APP_BACKEND_URL}${selectedImage}`}
+                    alt='Main Product'
                     style={{
                       width: '100%',
-                      height: '10rem',
+                      height: '100%',
                       objectFit: 'cover',
                       objectPosition: '50% 50%',
-                      cursor: 'pointer',
                       transition: 'transform 0.3s ease-in-out',
                     }}
-                    onClick={() => handleImageClick(image)}
-                    onMouseEnter={(e) =>
-                      (e.target.style.transform = 'scale(1.05)')
-                    }
-                    onMouseLeave={(e) =>
-                      (e.target.style.transform = 'scale(1)')
-                    }
                   />
-                </Grid>
-              ))}
-            </Grid>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} sm={6} sx={{ padding: '1rem' }}>
-          <Typography variant='h5'>{product?.name}</Typography>
-          <Divider sx={{ marginBottom: '1rem' }} />
-
-          <Rating
-            name='read-only'
-            defaultValue={2.5}
-            precision={0.5}
-            readOnly
-            size='small'
-            sx={{ color: 'black' }}
-          />
-
-          {product?.is_discount ? (
-            <>
-              <Typography variant='h6'>
-                <span
-                  style={{
-                    textDecoration: 'line-through',
-                  }}
-                >
-                  Rs. {product?.price}
-                </span>{' '}
-                Rs. {product?.after_discount_price}
-              </Typography>
-            </>
-          ) : (
-            <Typography variant='h6'>{product?.price}</Typography>
-          )}
-
-          <Grid container spacing={2} sx={{ marginTop: '1rem' }}>
-            <Grid item xs={12}>
-              <Grid container spacing={2}>
-                <Grid item xs={6} md={4}>
-                  <Stack direction='row'>
-                    <IconButton color='primary' onClick={handleDecrement}>
-                      <RemoveIcon />
-                    </IconButton>
-                    <TextField
-                      type='number'
-                      value={quantity}
-                      disabled
-                      variant='outlined'
-                      size='small'
-                      inputProps={{
-                        style: { textAlign: 'center' },
+                )}
+                {showMagnifier && (
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      left: `${cursorPosition.x - 100}px`,
+                      top: `${cursorPosition.y - 100}px`,
+                      pointerEvents: 'none',
+                      display: { xs: 'none', sm: 'inline' },
+                    }}
+                  >
+                    <Box
+                      className='magnifier-image'
+                      sx={{
+                        width: '250px',
+                        height: '250px',
+                        backgroundImage: `url(${process.env.REACT_APP_BACKEND_URL}${selectedImage})`,
+                        backgroundPosition: `${position.x}% ${position.y}%`,
                       }}
                     />
-                    <IconButton color='primary' onClick={handleIncrement}>
-                      <AddIcon />
-                    </IconButton>
-                  </Stack>
-                </Grid>
+                  </Box>
+                )}
+              </Box>
 
-                <Grid item xs={6} md={8}>
-                  <Button
-                    variant='contained'
-                    color='primary'
-                    fullWidth
-                    onClick={handleAddToCart}
-                  >
-                    Add to Cart
-                  </Button>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={12}>
-              <Button
-                variant='contained'
-                color='primary'
-                fullWidth
-                // onClick={handleBuyNow}
+              {/* Thumbnails */}
+              <Grid
+                container
+                spacing={1}
+                style={{ marginTop: '0.2rem', justifyContent: 'center' }}
               >
-                Buy Now
-              </Button>
-            </Grid>
+                {productData.image_product.map((image, index) => (
+                  <Grid item xs={3} key={index}>
+                    <img
+                      src={`${process.env.REACT_APP_BACKEND_URL}${image.image_url}`}
+                      alt={`Thumbnail ${index + 1}`}
+                      style={{
+                        width: '100%',
+                        height: '10rem',
+                        objectFit: 'cover',
+                        objectPosition: '50% 50%',
+                        cursor: 'pointer',
+                        transition: 'transform 0.3s ease-in-out',
+                      }}
+                      onClick={() => handleImageClick(image.image_url)}
+                      onMouseEnter={(e) =>
+                        (e.target.style.transform = 'scale(1.05)')
+                      }
+                      onMouseLeave={(e) =>
+                        (e.target.style.transform = 'scale(1)')
+                      }
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} sm={6} sx={{ p: '1rem' }}>
+            <Typography variant='h5' marginTop='1rem'>
+              {productData.product.name.toUpperCase()}
+            </Typography>
+            <Stack direction='row' alignItems='center' marginTop='0.5rem'>
+              <Typography variant='body1'>Rating: </Typography>
+              <Rating
+                name='read-only'
+                value={averageRating}
+                readOnly
+                size='small'
+                sx={{ color: 'black' }}
+              />
+            </Stack>
+            {productData.product.is_discount ? (
+              <>
+                <Typography variant='h6' mt='0.5rem'>
+                  <span style={{ textDecoration: 'line-through' }}>
+                    Rs. {productData.product.price}
+                  </span>{' '}
+                  Rs. {productData.product.after_discount_price}
+                </Typography>
+              </>
+            ) : (
+              <Typography variant='h6' mt='0.5rem'>
+                {productData.product.price}
+              </Typography>
+            )}
 
             {/* DETAILS SECTION */}
-            <TableContainer component={Container} sx={{ marginTop: '1rem' }}>
+            <TableContainer sx={{ paddingLeft: 0, my: '1rem' }}>
               <Typography variant='h6'>Details: </Typography>
               <Table>
                 <TableHead>
@@ -268,25 +244,60 @@ export const Product = () => {
                       Color
                     </TableCell>
                     <TableCell style={{ width: '70%' }}>
-                      {product.color}
+                      {productData.product.color}
                     </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   <TableRow>
                     <TableCell sx={{ fontWeight: 'bold' }}>Size</TableCell>
-                    <TableCell>{product.size}</TableCell>
+                    <TableCell>{productData.product.size}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell sx={{ fontWeight: 'bold' }}>Category</TableCell>
-                    <TableCell>{product.category_name}</TableCell>
+                    <TableCell>{productData.product.category_name}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
             </TableContainer>
+
+            <Grid container spacing={2} sx={{ marginTop: '1rem' }}>
+              <Grid item xs={12}>
+                <Grid container spacing={2}>
+                  <Grid item xs={6} md={4}>
+                    <Stack direction='row'>
+                      <IconButton color='primary' onClick={handleDecrement}>
+                        <RemoveIcon />
+                      </IconButton>
+                      <TextField
+                        type='tel'
+                        value={quantity}
+                        variant='outlined'
+                        size='small'
+                        inputProps={{ style: { textAlign: 'center' } }}
+                        disabled
+                      />
+                      <IconButton color='primary' onClick={handleIncrement}>
+                        <AddIcon />
+                      </IconButton>
+                    </Stack>
+                  </Grid>
+                  <Grid item xs={6} md={8}>
+                    <Button
+                      variant='contained'
+                      color='primary'
+                      fullWidth
+                      onClick={handleAddToCart}
+                    >
+                      Add to Cart
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      )}
     </Container>
   );
 };

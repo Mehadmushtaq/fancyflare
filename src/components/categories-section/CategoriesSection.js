@@ -18,7 +18,7 @@ export const CategorySection = () => {
           <>
             {[...Array(3)].map((_, index) => (
               <Grid item xs={6} sm={4} key={index}>
-                <Skeleton variant='rectangle' width='100%' height={300} />
+                <Skeleton variant='rectangle' width='100%' height={350} />
               </Grid>
             ))}
           </>

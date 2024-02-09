@@ -18,32 +18,16 @@ export const Home = () => {
 
   return (
     <Container maxWidth='xl' disableGutters>
-      {/* HERO SECTION */}
       <HeroSection />
-
       <Container maxWidth='lg' sx={{ marginY: '2rem' }}>
-        {/* CATEGORY SECTION */}
-
         <Divider color='light'>
-          <Typography
-            sx={{
-              typography: { xs: 'h5', sm: 'h4' },
-            }}
-          >
+          <Typography sx={{ typography: { xs: 'h5', sm: 'h4' } }}>
             CATEGORIES
           </Typography>
         </Divider>
-
         <CategorySection />
-
-        {/* PRODUCTS SECTION */}
-
         <Divider color='light' sx={{ marginTop: '2rem' }}>
-          <Typography
-            sx={{
-              typography: { xs: 'h5', sm: 'h4' },
-            }}
-          >
+          <Typography sx={{ typography: { xs: 'h5', sm: 'h4' } }}>
             LATEST PRODUCTS
           </Typography>
         </Divider>
@@ -61,7 +45,7 @@ export const Home = () => {
             <>
               {latestProducts?.map((item) => {
                 return (
-                  <Grid item xs={6} sm={3} key={item.product.id}>
+                  <Grid item xs={6} sm={3} key={item?.product?.id}>
                     <ProductCard item={item} />
                   </Grid>
                 );

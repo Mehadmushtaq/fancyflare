@@ -13,30 +13,7 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
-
-/* CUSTOMIZING LINK */
-
- a:-webkit-any-link {   
-  text-decoration: none;
-  position: relative;
-
-  /* &::before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px; 
-    background-color:black; 
-    transition: width 0.5s ease; 
-  }
-
-  &:hover::before {
-    width: 100%; 
-  }   */
-}
- 
+} 
 
 /* Drawer menu styling */
 

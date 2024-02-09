@@ -5,27 +5,34 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea, Rating, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useProductApi } from '../../hooks';
+import { colors } from '../../utils';
 
 export function ProductCard({ item }) {
+  const { calculateAverageRating } = useProductApi();
   const { review, product, image_product } = item;
 
   const imageUrl = React.useMemo(
-    () => `${process.env.REACT_APP_BACKEND_URL}${image_product[0].image_url}`,
+    () =>
+      `${process.env.REACT_APP_BACKEND_URL}${
+        image_product.find((img) => img.is_main == 1)?.image_url
+      }`,
     [item]
   );
 
   let averageRating;
-
-  if (review && review.length > 0) {
-    let totalRatings = 0;
-    for (const rev of review) {
-      totalRatings += rev.review.star;
-    }
-    averageRating = Math.round(totalRatings / review.length);
+  if (review) {
+    averageRating = calculateAverageRating(review);
   }
 
   return (
-    <Link to={`/product/${product.id}`}>
+    <Link
+      to={`/product/${product.id}`}
+      style={{
+        textDecoration: 'none',
+        color: colors.colorBlack,
+      }}
+    >
       <Card
         elevation={0}
         sx={{
@@ -34,7 +41,7 @@ export function ProductCard({ item }) {
         }}
       >
         {/* SALE BADGE */}
-        {item?.salePrice && (
+        {product?.is_discount && (
           <Box
             sx={{
               width: '50px',
@@ -80,8 +87,6 @@ export function ProductCard({ item }) {
               {product.name.toUpperCase().slice(0, 25)}
             </Typography>
             <Rating name='read-only' defaultValue={averageRating} readOnly />
-
-            {/* /* <img src={item.image_product.find(img => img.is_main === 1)?.image_url} alt="Product" /> */}
 
             <Typography variant='body1'>
               {product.is_discount === 1 && (

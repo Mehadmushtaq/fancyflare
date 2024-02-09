@@ -6,3 +6,5 @@ export { useFetchImages } from './use-image-fetch';
 export { useAddressFormSubmit } from './use-address-form-submit';
 export { useAddressFormSchema } from './use-address-form-schema';
 export { useProductApi } from './use-product-api';
+export { usePaymentFormSchema } from './use-payment-form-schema';
+export { usePayment } from './use-payment';

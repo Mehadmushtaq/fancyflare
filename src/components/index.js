@@ -9,3 +9,4 @@ export { RequireAuth } from './require-auth/RequireAuth';
 export { ProductSkeleton } from './product-skeleton/ProductSkeleton';
 export { AccountMenu } from './account-menu/AccountMenu';
 export { CategorySection } from './categories-section/CategoriesSection';
+export { ForgetPassword } from './forget-password/ForgetPassword';

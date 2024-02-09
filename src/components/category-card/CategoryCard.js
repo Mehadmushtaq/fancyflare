@@ -17,7 +17,13 @@ export const CategoryCard = ({ imageUrl, title }) => {
           <Typography variant='h5'>{category_name}</Typography>
           <Button
             variant='contained'
-            sx={{ backgroundColor: 'white', color: 'black' }}
+            sx={{
+              backgroundColor: 'white',
+              color: 'black',
+              '&:hover': {
+                color: 'white',
+              },
+            }}
           >
             Explore
           </Button>

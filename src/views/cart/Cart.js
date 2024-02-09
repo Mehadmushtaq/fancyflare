@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { CartItem } from '../../components';
-import { fontsWeight } from '../../utils';
+import { colors, fontsWeight } from '../../utils';
 
 import { Link } from 'react-router-dom';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
@@ -17,7 +17,7 @@ import LockIcon from '@mui/icons-material/Lock'; // Import LockIcon
 import { useCartContext } from '../../context';
 
 export function Cart() {
-  const { items } = useCartContext();
+  const { items, totalPrice } = useCartContext();
 
   return (
     <Container maxWidth='lg'>
@@ -50,16 +50,16 @@ export function Cart() {
                 },
               }}
             >
-              <Grid items xs={12} sm={6}>
+              <Grid item xs={12} sm={6}>
                 Products
               </Grid>
-              <Grid items xs={2}>
+              <Grid item xs={2}>
                 Price
               </Grid>
-              <Grid items xs={2}>
+              <Grid item xs={2}>
                 Quantity
               </Grid>
-              <Grid items xs={2}>
+              <Grid item xs={2}>
                 Total
               </Grid>
             </Grid>
@@ -68,7 +68,13 @@ export function Cart() {
               return <CartItem key={index} item={item} />;
             })}
           </Box>
-          <Link to='/products'>
+          <Link
+            to='/products'
+            style={{
+              textDecoration: 'none',
+              color: colors.colorBlack,
+            }}
+          >
             <Box
               sx={{
                 margin: { sm: '1rem' },
@@ -106,7 +112,7 @@ export function Cart() {
                 sx={{ mb: '0.5rem' }}
               >
                 <Typography>Sub Total:</Typography>
-                <Typography>PKR 3,983</Typography>
+                <Typography>PKR {totalPrice}</Typography>
               </Stack>
               <Divider light sx={{ marginBottom: '0.5rem' }} />
 
@@ -127,7 +133,7 @@ export function Cart() {
                 sx={{ mb: '1rem' }}
               >
                 <Typography>Total Cost</Typography>
-                <Typography>PKR 4,083</Typography>
+                <Typography>PKR {totalPrice - 100}</Typography>
               </Stack>
               <Divider light sx={{ marginBottom: '1rem' }} />
 
@@ -135,8 +141,8 @@ export function Cart() {
               <Button
                 variant='contained'
                 size='medium'
-                startIcon={<LockIcon />} // Lock Icon at the end
-                sx={{ width: '100%' }}
+                startIcon={<LockIcon />}
+                sx={{ width: '100%', color: 'white' }}
                 component={Link}
                 to='/checkout'
               >

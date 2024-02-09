@@ -10,25 +10,36 @@ import React, { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Link } from 'react-router-dom';
 import { useCartContext } from '../../context';
+import { useToast } from '../../hooks/useToast';
 
 export function CartItem({ item }) {
-  const [quantity, setQuantity] = useState(1);
-  const { removeFromCart } = useCartContext();
-  const { product, review, image_product } = item;
+  const toast = useToast();
+
+  const { removeFromCart, increaseQuantity, decreaseQuantity } =
+    useCartContext();
+  const { product, image_product } = item;
+  const [quantity, setQuantity] = useState(item?.quantity || 1);
 
   const handleIncrement = () => {
-    setQuantity(quantity + 1);
+    if (quantity + 1 > product?.available_stock) {
+      toast.error('Cannot add more than availabel stock');
+      setQuantity(product.available_stock);
+    } else {
+      setQuantity(quantity + 1);
+      increaseQuantity(product?.id);
+    }
   };
 
   const handleDecrement = () => {
-    setQuantity(quantity - 1);
+    if (quantity - 1 < 1) {
+      setQuantity(1);
+    } else {
+      setQuantity(quantity - 1);
+      decreaseQuantity(product?.id);
+    }
   };
-
-  const handleItemRemove = () => {
-    removeFromCart(1);
-  };
+  const handleRemoveItem = () => removeFromCart(product.id);
 
   return (
     <Grid
@@ -51,23 +62,26 @@ export function CartItem({ item }) {
         <Stack direction='row' spacing={2}>
           <Box
             component='img'
-            src='https://i.pinimg.com/originals/b6/88/1e/b6881e622c5ed78156c06706a62e2931.jpg'
+            src={`${process.env.REACT_APP_BACKEND_URL}${
+              image_product.find((img) => img.is_main === 1)?.image_url
+            }`}
             sx={{
-              width: 80,
-              height: 'auto',
-              borderRadius: '0.2rem',
+              width: 100,
+              height: 100,
+              borderRadius: '0.1rem',
             }}
           />
           <Stack direction='column'>
-            <Typography>{product.name}</Typography>
-            <Link to='/'>
-              <Typography onClick={handleItemRemove}>Remove</Typography>
-            </Link>
+            <Typography>{product.name.toUpperCase()}</Typography>
+            <DeleteIcon onClick={handleRemoveItem} />
           </Stack>
         </Stack>
       </Grid>
       <Grid item xs={3} sm={2}>
-        <Typography>PKR {product.price}</Typography>
+        {product?.is_discount && (
+          <Typography>{product.after_discount_price}</Typography>
+        )}
+        {!product?.is_discount && <Typography>{product.price}</Typography>}
       </Grid>
       <Grid item xs={5} sm={2}>
         <Stack direction='row'>
@@ -75,7 +89,7 @@ export function CartItem({ item }) {
             <RemoveIcon />
           </IconButton>
           <TextField
-            type='te'
+            type='tel'
             value={quantity}
             disabled
             variant='outlined'
@@ -93,7 +107,12 @@ export function CartItem({ item }) {
         </Stack>
       </Grid>
       <Grid item xs={3} sm={2}>
-        <Typography>PKR 3,983</Typography>
+        {product?.is_discount && (
+          <Typography>{quantity * product.after_discount_price}</Typography>
+        )}
+        {!product?.is_discount && (
+          <Typography>{quantity * product.price}</Typography>
+        )}
       </Grid>
     </Grid>
   );

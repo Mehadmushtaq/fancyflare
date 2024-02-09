@@ -86,12 +86,26 @@ export const Header = () => {
             {isAuthenticated ? (
               <AccountMenu />
             ) : (
-              <Link to='/login'>
+              <Link
+                to='/login'
+                style={{
+                  textDecoration: 'none',
+                  color: colors.colorBlack,
+                  fontWeight: fontsWeight.fontBold,
+                }}
+              >
                 <MdPersonOutline style={{ height: '2rem', width: '2rem' }} />
               </Link>
             )}
 
-            <Link to='/cart'>
+            <Link
+              to='/cart'
+              style={{
+                textDecoration: 'none',
+                color: colors.colorBlack,
+                fontWeight: fontsWeight.fontBold,
+              }}
+            >
               <Badge badgeContent={count} color='error'>
                 <MdOutlineShoppingCart
                   style={{

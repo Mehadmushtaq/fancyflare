@@ -12,6 +12,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useLoginFormSchema, useLoginSubmit } from '../../hooks';
 import { useFormik } from 'formik';
 import { isError, isErrorMessage } from '../../helpers';
+import { fontsWeight, colors } from '../../utils';
 
 export function SignIn() {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -71,8 +72,8 @@ export function SignIn() {
               margin='normal'
               fullWidth
               label='Email'
-              helperText={isErrorMessage('email', errors)}
-              error={isError('email', errors, touched)}
+              helperText={touched.email && isErrorMessage('email', errors)}
+              error={touched.email && isError('email', errors, touched)}
               {...getFieldProps('email')}
             />
             <TextField
@@ -80,8 +81,10 @@ export function SignIn() {
               fullWidth
               label='Password'
               type={showPassword ? 'text' : 'password'}
-              helperText={isErrorMessage('password', errors)}
-              error={isError('password', errors, touched)}
+              helperText={
+                touched.password && isErrorMessage('password', errors)
+              }
+              error={touched.password && isError('password', errors, touched)}
               {...getFieldProps('password')}
               InputProps={{
                 endAdornment: (
@@ -109,7 +112,15 @@ export function SignIn() {
                 label='Remember me'
               />
 
-              <Typography>Forget Password</Typography>
+              <Link
+                to='/forget-password'
+                style={{
+                  textDecoration: 'none',
+                  color: colors.colorBlack,
+                }}
+              >
+                <Typography>Forget Password</Typography>
+              </Link>
             </Box>
             <Button
               type='submit'
@@ -127,8 +138,15 @@ export function SignIn() {
             </Button>
             <Grid container justifyContent='flex-end'>
               <Grid item>
-                <Link to='/signup' variant='body2'>
-                  Don't have an account? CREATE NEW
+                <Link
+                  to='/signup'
+                  variant='body2'
+                  style={{
+                    textDecoration: 'none',
+                    color: colors.colorBlack,
+                  }}
+                >
+                  Don't have account? CREATE NEW
                 </Link>
               </Grid>
             </Grid>

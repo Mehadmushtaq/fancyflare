@@ -5,17 +5,13 @@ import { transformError } from '../helpers';
 import { useNavigate } from 'react-router-dom';
 
 const initialValues = {
-  firstName: '',
-  lastName: '',
-  addressLine1: '',
-  addressLine2: '',
-  city: '',
-  state: '',
-  zip: '',
-  country: '',
+  name: '',
+  carNumber: '',
+  expDate: '',
+  cvv: '',
 };
 
-export const useAddressFormSubmit = () => {
+export const usePayment = () => {
   const toast = useToast();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
