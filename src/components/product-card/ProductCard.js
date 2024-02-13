@@ -15,7 +15,7 @@ export function ProductCard({ item }) {
   const imageUrl = React.useMemo(
     () =>
       `${process.env.REACT_APP_BACKEND_URL}${
-        image_product.find((img) => img.is_main == 1)?.image_url
+        image_product.find((img) => img.is_main === 1)?.image_url
       }`,
     [item]
   );

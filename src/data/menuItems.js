@@ -1,34 +1,31 @@
-import MegaMenu from "../components/mega-menu/MegaMenu";
+import MegaMenu from '../components/mega-menu/MegaMenu';
 
 export const menuItems = [
   {
-    label: "Women",
-    key: "women",
+    label: 'Summer',
+    key: 'Summer',
   },
   {
-    label: "Men",
-    key: "men",
+    label: 'Winter',
+    key: 'winter',
   },
   {
-    label: "Kids",
-    key: "kids",
+    label: 'Cotton',
+    key: 'cotton',
   },
   {
-    label: "New Arrivals",
-    key: "NewArrivals",
+    label: 'New Arrivals',
+    key: 'NewArrivals',
     children: [
       {
         label: <MegaMenu />,
-        key: "MegaMenu",
+        key: 'MegaMenu',
         style: {
-          height: "fit-content",
-          backgroundColor: "white",
-          padding: "0rem 1rem",
+          height: 'fit-content',
+          backgroundColor: 'white',
+          padding: '0rem 1rem',
         },
       },
     ],
-  },
-  {
-    type: "divider",
   },
 ];

@@ -98,6 +98,7 @@ export function Cart() {
               flexDirection: 'column',
               justifyContent: 'space-between',
               backgroundColor: '#E9EAEF',
+              my: '3rem',
             }}
           >
             <Box>
@@ -122,7 +123,7 @@ export function Cart() {
                 sx={{ mb: '0.5rem' }}
               >
                 <Typography>Discount</Typography>
-                <Typography>-100</Typography>
+                <Typography>0</Typography>
               </Stack>
               <Divider light sx={{ marginBottom: '0.5rem' }} />
 
@@ -133,7 +134,7 @@ export function Cart() {
                 sx={{ mb: '1rem' }}
               >
                 <Typography>Total Cost</Typography>
-                <Typography>PKR {totalPrice - 100}</Typography>
+                <Typography>PKR {totalPrice}</Typography>
               </Stack>
               <Divider light sx={{ marginBottom: '1rem' }} />
 
@@ -145,6 +146,7 @@ export function Cart() {
                 sx={{ width: '100%', color: 'white' }}
                 component={Link}
                 to='/checkout'
+                disabled={items.length === 0}
               >
                 Proceed to Checkout
               </Button>

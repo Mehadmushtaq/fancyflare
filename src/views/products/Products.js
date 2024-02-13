@@ -7,40 +7,81 @@ import {
   FormControl,
   Select,
 } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ProductCard } from '../../components/product-card/ProductCard';
-// import { products } from "../../data/products";
 import { ProductSkeleton } from '../../components';
 import { useProductApi } from '../../hooks';
+import { useLocation } from 'react-router-dom';
 
 export const Products = () => {
+  const location = useLocation();
+  const category = location.state && location.state;
+
   const [filter, setFilter] = React.useState('');
-  const { loading, products, getAllProducts } = useProductApi();
+  const { loading, products, getAllProducts, getProductByCategoryId } =
+    useProductApi();
+  const [sortedProducts, setSortedProducts] = useState(products || []);
 
   const handleChange = (event) => {
     setFilter(event.target.value);
+    sortProducts(event.target.value);
+  };
+  const sortProducts = (criteria) => {
+    if (products && criteria === 'A-Z') {
+      const sorted = [...products].sort((a, b) =>
+        a.product.name.localeCompare(b.product.name)
+      );
+      setSortedProducts(sorted);
+    } else if (products && criteria === 'Z-A') {
+      const sorted = [...products].sort((a, b) =>
+        b.product.name.localeCompare(a.product.name)
+      );
+      setSortedProducts(sorted);
+    } else if (products && criteria === 'TOP RATED') {
+      const sorted = [...products].sort(
+        (a, b) => b.review.length - a.review.length
+      );
+      setSortedProducts(sorted);
+    } else {
+      if (products) setSortedProducts([...products]);
+    }
   };
 
   useEffect(() => {
-    getAllProducts();
+    if (category?.id) {
+      getProductByCategoryId(category?.id);
+    } else getAllProducts();
   }, []);
 
+  useEffect(() => {
+    if (products) {
+      sortProducts(filter);
+    }
+  }, [products]);
+
+  console.log({ products });
+
   return (
-    <Container maxWidth='xl' sx={{ marginY: '1.5rem' }}>
+    <Container maxWidth='lg' sx={{ marginY: '1.5rem' }}>
       <Typography variant='h5' textAlign='center'>
-        Products / Category
+        {category.name && products?.length > 0
+          ? category?.name
+          : 'Products / Category'}
       </Typography>
 
       <Box sx={{ display: 'flex', justifyContent: 'end' }}>
-        <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
+        <FormControl
+          sx={{ m: 1, minWidth: 120 }}
+          size='small'
+          disabled={!products}
+        >
           <Select value={filter} onChange={handleChange} displayEmpty>
             <MenuItem value=''>
               <em>SORT BY</em>
             </MenuItem>
-            <MenuItem value={10}>ALPHABETICALLY (A-Z)</MenuItem>
-            <MenuItem value={20}>ALPHABETICALLY (Z-A)</MenuItem>
-            <MenuItem value={30}>TOP RATED</MenuItem>
-            <MenuItem value={30}>NEWEST ARRIVAL</MenuItem>
+            <MenuItem value='A-Z'>ALPHABETICALLY (A-Z)</MenuItem>
+            <MenuItem value='Z-A'>ALPHABETICALLY (Z-A)</MenuItem>
+            <MenuItem value='TOP RATED'>TOP RATED</MenuItem>
           </Select>
         </FormControl>
       </Box>
@@ -56,13 +97,17 @@ export const Products = () => {
           </>
         ) : (
           <>
-            {products?.map((product) => {
-              return (
-                <Grid item xs={6} sm={3} key={product.id}>
-                  <ProductCard item={product} />
+            {!loading && sortedProducts && sortedProducts.length > 0 ? (
+              sortedProducts.map((item) => (
+                <Grid item xs={6} sm={3} key={item.product.id}>
+                  <ProductCard item={item} />
                 </Grid>
-              );
-            })}
+              ))
+            ) : (
+              <Typography variant='h5' sx={{ textAlign: 'center' }}>
+                No products found
+              </Typography>
+            )}
           </>
         )}
       </Grid>

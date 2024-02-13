@@ -1,5 +1,5 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
+import * as React from 'react';
+import Box from '@mui/material/Box';
 import {
   Typography,
   Grid,
@@ -8,11 +8,12 @@ import {
   AccordionSummary,
   AccordionDetails,
   Stack,
-} from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { colors, fontsWeight } from "../../utils";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import SubscribeForm from "../subscriptioin-form/SubscribeForm";
+} from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { colors, fontsWeight } from '../../utils';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import SubscribeForm from '../subscriptioin-form/SubscribeForm';
+import LOGO from '../../assets/images/footer-logo.png';
 
 function StyledDetails({ label, title }) {
   return (
@@ -25,7 +26,7 @@ function StyledDetails({ label, title }) {
 
 function CustomLink({ title, link }) {
   return (
-    <Stack direction="row">
+    <Stack direction='row'>
       <NavigateNextIcon />
       <Typography>{title}</Typography>
     </Stack>
@@ -34,47 +35,47 @@ function CustomLink({ title, link }) {
 
 const CopyRightStyle = {
   backgroundColor: colors.lightGray,
-  padding: "1rem",
-  display: "flex",
-  justifyContent: "center",
+  padding: '1rem',
+  display: 'flex',
+  justifyContent: 'center',
 };
 
 export const Footer = () => {
   return (
     <Container
       disableGutters
-      maxWidth="xl"
-      sx={{ mt: "auto", borderTop: "1px solid lightgrey" }}
+      maxWidth='xl'
+      sx={{ mt: 'auto', borderTop: '1px solid lightgrey' }}
     >
-      <Container maxWidth="lg">
+      <Container maxWidth='lg'>
         <Grid
           container
           spacing={2}
           sx={{
-            margin: "1rem 0",
-            " & .MuiPaper-root": {
+            margin: '1rem 0',
+            ' & .MuiPaper-root': {
               boxShadow: 0,
             },
-            "& .MuiButtonBase-root.MuiAccordionSummary-root": {
+            '& .MuiButtonBase-root.MuiAccordionSummary-root': {
               padding: 0,
-              marginRight: "1rem",
+              marginRight: '1rem',
             },
-            "& .MuiAccordionSummary-content": {
+            '& .MuiAccordionSummary-content': {
               fontWeight: fontsWeight.fontBold,
             },
           }}
         >
           <Grid item xs={12} sm={4} md={3}>
             <Box>
-              <Typography variant="h4">LOGO</Typography>
-              <StyledDetails label="Call Us: " title="03001034660" />
+              <img src={LOGO} width='50%' />
+              <StyledDetails label='Call Us: ' title='03001034660' />
               <StyledDetails
-                label="Email: "
-                title="ayeshyefancyflare@gmail.com"
+                label='Email: '
+                title='ayeshyefancyflare@gmail.com'
               />
               <StyledDetails
-                label="Address: "
-                title="Sargodha Road, Muslim Town, Faisalabad, Faisalabad 38000"
+                label='Address: '
+                title='Sargodha Road, Muslim Town, Faisalabad, Faisalabad 38000'
               />
             </Box>
           </Grid>
@@ -83,40 +84,40 @@ export const Footer = () => {
             sm={4}
             md={3}
             sx={{
-              display: { xs: "none", sm: "inline" },
-              "& .MuiTypography-root": { mb: "0.5rem" },
+              display: { xs: 'none', sm: 'inline' },
+              '& .MuiTypography-root': { mb: '0.5rem' },
             }}
           >
             <Typography style={{ fontWeight: fontsWeight.fontBold }}>
               INFORMATION
             </Typography>
-            <CustomLink title="link 1" />
-            <CustomLink title="link 2" />
-            <CustomLink title="link 3" />
-            <CustomLink title="link 4" />
-            <CustomLink title="link 5" />
+            <CustomLink title='link 1' />
+            <CustomLink title='link 2' />
+            <CustomLink title='link 3' />
+            <CustomLink title='link 4' />
+            <CustomLink title='link 5' />
           </Grid>
           <Grid
             item
             xs={12}
             sx={{
-              display: { xs: "inline", sm: "none" },
+              display: { xs: 'inline', sm: 'none' },
             }}
           >
             <Accordion>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1-content"
-                id="panel1-header"
+                aria-controls='panel1-content'
+                id='panel1-header'
               >
                 INFORMATION
               </AccordionSummary>
               <AccordionDetails>
-                <CustomLink title="link 1" />
-                <CustomLink title="link 2" />
-                <CustomLink title="link 3" />
-                <CustomLink title="link 4" />
-                <CustomLink title="link 5" />
+                <CustomLink title='link 1' />
+                <CustomLink title='link 2' />
+                <CustomLink title='link 3' />
+                <CustomLink title='link 4' />
+                <CustomLink title='link 5' />
               </AccordionDetails>
             </Accordion>
           </Grid>
@@ -125,40 +126,40 @@ export const Footer = () => {
             sm={4}
             md={3}
             sx={{
-              display: { xs: "none", sm: "inline" },
-              "& .MuiTypography-root": { mb: "0.5rem" },
+              display: { xs: 'none', sm: 'inline' },
+              '& .MuiTypography-root': { mb: '0.5rem' },
             }}
           >
             <Typography sx={{ fontWeight: fontsWeight.fontBold }}>
               CUSTOMER SUPPORT
             </Typography>
-            <CustomLink title="link 1" />
-            <CustomLink title="link 2" />
-            <CustomLink title="link 3" />
-            <CustomLink title="link 4" />
-            <CustomLink title="link 5" />
+            <CustomLink title='link 1' />
+            <CustomLink title='link 2' />
+            <CustomLink title='link 3' />
+            <CustomLink title='link 4' />
+            <CustomLink title='link 5' />
           </Grid>
           <Grid
             item
             xs={12}
             sx={{
-              display: { xs: "inline", sm: "none" },
+              display: { xs: 'inline', sm: 'none' },
             }}
           >
             <Accordion>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1-content"
-                id="panel1-header"
+                aria-controls='panel1-content'
+                id='panel1-header'
               >
                 CUSTOMER SUPPORT
               </AccordionSummary>
               <AccordionDetails>
-                <CustomLink title="link 1" />
-                <CustomLink title="link 2" />
-                <CustomLink title="link 3" />
-                <CustomLink title="link 4" />
-                <CustomLink title="link 5" />
+                <CustomLink title='link 1' />
+                <CustomLink title='link 2' />
+                <CustomLink title='link 3' />
+                <CustomLink title='link 4' />
+                <CustomLink title='link 5' />
               </AccordionDetails>
             </Accordion>
           </Grid>
@@ -168,7 +169,7 @@ export const Footer = () => {
             sm={12}
             md={3}
             sx={{
-              "& .MuiTypography-root": { mb: "0.2rem" },
+              '& .MuiTypography-root': { mb: '0.2rem' },
             }}
           >
             <Typography sx={{ fontWeight: fontsWeight.fontBold }}>
@@ -182,12 +183,12 @@ export const Footer = () => {
       </Container>
       {/* COPYRIGHT SECTION */}
       <Box sx={CopyRightStyle}>
-        <Typography variant="body2" color="text.secondary">
-          {"© "}
+        <Typography variant='body2' color='text.secondary'>
+          {'© '}
           {new Date().getFullYear()}
-          {" Fancy Flare. All Rights Reserved"}
+          {' Ayeshye Fancy Flare. All Rights Reserved'}
         </Typography>
-      </Box>{" "}
+      </Box>{' '}
     </Container>
   );
 };

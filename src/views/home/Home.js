@@ -17,7 +17,7 @@ export const Home = () => {
   }, []);
 
   return (
-    <Container maxWidth='xl' disableGutters>
+    <Container maxWidth='xl' disableGutters >
       <HeroSection />
       <Container maxWidth='lg' sx={{ marginY: '2rem' }}>
         <Divider color='light'>

@@ -11,7 +11,7 @@ const SubscribeForm = () => {
 
   const handleSubscribe = async () => {
     try {
-      await AxiosClient.post('api/subscribers/post', email);
+      await AxiosClient.post('api/subscribers/post', { email });
       toast.success('Subscribed Succesfuly');
     } catch (error) {
       toast.error(error?.message);

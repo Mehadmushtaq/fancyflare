@@ -41,10 +41,12 @@ const AddressForm = ({ setActiveStep, activeStep }) => {
               fullWidth
               variant='standard'
               helperText={
-                touched.firstName && isErrorMessage('firstName', errors)
+                touched.first_name && isErrorMessage('first_name', errors)
               }
-              error={touched.firstName && isError('firstName', errors, touched)}
-              {...getFieldProps('firstName')}
+              error={
+                touched.first_name && isError('first_name', errors, touched)
+              }
+              {...getFieldProps('first_name')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -53,10 +55,10 @@ const AddressForm = ({ setActiveStep, activeStep }) => {
               fullWidth
               variant='standard'
               helperText={
-                touched.lastName && isErrorMessage('lastName', errors)
+                touched.last_name && isErrorMessage('last_name', errors)
               }
-              error={touched.lastName && isError('lastName', errors, touched)}
-              {...getFieldProps('lastName')}
+              error={touched.last_name && isError('last_name', errors, touched)}
+              {...getFieldProps('last_name')}
             />
           </Grid>
           <Grid item xs={12}>
@@ -65,12 +67,14 @@ const AddressForm = ({ setActiveStep, activeStep }) => {
               fullWidth
               variant='standard'
               helperText={
-                touched.addressLine1 && isErrorMessage('addressLine1', errors)
+                touched.address_line_01 &&
+                isErrorMessage('address_line_01', errors)
               }
               error={
-                touched.addressLine1 && isError('addressLine1', errors, touched)
+                touched.address_line_01 &&
+                isError('address_line_01', errors, touched)
               }
-              {...getFieldProps('addressLine1')}
+              {...getFieldProps('address_line_01')}
             />
           </Grid>
           <Grid item xs={12}>
@@ -79,12 +83,14 @@ const AddressForm = ({ setActiveStep, activeStep }) => {
               fullWidth
               variant='standard'
               helperText={
-                touched.addressLine2 && isErrorMessage('addressLine2', errors)
+                touched.address_Line_02 &&
+                isErrorMessage('address_Line_02', errors)
               }
               error={
-                touched.addressLine2 && isError('addressLine2', errors, touched)
+                touched.address_Line_02 &&
+                isError('address_Line_02', errors, touched)
               }
-              {...getFieldProps('addressLine2')}
+              {...getFieldProps('address_Line_02')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -112,9 +118,11 @@ const AddressForm = ({ setActiveStep, activeStep }) => {
               label='Zip / Postal code'
               fullWidth
               variant='standard'
-              helperText={touched.zipcode && isErrorMessage('zipcode', errors)}
-              error={touched.zipcode && isError('zipcode', errors, touched)}
-              {...getFieldProps('zipcode')}
+              helperText={
+                touched.zip_code && isErrorMessage('zip_code', errors)
+              }
+              error={touched.zip_code && isError('zip_code', errors, touched)}
+              {...getFieldProps('zip_code')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -124,13 +132,14 @@ const AddressForm = ({ setActiveStep, activeStep }) => {
               fullWidth
               variant='standard'
               helperText={
-                touched.contactNumber && isErrorMessage('contactNumber', errors)
+                touched.contact_number &&
+                isErrorMessage('contact_number', errors)
               }
               error={
-                touched.contactNumber &&
-                isError('contactNumber', errors, touched)
+                touched.contact_number &&
+                isError('contact_number', errors, touched)
               }
-              {...getFieldProps('contactNumber')}
+              {...getFieldProps('contact_number')}
             />
           </Grid>
         </Grid>

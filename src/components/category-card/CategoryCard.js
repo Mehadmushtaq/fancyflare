@@ -4,12 +4,12 @@ import { Box, Button } from '@mui/material';
 import Styles from './CategoryCard.module.css';
 import { Link } from 'react-router-dom';
 
-export const CategoryCard = ({ imageUrl, title }) => {
-  const image_url = `${process.env.REACT_APP_BACKEND_URL}${imageUrl}`;
-  const category_name = title.toUpperCase();
+export const CategoryCard = ({ category }) => {
+  const image_url = `${process.env.REACT_APP_BACKEND_URL}${category?.image_url}`;
+  const category_name = category?.name?.toUpperCase() || '';
 
   return (
-    <Link to='/products'>
+    <Link to={`/products/${category.name}`} state={category}>
       <Box className={Styles.box}>
         <img alt={category_name} src={image_url} />
 

@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { AxiosClient } from '../services';
 import { useToast } from './useToast';
 import { transformError } from '../helpers';
-import axios from 'axios';
 
 export const useProductApi = () => {
   const toast = useToast();
@@ -14,9 +13,22 @@ export const useProductApi = () => {
   const getAllProducts = async () => {
     try {
       setLoading(true);
-      // const result = await AxiosClient.get("products/all");
-      const result = await axios.get('https://fakestoreapi.com/products');
-      setProducts(result.data);
+      const result = await AxiosClient.get(`api/product/get-all`);
+      setProducts(result?.data?.result);
+    } catch (error) {
+      toast.error(transformError(error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getProductByCategoryId = async (id) => {
+    try {
+      setLoading(true);
+      const result = await AxiosClient.get(
+        `api/product/get-all?page=1&limit=10&category_id=${id}`
+      );
+      setProducts(result?.data?.result);
     } catch (error) {
       toast.error(transformError(error).message);
     } finally {
@@ -101,5 +113,6 @@ export const useProductApi = () => {
     getCategories,
     categories,
     calculateAverageRating,
+    getProductByCategoryId,
   };
 };

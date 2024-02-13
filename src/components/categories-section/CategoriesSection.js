@@ -6,6 +6,7 @@ import { useProductApi } from '../../hooks';
 
 export const CategorySection = () => {
   const { loading, categories, getCategories } = useProductApi();
+  // console.log({ categories });
 
   useEffect(() => {
     getCategories();
@@ -26,10 +27,7 @@ export const CategorySection = () => {
         {categories.map((category) => {
           return (
             <Grid item xs={12} sm={4} key={category.id}>
-              <CategoryCard
-                imageUrl={category.image_url}
-                title={category.name}
-              />
+              <CategoryCard category={category} />
             </Grid>
           );
         })}
