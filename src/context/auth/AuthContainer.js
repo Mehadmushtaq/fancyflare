@@ -1,11 +1,11 @@
-import { useState, useContext, useCallback } from "react";
-import { AuthContext, AuthProvider } from "./AuthContext";
-import { defaultAuthContext } from "./AuthInterface";
+import { useState, useContext, useCallback } from 'react';
+import { AuthContext, AuthProvider } from './AuthContext';
+import { defaultAuthContext } from './AuthInterface';
 
 export const AuthContextContainer = ({ children }) => {
   const [state, setState] = useState(() => {
-    const token = localStorage.getItem("token");
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
     if (token && Object.values(user).length) {
       return {
         ...defaultAuthContext,
@@ -17,8 +17,8 @@ export const AuthContextContainer = ({ children }) => {
   });
 
   const authenticateUser = useCallback((user) => {
-    localStorage.setItem("token", user.token);
-    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem('token', user.token);
+    localStorage.setItem('user', JSON.stringify(user));
     setState((prevState) => ({
       ...prevState,
       isAuthenticated: true,
@@ -26,8 +26,8 @@ export const AuthContextContainer = ({ children }) => {
   }, []);
 
   const logoutUser = useCallback(() => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     setState((prevState) => ({
       ...prevState,
       isAuthenticated: false,
@@ -35,7 +35,7 @@ export const AuthContextContainer = ({ children }) => {
   }, []);
 
   const getUser = useCallback(
-    () => JSON.parse(localStorage.getItem("user") || ""),
+    () => JSON.parse(localStorage.getItem('user')),
     []
   );
 

@@ -11,11 +11,12 @@ import React, { useEffect, useState } from 'react';
 import { ProductCard } from '../../components/product-card/ProductCard';
 import { ProductSkeleton } from '../../components';
 import { useProductApi } from '../../hooks';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 export const Products = () => {
   const location = useLocation();
-  const category = location.state && location.state;
+  const cat = location?.state && location?.state;
+  const { category } = useParams();
 
   const [filter, setFilter] = React.useState('');
   const { loading, products, getAllProducts, getProductByCategoryId } =
@@ -48,27 +49,31 @@ export const Products = () => {
   };
 
   useEffect(() => {
-    if (category?.id) {
-      getProductByCategoryId(category?.id);
-    } else getAllProducts();
-  }, []);
+    if (cat?.id) {
+      getProductByCategoryId(cat?.id);
+    }
+    if (category) {
+      if (category === '5') {
+        getAllProducts();
+      } else getProductByCategoryId(category);
+    } else {
+      getAllProducts();
+    }
+  }, [category]);
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+
     if (products) {
       sortProducts(filter);
     }
   }, [products]);
 
-  console.log({ products });
-
   return (
     <Container maxWidth='lg' sx={{ marginY: '1.5rem' }}>
-      <Typography variant='h5' textAlign='center'>
-        {category.name && products?.length > 0
-          ? category?.name
-          : 'Products / Category'}
-      </Typography>
-
       <Box sx={{ display: 'flex', justifyContent: 'end' }}>
         <FormControl
           sx={{ m: 1, minWidth: 120 }}

@@ -2,14 +2,33 @@ import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import { Box, Button } from '@mui/material';
+import { Box, Button, CircularProgress } from '@mui/material';
 import { useAddressFormSchema, useAddressFormSubmit } from '../../hooks';
 import { useFormik } from 'formik';
 import { isError, isErrorMessage } from '../../helpers';
+import { useAuthContext } from '../../context';
+import { AxiosClient } from '../../services';
 
-const AddressForm = ({ setActiveStep, activeStep }) => {
+const AddressForm = ({ setActiveStep, activeStep, setOrderId }) => {
   const addressFormSchema = useAddressFormSchema();
   const { loading, onSubmit, initialValues } = useAddressFormSubmit();
+  const { getUser } = useAuthContext();
+  const user = getUser();
+  const [userData, setUserData] = React.useState(null);
+
+  const fetchUserData = async () => {
+    try {
+      const userId = user?.id;
+      const response = await AxiosClient.get(`api/checkout/get?id=${userId}`);
+      setUserData(response.data.result);
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchUserData();
+  }, []);
 
   const {
     handleSubmit,
@@ -20,11 +39,10 @@ const AddressForm = ({ setActiveStep, activeStep }) => {
     isSubmitting,
     dirty,
   } = useFormik({
-    initialValues,
+    initialValues: userData || initialValues,
     validationSchema: addressFormSchema,
     onSubmit: (values) => {
-      setActiveStep(activeStep + 1);
-      onSubmit(values);
+      onSubmit(values, setActiveStep, activeStep, setOrderId);
     },
   });
 
@@ -83,14 +101,14 @@ const AddressForm = ({ setActiveStep, activeStep }) => {
               fullWidth
               variant='standard'
               helperText={
-                touched.address_Line_02 &&
-                isErrorMessage('address_Line_02', errors)
+                touched.address_line_02 &&
+                isErrorMessage('address_line_02', errors)
               }
               error={
-                touched.address_Line_02 &&
-                isError('address_Line_02', errors, touched)
+                touched.address_line_02 &&
+                isError('address_line_02', errors, touched)
               }
-              {...getFieldProps('address_Line_02')}
+              {...getFieldProps('address_line_02')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -147,11 +165,14 @@ const AddressForm = ({ setActiveStep, activeStep }) => {
           <Button
             type='submit'
             variant='contained'
-            onClick={onSubmit}
             sx={{ mt: 3, ml: 1 }}
             disabled={!(isValid && dirty) || isSubmitting}
           >
-            Save & Next
+            {loading ? (
+              <CircularProgress size={24} color='inherit' />
+            ) : (
+              'Save & Next'
+            )}
           </Button>
         </Box>
       </Box>

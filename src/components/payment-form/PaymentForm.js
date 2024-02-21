@@ -4,13 +4,14 @@ import TextField from '@mui/material/TextField';
 // import Cards from 'react-credit-cards-2';
 import { usePayment, usePaymentFormSchema } from '../../hooks';
 import { useFormik } from 'formik';
-import { isError, isErrorMessage } from '../../helpers';
+import { isError, isErrorMessage, transformError } from '../../helpers';
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Box,
   Button,
+  CircularProgress,
   FormControlLabel,
   List,
   ListItem,
@@ -19,18 +20,25 @@ import {
   Typography,
 } from '@mui/material';
 import { useCartContext } from '../../context';
+import { AxiosClient } from '../../services';
+import { useToast } from '../../hooks/useToast';
+import { useNavigate } from 'react-router-dom';
 
-const PaymentForm = ({ setActiveStep, activeStep }) => {
+const PaymentForm = ({ setActiveStep, activeStep, orderId }) => {
   const paymentFormSchema = usePaymentFormSchema();
-  const { items, totalPrice } = useCartContext();
-  const { loading, initialValues, onSubmit } = usePayment();
+  const { items, totalPrice, clearCart } = useCartContext();
+  const { initialValues, onSubmit } = usePayment();
+  const [loading, setLoading] = React.useState(false);
+
+  const toast = useToast();
 
   const [expandedAccordion, setExpandedAccordion] = React.useState(null);
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
-    React.useState('creditCard');
+    React.useState('cash_on_delivery');
 
   const handleChange = (event) => {
     setSelectedPaymentMethod(event.target.value);
+    console.log(selectedPaymentMethod);
   };
   const handleAccordionChange = (panel) => (event, isExpanded) => {
     setExpandedAccordion(isExpanded ? panel : null);
@@ -48,10 +56,47 @@ const PaymentForm = ({ setActiveStep, activeStep }) => {
     initialValues,
     validationSchema: paymentFormSchema,
     onSubmit: (values) => {
-      setActiveStep(activeStep + 1);
       onSubmit(values);
     },
   });
+
+  const placeOrder = async () => {
+    let payment_method = 0;
+    if (selectedPaymentMethod === 'credit_card') payment_method = 1;
+    else if (selectedPaymentMethod === 'cash_on_delivery') payment_method = 2;
+
+    let products = [];
+    items.forEach((item) => {
+      let productObj = {
+        product_id: item.product.id,
+        quantity: item.quantity,
+      };
+      products.push(productObj);
+    });
+
+    const obj = {
+      payment_method,
+      order_id: orderId,
+      products,
+    };
+    try {
+      setLoading(true);
+      const result = await AxiosClient.post(
+        'api/checkout/order-detail-post',
+        obj
+      );
+      if (result?.data?.success) {
+        setActiveStep(activeStep + 1);
+        clearCart();
+      } else {
+        toast.error('Failed to submit Order');
+      }
+    } catch (err) {
+      toast.error(transformError(err).message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <React.Fragment>
@@ -81,15 +126,15 @@ const PaymentForm = ({ setActiveStep, activeStep }) => {
 
       <Accordion
         sx={{ my: '2rem' }}
-        expanded={expandedAccordion === 'creditCard'}
-        onChange={handleAccordionChange('creditCard')}
+        expanded={expandedAccordion === 'credit_card'}
+        onChange={handleAccordionChange('credit_card')}
       >
         <AccordionSummary>
           <FormControlLabel
-            value='creditCard'
+            value='credit_card'
             control={
               <Radio
-                checked={selectedPaymentMethod === 'creditCard'}
+                checked={selectedPaymentMethod === 'credit_card'}
                 onChange={handleChange}
               />
             }
@@ -152,15 +197,15 @@ const PaymentForm = ({ setActiveStep, activeStep }) => {
       </Accordion>
 
       <Accordion
-        expanded={expandedAccordion === 'cashOnDelivery'}
-        onChange={handleAccordionChange('cashOnDelivery')}
+        expanded={expandedAccordion === 'cash_on_delivery'}
+        onChange={handleAccordionChange('cash_on_delivery')}
       >
         <AccordionSummary>
           <FormControlLabel
-            value='cashOnDelivery'
+            value='cash_on_delivery'
             control={
               <Radio
-                checked={selectedPaymentMethod === 'cashOnDelivery'}
+                checked={selectedPaymentMethod === 'cash_on_delivery'}
                 onChange={handleChange}
               />
             }
@@ -172,11 +217,15 @@ const PaymentForm = ({ setActiveStep, activeStep }) => {
         <Button
           type='submit'
           variant='contained'
-          onClick={onSubmit}
+          onClick={placeOrder}
           sx={{ mt: 3, ml: 1 }}
           // disabled={!(isValid && dirty) || isSubmitting}
         >
-          Save & Next
+          {loading ? (
+            <CircularProgress size={24} color='inherit' />
+          ) : (
+            ' Place Order'
+          )}
         </Button>
       </Box>
     </React.Fragment>

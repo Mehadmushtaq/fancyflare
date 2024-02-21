@@ -6,3 +6,4 @@ export { SignIn } from './signIn/SignIn';
 export { SignUp } from './singUp/SignUp';
 export { Product } from './single-product/Product';
 export { PageNotFound } from './404-page/PageNotFound';
+export { PrivacyPolicy } from './privacy-policy/PrivacyPolicy';

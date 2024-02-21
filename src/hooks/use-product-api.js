@@ -24,10 +24,12 @@ export const useProductApi = () => {
 
   const getProductByCategoryId = async (id) => {
     try {
+      console.log('id', id);
       setLoading(true);
       const result = await AxiosClient.get(
         `api/product/get-all?page=1&limit=10&category_id=${id}`
       );
+      console.log(result?.data?.result);
       setProducts(result?.data?.result);
     } catch (error) {
       toast.error(transformError(error).message);
@@ -40,7 +42,7 @@ export const useProductApi = () => {
     try {
       setLoading(true);
       const response = await AxiosClient.get(
-        'api/product/get-all?page=1&limit=8'
+        'api/product/get-all?page=1&limit=12'
       );
       setLatestProducts(response?.data?.result);
     } catch (error) {
@@ -77,9 +79,7 @@ export const useProductApi = () => {
   const getCategories = async () => {
     try {
       setLoading(true);
-      const response = await AxiosClient.get(
-        'api/category/get-all?page=1&limit=3'
-      );
+      const response = await AxiosClient.get('api/category/get-all');
       setCategories(response?.data?.result);
     } catch (error) {
       toast.error(transformError(error).message);
@@ -97,6 +97,9 @@ export const useProductApi = () => {
         totalRatings += rev.review.star;
       }
       averageRating = Math.round(totalRatings / review.length);
+    }
+    if (!review || review.length === 0) {
+      averageRating = 5;
     }
 
     return averageRating;

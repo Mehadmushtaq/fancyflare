@@ -16,6 +16,22 @@ export const CartContextContainer = ({ children }) => {
     localStorage.setItem('cart', JSON.stringify(state));
   }, [state]);
 
+  const clearCart = useCallback(() => {
+    setState((prevState) => ({
+      ...prevState,
+      items: [],
+    }));
+  }, []);
+
+  useEffect(() => {
+    const clearCartTimeout = setTimeout(() => {
+      clearCart();
+      toast.info('Cart cleared due to inactivity');
+    }, 30 * 60 * 1000); // 30 minutes in milliseconds
+
+    return () => clearTimeout(clearCartTimeout);
+  }, [clearCart, toast]);
+
   const calculateItemPrice = (item) => {
     if (item.product.is_discount) {
       return item.product.after_discount_price * item.quantity;
@@ -97,13 +113,6 @@ export const CartContextContainer = ({ children }) => {
     setState((prevState) => ({
       ...prevState,
       items: prevState.items.filter((item) => item.product.id !== itemId),
-    }));
-  }, []);
-
-  const clearCart = useCallback(() => {
-    setState((prevState) => ({
-      ...prevState,
-      items: [],
     }));
   }, []);
 

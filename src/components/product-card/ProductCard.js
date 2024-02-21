@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -6,11 +6,16 @@ import Typography from '@mui/material/Typography';
 import { CardActionArea, Rating, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useProductApi } from '../../hooks';
-import { colors } from '../../utils';
 
 export function ProductCard({ item }) {
+  const [origionalPrice, setOrigionalPrice] = useState(0);
+  const [newPrice, setNewPrice] = useState(0);
+  const [percentageOff, setPercentageOff] = useState(0);
+
   const { calculateAverageRating } = useProductApi();
-  const { review, product, image_product } = item;
+  const { review, product, image_product, product_color } = item;
+
+  const averageRating = calculateAverageRating(review);
 
   const imageUrl = React.useMemo(
     () =>
@@ -20,17 +25,30 @@ export function ProductCard({ item }) {
     [item]
   );
 
-  let averageRating;
-  if (review) {
-    averageRating = calculateAverageRating(review);
-  }
+  useState(() => {
+    if (product?.is_discount === 1) {
+      setPercentageOff(product.after_discount_price / 100); //after_discount_price actually percentage off like 10%
+    }
+    console.log(percentageOff);
+
+    if (product_color && product_color[0] !== null) {
+      setOrigionalPrice(product_color[0]?.medium_size_price);
+      setNewPrice(
+        product_color[0]?.medium_size_price -
+          product_color[0]?.medium_size_price * percentageOff
+      );
+    } else {
+      setOrigionalPrice(product?.price);
+      setNewPrice(product?.price - product?.price * percentageOff);
+    }
+  }, []);
 
   return (
     <Link
       to={`/product/${product.id}`}
       style={{
         textDecoration: 'none',
-        color: colors.colorBlack,
+        color: 'black',
       }}
     >
       <Card
@@ -41,7 +59,7 @@ export function ProductCard({ item }) {
         }}
       >
         {/* SALE BADGE */}
-        {product?.is_discount && (
+        {product?.is_discount === 1 && (
           <Box
             sx={{
               width: '50px',
@@ -60,7 +78,6 @@ export function ProductCard({ item }) {
             <Typography>Sale</Typography>
           </Box>
         )}
-
         <CardActionArea>
           <CardMedia
             component='img'
@@ -91,18 +108,18 @@ export function ProductCard({ item }) {
             <Typography variant='body1'>
               {product.is_discount === 1 && (
                 <>
-                  {product.after_discount_price}
+                  {newPrice}
                   <span
                     style={{
                       textDecoration: 'line-through',
                       marginLeft: '0.5rem',
                     }}
                   >
-                    {product.price}
+                    {origionalPrice}
                   </span>
                 </>
               )}
-              {!product.is_discount === 1 && `${product?.price} PKR`}
+              {!product.is_discount === 1 && `${origionalPrice} PKR`}
             </Typography>
           </CardContent>
         </CardActionArea>

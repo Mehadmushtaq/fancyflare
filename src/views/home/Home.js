@@ -13,11 +13,16 @@ export const Home = () => {
   const { loading, latestProducts, getLatestProducts } = useProductApi();
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+
     getLatestProducts();
   }, []);
 
   return (
-    <Container maxWidth='xl' disableGutters >
+    <Container maxWidth='xl' disableGutters>
       <HeroSection />
       <Container maxWidth='lg' sx={{ marginY: '2rem' }}>
         <Divider color='light'>

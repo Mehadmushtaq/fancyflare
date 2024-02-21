@@ -1,21 +1,29 @@
+import { Link } from 'react-router-dom';
 import MegaMenu from '../components/mega-menu/MegaMenu';
 
 export const menuItems = [
   {
+    label: <Link to='/products'>New Arrival</Link>,
+  },
+  {
     label: 'Summer',
-    key: 'Summer',
+    key: '1', //id of category
   },
   {
     label: 'Winter',
-    key: 'winter',
+    key: '2',
   },
   {
-    label: 'Cotton',
-    key: 'cotton',
+    label: 'Stiched',
+    key: '3',
   },
   {
-    label: 'New Arrivals',
-    key: 'NewArrivals',
+    label: 'unStiched',
+    key: '4',
+  },
+  {
+    label: 'Others',
+    key: 'others',
     children: [
       {
         label: <MegaMenu />,

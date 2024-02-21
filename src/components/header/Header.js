@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography, Box, Grid, Badge, Container, Stack } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Menu, Drawer } from 'antd';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import { menuItems } from '../../data/menuItems';
 import { MdPersonOutline, MdOutlineShoppingCart } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuthContext, useCartContext } from '../../context';
 import { AccountMenu } from '../index';
 import logo from '../../assets/images/logo.png';
@@ -15,9 +15,28 @@ export const Header = () => {
   const [open, setOpen] = useState(false);
   const { isAuthenticated } = useAuthContext();
   const { count } = useCartContext();
+  const navigate = useNavigate();
+  const [current, setCurrent] = useState();
+
+  const onClick = (e) => {
+    setCurrent('');
+    console.log(e.key);
+    if (Number.isInteger(e.key)) {
+      navigate(`/products/${e.key}`);
+    } else {
+      navigate('/products');
+    }
+  };
 
   const showDrawer = () => setOpen(true);
   const onClose = () => setOpen(false);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, []);
 
   return (
     <Container disableGutters maxWidth='xl'>
@@ -94,7 +113,9 @@ export const Header = () => {
                   fontWeight: fontsWeight.fontBold,
                 }}
               >
-                <MdPersonOutline style={{ height: '2rem', width: '2rem' }} />
+                <MdPersonOutline
+                  style={{ height: '2rem', width: '2rem', marginTop: '0.3rem' }}
+                />
               </Link>
             )}
 
@@ -127,7 +148,11 @@ export const Header = () => {
           style={{
             display: 'flex',
             justifyContent: 'center',
+            fontSize: '1rem',
+            fontFamily: ['Cinzel', 'Raleway', 'Open sans', 'Montserrat'],
           }}
+          onClick={onClick}
+          selectedKeys={[current]}
           items={menuItems}
         />
       </Grid>
@@ -140,7 +165,12 @@ export const Header = () => {
         onClose={onClose}
         open={open}
       >
-        <Menu mode='inline' items={menuItems} />
+        <Menu
+          mode='inline'
+          items={menuItems}
+          selectedKeys={[current]}
+          onClick={onClick}
+        />
       </Drawer>
     </Container>
   );

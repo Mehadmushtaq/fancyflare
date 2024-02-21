@@ -4,10 +4,14 @@ import {
   Box,
   Button,
   Container,
+  FormControl,
   Grid,
   IconButton,
+  InputLabel,
+  MenuItem,
   Paper,
   Rating,
+  Select,
   Skeleton,
   Stack,
   Table,
@@ -37,11 +41,15 @@ export const Product = () => {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+
     const fetchData = async () => {
       if (selectedImage) {
         return; // No need to fetch data again
       }
-
       try {
         const data = await getProductById(id);
         setProductData(data);
@@ -92,6 +100,45 @@ export const Product = () => {
       addToCart({ ...productData, quantity });
     }
   };
+
+  let percentage_off = 1;
+  if (productData?.is_discount === 1) {
+    percentage_off = productData.after_discount_price / 100; //after_discount_price is actually percentage off like 10%
+  }
+
+  const [origionalPrice, setOrigionalPrice] = useState(
+    productData?.medium_size_price || ''
+  );
+
+  const [newPrice, setNewPrice] = useState(
+    productData?.medium_size_price * percentage_off || ''
+  );
+
+  const [variant, setVariant] = React.useState('medium');
+
+  useEffect(() => {
+    if (variant === 'small') {
+      setOrigionalPrice(productData?.small_size_price);
+      setNewPrice(productData?.small_size_price * percentage_off);
+    } else if (variant === 'medium') {
+      setOrigionalPrice(productData?.medium_size_price);
+      setNewPrice(productData?.medium_size_price * percentage_off);
+    } else if (variant === 'large') {
+      setOrigionalPrice(productData?.large_size_price);
+      setNewPrice(productData?.large_size_price * percentage_off);
+    } else if (variant === 'extra_large') {
+      setOrigionalPrice(productData?.extra_large_size_price);
+      setNewPrice(productData?.extra_large_size_price * percentage_off);
+    }
+  }, [variant]);
+
+  const handleChange = (event) => {
+    setVariant(event.target.value);
+  };
+
+  const calculatePrice = () => {};
+
+  console.log('productData', productData);
 
   return (
     <Container maxWidth='lg' disableGutters>
@@ -219,18 +266,18 @@ export const Product = () => {
                 sx={{ color: 'black' }}
               />
             </Stack>
-            {productData.product.is_discount ? (
+            {productData.product?.is_discount ? (
               <>
                 <Typography variant='h6' mt='0.5rem'>
                   <span style={{ textDecoration: 'line-through' }}>
-                    Rs. {productData.product.price}
+                    Rs. {origionalPrice}
                   </span>{' '}
-                  Rs. {productData.product.after_discount_price}
+                  Rs. {newPrice}
                 </Typography>
               </>
             ) : (
               <Typography variant='h6' mt='0.5rem'>
-                {productData.product.price}
+                {origionalPrice}
               </Typography>
             )}
 
@@ -260,6 +307,22 @@ export const Product = () => {
                 </TableBody>
               </Table>
             </TableContainer>
+
+            <FormControl fullWidth>
+              <InputLabel id='demo-simple-select-label'>variant</InputLabel>
+              <Select
+                labelId='demo-simple-select-label'
+                id='demo-simple-select'
+                value={variant}
+                label='variant'
+                onChange={handleChange}
+              >
+                <MenuItem value='small'>Small</MenuItem>
+                <MenuItem value='medium'>Medium</MenuItem>
+                <MenuItem value='large'>Large</MenuItem>
+                <MenuItem value='extra_large'>Extra Large</MenuItem>
+              </Select>
+            </FormControl>
 
             <Grid container spacing={2} sx={{ marginTop: '1rem' }}>
               <Grid item xs={12}>

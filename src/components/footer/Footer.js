@@ -14,6 +14,8 @@ import { colors, fontsWeight } from '../../utils';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import SubscribeForm from '../subscriptioin-form/SubscribeForm';
 import LOGO from '../../assets/images/footer-logo.png';
+import ContactForm from '../contact-form/ContactForm';
+import { Link } from 'react-router-dom';
 
 function StyledDetails({ label, title }) {
   return (
@@ -24,12 +26,31 @@ function StyledDetails({ label, title }) {
   );
 }
 
-function CustomLink({ title, link }) {
+function CustomLink({ title, linkKey, link }) {
   return (
-    <Stack direction='row'>
-      <NavigateNextIcon />
-      <Typography>{title}</Typography>
-    </Stack>
+    <>
+      {linkKey && (
+        <Link
+          to={`/products/${linkKey}`}
+          style={{
+            textDecoration: 'none',
+            color: colors.colorBlack,
+          }}
+        >
+          <Stack direction='row'>
+            <NavigateNextIcon />
+            <Typography>{title}</Typography>
+          </Stack>
+        </Link>
+      )}
+
+      {!linkKey && (
+        <Stack direction='row'>
+          <NavigateNextIcon />
+          <Typography>{title}</Typography>
+        </Stack>
+      )}
+    </>
   );
 }
 
@@ -89,13 +110,12 @@ export const Footer = () => {
             }}
           >
             <Typography style={{ fontWeight: fontsWeight.fontBold }}>
-              INFORMATION
+              Categories
             </Typography>
-            <CustomLink title='link 1' />
-            <CustomLink title='link 2' />
-            <CustomLink title='link 3' />
-            <CustomLink title='link 4' />
-            <CustomLink title='link 5' />
+            <CustomLink title='Summer' linkKey={1} />
+            <CustomLink title='Winter' linkKey={2} />
+            <CustomLink title='Stiched' linkKey={3} />
+            <CustomLink title='unStiched' linkKey={4} />
           </Grid>
           <Grid
             item
@@ -131,13 +151,11 @@ export const Footer = () => {
             }}
           >
             <Typography sx={{ fontWeight: fontsWeight.fontBold }}>
-              CUSTOMER SUPPORT
+              IMPORTANT LINKS
             </Typography>
-            <CustomLink title='link 1' />
-            <CustomLink title='link 2' />
-            <CustomLink title='link 3' />
-            <CustomLink title='link 4' />
-            <CustomLink title='link 5' />
+            <CustomLink title='Terms & Conditions' />
+            <CustomLink title='Privacy Policy' />
+            <CustomLink title='Return Policy' />
           </Grid>
           <Grid
             item
@@ -178,6 +196,7 @@ export const Footer = () => {
             <Typography>Receive our latest updates</Typography>
 
             <SubscribeForm />
+            <ContactForm />
           </Grid>
         </Grid>
       </Container>

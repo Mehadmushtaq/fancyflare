@@ -14,6 +14,7 @@ const steps = ['Shipping address', 'Review order && Payment'];
 
 export const Checkout = () => {
   const [activeStep, setActiveStep] = React.useState(0);
+  const [orderId, setOrderId] = React.useState();
 
   return (
     <React.Fragment>
@@ -38,7 +39,7 @@ export const Checkout = () => {
                 Thank you for your order.
               </Typography>
               <Typography variant='subtitle1'>
-                Your order number is #2001539. We have emailed your order
+                Your order has been placed. We have emailed your order
                 confirmation, and will send you an update when your order has
                 shipped.
               </Typography>
@@ -49,12 +50,14 @@ export const Checkout = () => {
                 <AddressForm
                   setActiveStep={setActiveStep}
                   activeStep={activeStep}
+                  setOrderId={setOrderId}
                 />
               )}
               {activeStep === 1 && (
                 <PaymentForm
                   setActiveStep={setActiveStep}
                   activeStep={activeStep}
+                  orderId={orderId}
                 />
               )}
             </React.Fragment>

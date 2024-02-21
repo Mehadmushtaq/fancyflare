@@ -12,6 +12,7 @@ const divStyle = {
   height: '60vh',
   width: '100%',
   backgroundPosition: 'center center',
+  backgroundRepeat: 'no-repeat',
 };
 
 export const HeroSection = () => {
