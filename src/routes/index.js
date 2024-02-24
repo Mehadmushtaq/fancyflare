@@ -36,7 +36,6 @@ const Routes = () => {
         {/* Protected routes */}
         <Route element={<RequireAuth />}>
           <Route path='/checkout' element={<Checkout />} />
-          {/* <Route path='/checkout-dummy' element={<CheckoutDummy />} /> */}
         </Route>
 
         {/* catch all */}

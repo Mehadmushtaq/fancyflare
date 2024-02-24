@@ -1,5 +1,3 @@
-// Footer.js
-
 import React, { useState } from 'react';
 import { TextField, Button, InputAdornment } from '@mui/material';
 import { AxiosClient } from '../../services';

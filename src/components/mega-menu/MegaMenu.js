@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { Space, Menu } from 'antd';
+import { Menu } from 'antd';
 import { useProductApi } from '../../hooks';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';

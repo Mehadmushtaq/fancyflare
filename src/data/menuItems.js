@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import MegaMenu from '../components/mega-menu/MegaMenu';
 
 export const menuItems = [
