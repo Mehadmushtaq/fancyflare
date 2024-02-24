@@ -91,7 +91,11 @@ export const Products = () => {
         </FormControl>
       </Box>
 
-      <Grid container spacing={2} sx={{ marginY: '0.5rem' }}>
+      <Grid
+        container
+        spacing={2}
+        sx={{ marginY: '0.5rem', justifyContent: 'center' }}
+      >
         {loading ? (
           <>
             {[...Array(8)].map((_, index) => (
@@ -109,9 +113,7 @@ export const Products = () => {
                 </Grid>
               ))
             ) : (
-              <Typography variant='h5' sx={{ textAlign: 'center' }}>
-                No products found
-              </Typography>
+              <Typography variant='h5'>No product found</Typography>
             )}
           </>
         )}

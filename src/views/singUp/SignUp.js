@@ -40,7 +40,7 @@ export const SignUp = () => {
   });
 
   return (
-    <Grid container maxWidth='xl' margin='auto'>
+    <Grid container maxWidth='xl' margin='1rem auto'>
       <Grid item xs={12} sm={6} md={5} component={Paper} elevation={0} square>
         <Box
           sx={{

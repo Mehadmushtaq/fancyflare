@@ -15,7 +15,7 @@ import { Box } from '@mui/material';
 
 const Routes = () => {
   return (
-    <Box sx={{ minHeight: '70vh' }}>
+    <Box sx={{ minHeight: '60vh' }}>
       <Router>
         {/* public routes */}
         <Route path='' element={<Home />} />

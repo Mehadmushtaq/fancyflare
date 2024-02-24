@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -18,7 +18,6 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow,
   TextField,
   Typography,
@@ -28,48 +27,39 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import { colors } from '../../utils';
 import { useCartContext } from '../../context/cart/CartContainer';
 import { useProductApi } from '../../hooks';
+import { useToast } from '../../hooks/useToast';
 
 export const Product = () => {
-  const { id } = useParams();
   const { addToCart } = useCartContext();
-  const { loading, getProductById, calculateAverageRating } = useProductApi();
+  const { calculateAverageRating } = useProductApi();
+  const toast = useToast();
   const [quantity, setQuantity] = useState(1);
-  const [productData, setProductData] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [showMagnifier, setShowMagnifier] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
 
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
+  const location = useLocation();
+  const productData = location?.state;
+  const averageRating = calculateAverageRating(productData?.reviews);
 
-    const fetchData = async () => {
-      if (selectedImage) {
-        return; // No need to fetch data again
-      }
-      try {
-        const data = await getProductById(id);
-        setProductData(data);
-        //initialize by main image
-        setSelectedImage(
-          data?.image_product?.find((img) => img.is_main === 1)?.image_url ||
-            null
-        );
-      } catch (error) {
-        console.error('Error fetching product data:', error);
-        setProductData(null);
-      }
-    };
-    fetchData();
-  }, []);
-
-  let averageRating;
-  if (productData?.review) {
-    averageRating = calculateAverageRating(productData?.review);
+  let percentage_off = 0;
+  if (productData?.product?.is_discount === 1) {
+    percentage_off = productData.product.after_discount_price / 100; //after_discount_price is actually percentage off like 10%
   }
+
+  const [variant, setVariant] = useState('medium');
+  const [color, setColor] = useState(
+    productData?.product_color[0]?.color || ''
+  );
+
+  const handleChange = (event) => {
+    setVariant(event.target.value);
+  };
+  const handleColorChange = (event) => {
+    setColor(event.target.value);
+    // setVariant('medium'); // Reset variant to medium when color changes
+  };
 
   const handleIncrement = () => {
     setQuantity(quantity + 1);
@@ -95,70 +85,79 @@ export const Product = () => {
     setShowMagnifier(true);
   };
 
-  const handleAddToCart = () => {
-    if (productData) {
-      addToCart({ ...productData, quantity });
+  const getPrice = () => {
+    const selectedColor = productData.product_color.find(
+      (c) => c.color === color
+    );
+    if (!selectedColor) return 0;
+
+    let origionalPrice;
+    let discountPrice;
+    switch (variant) {
+      case 'small':
+        origionalPrice = selectedColor.small_size_price || 0;
+        break;
+      case 'medium':
+        origionalPrice = selectedColor.medium_size_price || 0;
+        break;
+      case 'large':
+        origionalPrice = selectedColor.large_size_price || 0;
+        break;
+      case 'extra_large':
+        origionalPrice = selectedColor.extra_large_size_price || 0;
+        break;
+      default:
+        origionalPrice = selectedColor.medium_size_price || 0;
     }
+
+    if (productData.product.is_discount === 1) {
+      discountPrice = origionalPrice - origionalPrice * percentage_off;
+    }
+
+    return { origionalPrice, discountPrice };
   };
 
-  let percentage_off = 1;
-  if (productData?.is_discount === 1) {
-    percentage_off = productData.after_discount_price / 100; //after_discount_price is actually percentage off like 10%
-  }
+  const handleAddToCart = () => {
+    const selectedColor = productData.product_color.find(
+      (c) => c.color === color
+    );
+    if (!selectedColor) return;
 
-  const [origionalPrice, setOrigionalPrice] = useState(
-    productData?.medium_size_price || ''
-  );
+    let availableStock;
+    switch (variant) {
+      case 'small':
+        availableStock = selectedColor.small_size_quantity || 0;
+        break;
+      case 'medium':
+        availableStock = selectedColor.medium_size_quantity || 0;
+        break;
+      case 'large':
+        availableStock = selectedColor.large_size_quantity || 0;
+        break;
+      case 'extra_large':
+        availableStock = selectedColor.extra_large_size_quantity || 0;
+        break;
+      default:
+        availableStock = selectedColor.medium_size_quantity || 0;
+    }
 
-  const [newPrice, setNewPrice] = useState(
-    productData?.medium_size_price * percentage_off || ''
-  );
-
-  const [variant, setVariant] = React.useState('medium');
+    // Check if stock is available
+    if (availableStock > 0 && availableStock >= quantity) {
+      addToCart({ ...productData, quantity, variant, color });
+    } else {
+      toast.error('Cannot add more than available stock');
+    }
+  };
 
   useEffect(() => {
-    if (variant === 'small') {
-      setOrigionalPrice(productData?.small_size_price);
-      setNewPrice(productData?.small_size_price * percentage_off);
-    } else if (variant === 'medium') {
-      setOrigionalPrice(productData?.medium_size_price);
-      setNewPrice(productData?.medium_size_price * percentage_off);
-    } else if (variant === 'large') {
-      setOrigionalPrice(productData?.large_size_price);
-      setNewPrice(productData?.large_size_price * percentage_off);
-    } else if (variant === 'extra_large') {
-      setOrigionalPrice(productData?.extra_large_size_price);
-      setNewPrice(productData?.extra_large_size_price * percentage_off);
-    }
-  }, [variant]);
-
-  const handleChange = (event) => {
-    setVariant(event.target.value);
-  };
-
-  const calculatePrice = () => {};
-
-  console.log('productData', productData);
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, []);
 
   return (
     <Container maxWidth='lg' disableGutters>
-      {loading && (
-        <Grid container maxWidth='xl'>
-          <Grid item xs={12} sm={6}>
-            <Skeleton variant='rectangle' width='100%' height='60vh' />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Stack direction='column' p='1rem'>
-              <Skeleton width={400} height={50} />
-              <Skeleton width={150} />
-              <Skeleton width={150} />
-              <Skeleton width={75} />
-              <Skeleton width={50} />
-            </Stack>
-          </Grid>
-        </Grid>
-      )}
-
       {productData && (
         <Grid
           container
@@ -266,18 +265,18 @@ export const Product = () => {
                 sx={{ color: 'black' }}
               />
             </Stack>
-            {productData.product?.is_discount ? (
+            {productData.product?.is_discount === 1 ? (
               <>
                 <Typography variant='h6' mt='0.5rem'>
                   <span style={{ textDecoration: 'line-through' }}>
-                    Rs. {origionalPrice}
+                    Rs. {getPrice().origionalPrice}
                   </span>{' '}
-                  Rs. {newPrice}
+                  Rs. {getPrice().discountPrice}
                 </Typography>
               </>
             ) : (
               <Typography variant='h6' mt='0.5rem'>
-                {origionalPrice}
+                {getPrice().origionalPrice}
               </Typography>
             )}
 
@@ -285,16 +284,6 @@ export const Product = () => {
             <TableContainer sx={{ paddingLeft: 0, my: '1rem' }}>
               <Typography variant='h6'>Details: </Typography>
               <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell sx={{ width: '30%', fontWeight: 'bold' }}>
-                      Color
-                    </TableCell>
-                    <TableCell style={{ width: '70%' }}>
-                      {productData.product.color}
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
                 <TableBody>
                   <TableRow>
                     <TableCell sx={{ fontWeight: 'bold' }}>Size</TableCell>
@@ -308,11 +297,28 @@ export const Product = () => {
               </Table>
             </TableContainer>
 
-            <FormControl fullWidth>
-              <InputLabel id='demo-simple-select-label'>variant</InputLabel>
+            <FormControl style={{ minWidth: 250 }}>
+              <InputLabel id='color-select-label'>Color</InputLabel>
               <Select
-                labelId='demo-simple-select-label'
-                id='demo-simple-select'
+                labelId='color-select-label'
+                id='color-select'
+                value={color}
+                label='Color'
+                onChange={handleColorChange}
+              >
+                {productData?.product_color.map((color, index) => (
+                  <MenuItem key={index} value={color.color}>
+                    {color.color}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <FormControl style={{ minWidth: 250 }}>
+              <InputLabel id='variant-select-label'>variant</InputLabel>
+              <Select
+                labelId='variant-select-label'
+                id='variant-select'
                 value={variant}
                 label='variant'
                 onChange={handleChange}

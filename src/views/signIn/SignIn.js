@@ -37,7 +37,7 @@ export function SignIn() {
   });
 
   return (
-    <Grid container maxWidth='xl' margin='auto'>
+    <Grid container maxWidth='xl' margin='1rem auto'>
       <Grid item xs={false} sm={6} md={7} padding='0.5rem'>
         <Box
           sx={{
@@ -119,7 +119,7 @@ export function SignIn() {
                   color: colors.colorBlack,
                 }}
               >
-                <Typography>Forget Password</Typography>
+                <Typography>Forget Password ?</Typography>
               </Link>
             </Box>
             <Button

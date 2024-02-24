@@ -9,6 +9,7 @@
     color:white;
 	border-radius: 1rem;
 	margin-right: 1rem;
+	margin-bottom: 0.5rem;
 }
 .box img{
 	object-fit: cover;

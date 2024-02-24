@@ -70,6 +70,8 @@ const PaymentForm = ({ setActiveStep, activeStep, orderId }) => {
       let productObj = {
         product_id: item.product.id,
         quantity: item.quantity,
+        variant: item.variant,
+        price: item.totalPrice,
       };
       products.push(productObj);
     });
@@ -108,7 +110,7 @@ const PaymentForm = ({ setActiveStep, activeStep, orderId }) => {
           <ListItem key={item.product.id} sx={{ py: 1, px: 0 }}>
             <ListItemText
               primary={`${item.product.name} (${item.quantity} items)`}
-              secondary={`color: ${item.product.color} size: ${item.product.size}`}
+              secondary={`color: ${item.color} size: ${item.product.size} variant: ${item.variant}`}
             />
             <Typography variant='body2'>{item.totalPrice}</Typography>
           </ListItem>

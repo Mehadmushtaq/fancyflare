@@ -4,6 +4,7 @@ import MegaMenu from '../components/mega-menu/MegaMenu';
 export const menuItems = [
   {
     label: <Link to='/products'>New Arrival</Link>,
+    key: 'New Arrival',
   },
   {
     label: 'Summer',

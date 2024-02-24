@@ -24,12 +24,10 @@ export const useProductApi = () => {
 
   const getProductByCategoryId = async (id) => {
     try {
-      console.log('id', id);
       setLoading(true);
       const result = await AxiosClient.get(
         `api/product/get-all?page=1&limit=10&category_id=${id}`
       );
-      console.log(result?.data?.result);
       setProducts(result?.data?.result);
     } catch (error) {
       toast.error(transformError(error).message);

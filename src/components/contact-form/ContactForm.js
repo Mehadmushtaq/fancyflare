@@ -35,15 +35,15 @@ const ContactForm = () => {
                 variant='contained'
                 disableElevation
                 onClick={handleSubscribe}
-                sx={{ borderRadius: '5rem' }}
+                sx={{ borderRadius: '5rem', width: '100%' }}
               >
-                Join Us
+                Join us
               </Button>
             </InputAdornment>
           ),
           sx: {
             borderRadius: '5rem',
-            width: { xs: '90%', sm: '100%' },
+            width: { xs: '98%', sm: '108%', md: '100%' },
           },
         }}
       />

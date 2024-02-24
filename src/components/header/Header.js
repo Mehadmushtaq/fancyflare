@@ -19,13 +19,15 @@ export const Header = () => {
   const [current, setCurrent] = useState();
 
   const onClick = (e) => {
-    setCurrent('');
-    console.log(e.key);
-    if (Number.isInteger(e.key)) {
-      navigate(`/products/${e.key}`);
-    } else {
+    if (e.key === 'MegaMenu') return;
+    if (e.key === 'New Arrival') {
       navigate('/products');
+    } else {
+      navigate(`/products/${e.key}`);
     }
+
+    setCurrent('');
+    setOpen(false);
   };
 
   const showDrawer = () => setOpen(true);
@@ -69,7 +71,9 @@ export const Header = () => {
                 fontWeight: fontsWeight.fontBold,
               }}
             >
-              <Typography variant='body2'>03001034660</Typography>
+              <Typography variant='body2'>
+                {`+${process.env.REACT_APP_WHATSAPP_CONTACT}`}
+              </Typography>
             </Link>
           </Stack>
 
@@ -90,7 +94,7 @@ export const Header = () => {
           }}
         >
           <Link to='/'>
-            <img src={logo} alt='LOGO' width='auto' height='80vh' />
+            <img src={logo} alt='LOGO' width='auto' height='100vh' />
           </Link>
         </Grid>
         <Grid

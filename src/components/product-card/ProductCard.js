@@ -8,14 +8,28 @@ import { Link } from 'react-router-dom';
 import { useProductApi } from '../../hooks';
 
 export function ProductCard({ item }) {
-  const [origionalPrice, setOrigionalPrice] = useState(0);
-  const [newPrice, setNewPrice] = useState(0);
-  const [percentageOff, setPercentageOff] = useState(0);
-
   const { calculateAverageRating } = useProductApi();
   const { review, product, image_product, product_color } = item;
 
   const averageRating = calculateAverageRating(review);
+
+  let percentageOff = 0;
+  if (product.is_discount === 1) {
+    percentageOff = product.after_discount_price / 100; //after_discount_price actually percentage off like 10%
+  }
+
+  let origionalPrice = 0;
+  let newPrice = 0;
+
+  if (product_color && product_color[0] !== null) {
+    origionalPrice = product_color[0]?.medium_size_price;
+    newPrice =
+      product_color[0]?.medium_size_price -
+      product_color[0]?.medium_size_price * percentageOff;
+  } else {
+    origionalPrice = product.price;
+    newPrice = product.price - product.price * percentageOff;
+  }
 
   const imageUrl = React.useMemo(
     () =>
@@ -25,27 +39,10 @@ export function ProductCard({ item }) {
     [item]
   );
 
-  useState(() => {
-    if (product?.is_discount === 1) {
-      setPercentageOff(product.after_discount_price / 100); //after_discount_price actually percentage off like 10%
-    }
-    console.log(percentageOff);
-
-    if (product_color && product_color[0] !== null) {
-      setOrigionalPrice(product_color[0]?.medium_size_price);
-      setNewPrice(
-        product_color[0]?.medium_size_price -
-          product_color[0]?.medium_size_price * percentageOff
-      );
-    } else {
-      setOrigionalPrice(product?.price);
-      setNewPrice(product?.price - product?.price * percentageOff);
-    }
-  }, []);
-
   return (
     <Link
       to={`/product/${product.id}`}
+      state={item}
       style={{
         textDecoration: 'none',
         color: 'black',
@@ -94,6 +91,7 @@ export function ProductCard({ item }) {
               flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center',
+              textAlign: 'center',
             }}
           >
             <Typography
@@ -101,7 +99,9 @@ export function ProductCard({ item }) {
                 typography: { xs: 'subtitle2', md: 'body1' },
               }}
             >
-              {product.name.toUpperCase().slice(0, 25)}
+              {product?.name?.length > 20
+                ? product.name.toUpperCase().substring(0, 20) + '...'
+                : product.name.toUpperCase()}
             </Typography>
             <Rating name='read-only' defaultValue={averageRating} readOnly />
 

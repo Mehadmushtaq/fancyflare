@@ -18,16 +18,38 @@ export function CartItem({ item }) {
 
   const { removeFromCart, increaseQuantity, decreaseQuantity } =
     useCartContext();
-  const { product, image_product } = item;
+  const { product, image_product, color, variant, totalPrice, product_color } =
+    item;
   const [quantity, setQuantity] = useState(item?.quantity || 1);
 
   const handleIncrement = () => {
-    if (quantity + 1 > product?.available_stock) {
-      toast.error('Cannot add more than availabel stock');
-      setQuantity(product.available_stock);
+    const selectedColor = product_color.find((c) => c.color === color);
+    if (!selectedColor) return;
+
+    let availableStock;
+    switch (variant) {
+      case 'small':
+        availableStock = selectedColor.small_size_quantity || 0;
+        break;
+      case 'medium':
+        availableStock = selectedColor.medium_size_quantity || 0;
+        break;
+      case 'large':
+        availableStock = selectedColor.large_size_quantity || 0;
+        break;
+      case 'extra_large':
+        availableStock = selectedColor.extra_large_size_quantity || 0;
+        break;
+      default:
+        availableStock = selectedColor.medium_size_quantity || 0;
+    }
+
+    if (quantity + 1 > availableStock) {
+      toast.error('Cannot add more than available stock');
+      setQuantity(availableStock);
     } else {
       setQuantity(quantity + 1);
-      increaseQuantity(product?.id);
+      increaseQuantity(product.id);
     }
   };
 
@@ -73,15 +95,14 @@ export function CartItem({ item }) {
           />
           <Stack direction='column'>
             <Typography>{product.name.toUpperCase()}</Typography>
+            <Typography>color:{color} </Typography>
+            <Typography>variant:{variant}</Typography>
             <DeleteIcon onClick={handleRemoveItem} />
           </Stack>
         </Stack>
       </Grid>
       <Grid item xs={3} sm={2}>
-        {product?.is_discount && (
-          <Typography>{product.after_discount_price}</Typography>
-        )}
-        {!product?.is_discount && <Typography>{product.price}</Typography>}
+        <Typography>{totalPrice}</Typography>
       </Grid>
       <Grid item xs={5} sm={2}>
         <Stack direction='row'>
@@ -107,12 +128,7 @@ export function CartItem({ item }) {
         </Stack>
       </Grid>
       <Grid item xs={3} sm={2}>
-        {product?.is_discount && (
-          <Typography>{quantity * product.after_discount_price}</Typography>
-        )}
-        {!product?.is_discount && (
-          <Typography>{quantity * product.price}</Typography>
-        )}
+        <Typography>{quantity * totalPrice}</Typography>
       </Grid>
     </Grid>
   );

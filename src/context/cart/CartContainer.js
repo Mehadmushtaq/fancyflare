@@ -26,18 +26,47 @@ export const CartContextContainer = ({ children }) => {
   useEffect(() => {
     const clearCartTimeout = setTimeout(() => {
       clearCart();
-      toast.info('Cart cleared due to inactivity');
+      toast.error('Cart cleared due to inactivity');
     }, 30 * 60 * 1000); // 30 minutes in milliseconds
 
     return () => clearTimeout(clearCartTimeout);
   }, [clearCart, toast]);
 
   const calculateItemPrice = (item) => {
-    if (item.product.is_discount) {
-      return item.product.after_discount_price * item.quantity;
-    } else {
-      return item.product.price * item.quantity;
+    const { color, variant, quantity } = item;
+
+    let percentageOff = 0;
+    if (item.product.is_discount === 1) {
+      percentageOff = item.product.after_discount_price / 100; //after_discount_price actually percentage off like 10%
     }
+
+    const selectedColor = item.product_color.find((c) => c.color === color);
+    if (!selectedColor) return 0;
+
+    // Determine the price based on the selected variant
+    let price;
+    switch (variant) {
+      case 'small':
+        price = selectedColor.small_size_price || 0;
+        break;
+      case 'medium':
+        price = selectedColor.medium_size_price || 0;
+        break;
+      case 'large':
+        price = selectedColor.large_size_price || 0;
+        break;
+      case 'extra_large':
+        price = selectedColor.extra_large_size_price || 0;
+        break;
+      default:
+        price = selectedColor.medium_size_price || 0;
+    }
+
+    const discountedPrice =
+      item.product.is_discount === 1 ? price - price * percentageOff : price;
+
+    // Calculate the total price for the item
+    return discountedPrice * quantity;
   };
 
   const calculateTotalPrice = () => {

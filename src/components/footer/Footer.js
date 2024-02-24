@@ -86,9 +86,9 @@ export const Footer = () => {
             },
           }}
         >
-          <Grid item xs={12} sm={4} md={3}>
+          <Grid item xs={12} sm={4} md={4}>
             <Box>
-              <img src={LOGO} width='50%' />
+              <img src={LOGO} width='40%' />
               <StyledDetails label='Call Us: ' title='03001034660' />
               <StyledDetails
                 label='Email: '
@@ -103,14 +103,14 @@ export const Footer = () => {
           <Grid
             item
             sm={4}
-            md={3}
+            md={2}
             sx={{
               display: { xs: 'none', sm: 'inline' },
               '& .MuiTypography-root': { mb: '0.5rem' },
             }}
           >
             <Typography style={{ fontWeight: fontsWeight.fontBold }}>
-              Categories
+              CATEGORIES
             </Typography>
             <CustomLink title='Summer' linkKey={1} />
             <CustomLink title='Winter' linkKey={2} />
@@ -130,14 +130,13 @@ export const Footer = () => {
                 aria-controls='panel1-content'
                 id='panel1-header'
               >
-                INFORMATION
+                CATEGORIES
               </AccordionSummary>
               <AccordionDetails>
-                <CustomLink title='link 1' />
-                <CustomLink title='link 2' />
-                <CustomLink title='link 3' />
-                <CustomLink title='link 4' />
-                <CustomLink title='link 5' />
+                <CustomLink title='Summer' linkKey={1} />
+                <CustomLink title='Winter' linkKey={2} />
+                <CustomLink title='Stiched' linkKey={3} />
+                <CustomLink title='unStiched' linkKey={4} />
               </AccordionDetails>
             </Accordion>
           </Grid>
@@ -170,14 +169,12 @@ export const Footer = () => {
                 aria-controls='panel1-content'
                 id='panel1-header'
               >
-                CUSTOMER SUPPORT
+                IMPORTANT LINKS
               </AccordionSummary>
               <AccordionDetails>
-                <CustomLink title='link 1' />
-                <CustomLink title='link 2' />
-                <CustomLink title='link 3' />
-                <CustomLink title='link 4' />
-                <CustomLink title='link 5' />
+                <CustomLink title='Terms & Conditions' />
+                <CustomLink title='Privacy Policy' />
+                <CustomLink title='Return Policy' />
               </AccordionDetails>
             </Accordion>
           </Grid>

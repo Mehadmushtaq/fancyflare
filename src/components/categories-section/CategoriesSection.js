@@ -6,7 +6,6 @@ import Carousel from 'react-multi-carousel';
 
 export const CategorySection = () => {
   const { loading, categories, getCategories } = useProductApi();
-  // console.log({ categories });
 
   const responsive = {
     superLargeDesktop: {
@@ -33,11 +32,19 @@ export const CategorySection = () => {
 
   return (
     <Container maxWidth='xl' disableGutters>
-      <Carousel responsive={responsive} partialVisible={false}>
+      <Box display={{ xs: 'none', sm: 'block' }}>
+        <Carousel responsive={responsive} partialVisible={false}>
+          {categories?.map((category) => {
+            return <CategoryCard key={category.id} category={category} />;
+          })}
+        </Carousel>
+      </Box>
+
+      <Box display={{ xs: 'block', sm: 'none' }}>
         {categories?.map((category) => {
           return <CategoryCard key={category.id} category={category} />;
         })}
-      </Carousel>
+      </Box>
 
       <Grid container spacing={2} sx={{ marginTop: '0' }}>
         {loading && (
