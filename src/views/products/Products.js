@@ -59,7 +59,7 @@ export const Products = () => {
     } else {
       getAllProducts();
     }
-  }, [category]);
+  }, [category, cat?.id]);
 
   useEffect(() => {
     window.scrollTo({

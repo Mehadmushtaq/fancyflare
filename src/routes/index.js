@@ -9,6 +9,8 @@ import {
   Cart,
   PageNotFound,
   PrivacyPolicy,
+  TermsAndConditions,
+  ReturnsRefundsPolicy,
 } from '../views';
 import { Checkout, RequireAuth, ForgetPassword } from '../components'; //update this
 import { Box } from '@mui/material';
@@ -28,6 +30,8 @@ const Routes = () => {
         <Route path='forget-password' element={<ForgetPassword />} />
 
         <Route path='privacy-policy' element={<PrivacyPolicy />} />
+        <Route path='terms-and-conditions' element={<TermsAndConditions />} />
+        <Route path='return-refund-policy' element={<ReturnsRefundsPolicy />} />
 
         {/* Protected routes */}
         <Route element={<RequireAuth />}>

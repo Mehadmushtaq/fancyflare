@@ -9,11 +9,11 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { CartItem } from '../../components';
-import { colors, fontsWeight } from '../../utils';
+import { colors } from '../../utils';
 
 import { Link } from 'react-router-dom';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-import LockIcon from '@mui/icons-material/Lock'; // Import LockIcon
+import LockIcon from '@mui/icons-material/Lock';
 import { useCartContext } from '../../context';
 
 export function Cart() {
@@ -21,11 +21,11 @@ export function Cart() {
 
   return (
     <Container maxWidth='lg'>
-      <Grid container>
-        <Grid item xs={12} sm={9}>
+      <Grid container sx={{ marginBottom: '5rem' }}>
+        <Grid item xs={12} md={9}>
           <Box
             sx={{
-              margin: { sm: '1rem' },
+              margin: '2rem 1rem',
               display: 'flex',
               justifyContent: 'space-between',
             }}
@@ -35,8 +35,9 @@ export function Cart() {
           <Divider variant='middle' />
           <Box
             sx={{
-              margin: { sm: '1rem' },
-              borderRadius: '0.3rem',
+              margin: '1rem',
+              maxHeight: '50vh',
+              overflowY: 'auto',
             }}
           >
             <Grid
@@ -87,18 +88,15 @@ export function Cart() {
             </Box>
           </Link>
         </Grid>
-        <Grid item xs={12} sm={3} sx={{ display: 'block', margin: 'auto' }}>
+        <Grid item xs={12} md={3} sx={{ display: 'block' }}>
           <Box
             sx={{
-              // marginTop: "5vh",
-              // margin: "auto 0",
+              marginTop: '5vh',
               padding: '1rem 1.3rem',
-              // height: "100%",
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'space-between',
+              justifyContent: 'start',
               backgroundColor: '#E9EAEF',
-              my: '3rem',
             }}
           >
             <Box>

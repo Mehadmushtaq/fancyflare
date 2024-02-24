@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -12,7 +12,6 @@ import {
   Paper,
   Rating,
   Select,
-  Skeleton,
   Stack,
   Table,
   TableBody,
@@ -297,7 +296,7 @@ export const Product = () => {
               </Table>
             </TableContainer>
 
-            <FormControl style={{ minWidth: 250 }}>
+            <FormControl sx={{ minWidth: { xs: 175, md: 275 } }}>
               <InputLabel id='color-select-label'>Color</InputLabel>
               <Select
                 labelId='color-select-label'
@@ -314,7 +313,7 @@ export const Product = () => {
               </Select>
             </FormControl>
 
-            <FormControl style={{ minWidth: 250 }}>
+            <FormControl sx={{ minWidth: { xs: 175, md: 275 } }}>
               <InputLabel id='variant-select-label'>variant</InputLabel>
               <Select
                 labelId='variant-select-label'

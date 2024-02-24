@@ -1,7 +1,5 @@
 import * as React from 'react';
 import { Button, CircularProgress, TextField } from '@mui/material';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -12,7 +10,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useLoginFormSchema, useLoginSubmit } from '../../hooks';
 import { useFormik } from 'formik';
 import { isError, isErrorMessage } from '../../helpers';
-import { fontsWeight, colors } from '../../utils';
+import { colors } from '../../utils';
 
 export function SignIn() {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -100,7 +98,7 @@ export function SignIn() {
                 ),
               }}
             />
-            <Box
+            {/* <Box
               sx={{
                 display: 'flex',
                 alignItems: 'center',
@@ -121,7 +119,7 @@ export function SignIn() {
               >
                 <Typography>Forget Password ?</Typography>
               </Link>
-            </Box>
+            </Box> */}
             <Button
               type='submit'
               fullWidth

@@ -22,7 +22,6 @@ import {
 import { useCartContext } from '../../context';
 import { AxiosClient } from '../../services';
 import { useToast } from '../../hooks/useToast';
-import { useNavigate } from 'react-router-dom';
 
 const PaymentForm = ({ setActiveStep, activeStep, orderId }) => {
   const paymentFormSchema = usePaymentFormSchema();
@@ -38,8 +37,8 @@ const PaymentForm = ({ setActiveStep, activeStep, orderId }) => {
 
   const handleChange = (event) => {
     setSelectedPaymentMethod(event.target.value);
-    console.log(selectedPaymentMethod);
   };
+
   const handleAccordionChange = (panel) => (event, isExpanded) => {
     setExpandedAccordion(isExpanded ? panel : null);
   };
@@ -49,9 +48,9 @@ const PaymentForm = ({ setActiveStep, activeStep, orderId }) => {
     getFieldProps,
     errors,
     touched,
-    isValid,
-    isSubmitting,
-    dirty,
+    // isValid,
+    // isSubmitting,
+    // dirty,
   } = useFormik({
     initialValues,
     validationSchema: paymentFormSchema,
@@ -72,6 +71,7 @@ const PaymentForm = ({ setActiveStep, activeStep, orderId }) => {
         quantity: item.quantity,
         variant: item.variant,
         price: item.totalPrice,
+        // color: item.color,
       };
       products.push(productObj);
     });
@@ -133,11 +133,11 @@ const PaymentForm = ({ setActiveStep, activeStep, orderId }) => {
       >
         <AccordionSummary>
           <FormControlLabel
-            value='credit_card'
             control={
               <Radio
                 checked={selectedPaymentMethod === 'credit_card'}
                 onChange={handleChange}
+                value='credit_card'
               />
             }
             label='Credit Card'
@@ -204,11 +204,11 @@ const PaymentForm = ({ setActiveStep, activeStep, orderId }) => {
       >
         <AccordionSummary>
           <FormControlLabel
-            value='cash_on_delivery'
             control={
               <Radio
                 checked={selectedPaymentMethod === 'cash_on_delivery'}
                 onChange={handleChange}
+                value='cash_on_delivery'
               />
             }
             label='Cash on Delivery'

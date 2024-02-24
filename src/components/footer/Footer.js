@@ -44,11 +44,19 @@ function CustomLink({ title, linkKey, link }) {
         </Link>
       )}
 
-      {!linkKey && (
-        <Stack direction='row'>
-          <NavigateNextIcon />
-          <Typography>{title}</Typography>
-        </Stack>
+      {link && (
+        <Link
+          to={`/${link}`}
+          style={{
+            textDecoration: 'none',
+            color: colors.colorBlack,
+          }}
+        >
+          <Stack direction='row'>
+            <NavigateNextIcon />
+            <Typography>{title}</Typography>
+          </Stack>
+        </Link>
       )}
     </>
   );
@@ -88,7 +96,7 @@ export const Footer = () => {
         >
           <Grid item xs={12} sm={4} md={4}>
             <Box>
-              <img src={LOGO} width='40%' />
+              <img src={LOGO} width='40%' alt='footer_logo' />
               <StyledDetails label='Call Us: ' title='03001034660' />
               <StyledDetails
                 label='Email: '
@@ -152,9 +160,12 @@ export const Footer = () => {
             <Typography sx={{ fontWeight: fontsWeight.fontBold }}>
               IMPORTANT LINKS
             </Typography>
-            <CustomLink title='Terms & Conditions' />
-            <CustomLink title='Privacy Policy' />
-            <CustomLink title='Return Policy' />
+            <CustomLink
+              title='Terms & Conditions'
+              link='terms-and-conditions'
+            />
+            <CustomLink title='Privacy Policy' link='privacy-policy' />
+            <CustomLink title='Return Policy' link='return-refund-policy' />
           </Grid>
           <Grid
             item
@@ -172,9 +183,12 @@ export const Footer = () => {
                 IMPORTANT LINKS
               </AccordionSummary>
               <AccordionDetails>
-                <CustomLink title='Terms & Conditions' />
-                <CustomLink title='Privacy Policy' />
-                <CustomLink title='Return Policy' />
+                <CustomLink
+                  title='Terms & Conditions'
+                  link='terms-and-conditions'
+                />
+                <CustomLink title='Privacy Policy' link='privacy-policy' />
+                <CustomLink title='Return Policy' link='return-refund-policy' />
               </AccordionDetails>
             </Accordion>
           </Grid>

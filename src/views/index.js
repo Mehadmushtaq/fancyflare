@@ -7,3 +7,5 @@ export { SignUp } from './singUp/SignUp';
 export { Product } from './single-product/Product';
 export { PageNotFound } from './404-page/PageNotFound';
 export { PrivacyPolicy } from './privacy-policy/PrivacyPolicy';
+export { TermsAndConditions } from './terms-and-conditions/TermsAndConditions';
+export { ReturnsRefundsPolicy } from './returns-refend-policy/ReturnsRefundsPolicy';

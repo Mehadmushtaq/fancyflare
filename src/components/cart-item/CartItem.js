@@ -71,13 +71,11 @@ export function CartItem({ item }) {
         '& .MuiGrid-root.MuiGrid-item': {
           margin: 'auto',
         },
-        '& .MuiTypography-root.MuiTypography-body1': {
-          margin: 'auto',
-        },
         '& .MuiGrid-root.MuiGrid-item.MuiGrid-grid-sm-2': {
           display: 'flex',
           justifyContent: 'center',
         },
+        '& .MuiStack-root': {},
       }}
     >
       <Grid item xs={12} sm={6}>
@@ -93,12 +91,20 @@ export function CartItem({ item }) {
               borderRadius: '0.1rem',
             }}
           />
-          <Stack direction='column'>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-around',
+              flexDirection: 'column',
+            }}
+          >
             <Typography>{product.name.toUpperCase()}</Typography>
-            <Typography>color:{color} </Typography>
-            <Typography>variant:{variant}</Typography>
+            <Typography>
+              color:{color} variant:{variant}
+            </Typography>
+            <Typography></Typography>
             <DeleteIcon onClick={handleRemoveItem} />
-          </Stack>
+          </Box>
         </Stack>
       </Grid>
       <Grid item xs={3} sm={2}>

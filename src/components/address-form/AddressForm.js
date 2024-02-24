@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -14,7 +14,7 @@ const AddressForm = ({ setActiveStep, activeStep, setOrderId }) => {
   const { loading, onSubmit, initialValues } = useAddressFormSubmit();
   const { getUser } = useAuthContext();
   const user = getUser();
-  const [userData, setUserData] = React.useState(null);
+  const [userData, setUserData] = useState(null);
 
   const fetchUserData = async () => {
     try {
@@ -26,7 +26,7 @@ const AddressForm = ({ setActiveStep, activeStep, setOrderId }) => {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchUserData();
   }, []);
 
