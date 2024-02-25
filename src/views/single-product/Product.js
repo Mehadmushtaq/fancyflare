@@ -33,13 +33,18 @@ export const Product = () => {
   const { calculateAverageRating } = useProductApi();
   const toast = useToast();
   const [quantity, setQuantity] = useState(1);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [showMagnifier, setShowMagnifier] = useState(false);
-  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
 
   const location = useLocation();
   const productData = location?.state;
+
+  const [selectedImage, setSelectedImage] = useState(
+    productData?.image_product.find((img) => img.is_main === 1)?.image_url ||
+      null
+  );
+  // const [position, setPosition] = useState({ x: 0, y: 0 });
+  // const [showMagnifier, setShowMagnifier] = useState(false);
+  // const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+
   const averageRating = calculateAverageRating(productData?.reviews);
 
   let percentage_off = 0;
@@ -57,7 +62,6 @@ export const Product = () => {
   };
   const handleColorChange = (event) => {
     setColor(event.target.value);
-    // setVariant('medium'); // Reset variant to medium when color changes
   };
 
   const handleIncrement = () => {
@@ -74,15 +78,29 @@ export const Product = () => {
     setSelectedImage(image);
   };
 
-  const handleMouseHover = (e) => {
-    const { left, top, width, height } =
-      e.currentTarget.getBoundingClientRect();
-    const x = ((e.pageX - left) / width) * 100;
-    const y = ((e.pageY - top) / height) * 100;
-    setPosition({ x, y });
-    setCursorPosition({ x: e.pageX - left, y: e.pageY - top });
-    setShowMagnifier(true);
-  };
+  // const handleMouseHover = (e) => {
+  //   console.log('e.pageX', e.pageX);
+  //   console.log('e.pageY', e.pageY);
+
+  //   const { left, top, width, height } =
+  //     e.currentTarget.getBoundingClientRect();
+
+  //   console.log('left', left);
+  //   console.log('top', top);
+  //   console.log('width', width);
+  //   console.log('height', height);
+
+  //   const x = ((e.pageX - left) / width) * 100;
+  //   const y = ((e.pageY - top) / height) * 100;
+
+  //   console.log('x', x);
+  //   console.log('y', y);
+
+  //   console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-');
+  //   setPosition({ x, y });
+  //   setCursorPosition({ x: e.pageX - left, y: e.pageY - top });
+  //   setShowMagnifier(true);
+  // };
 
   const getPrice = () => {
     const selectedColor = productData.product_color.find(
@@ -178,9 +196,9 @@ export const Product = () => {
                   overflow: 'hidden',
                   position: 'relative',
                 }}
-                onMouseMove={handleMouseHover}
-                onMouseEnter={() => setShowMagnifier(true)}
-                onMouseLeave={() => setShowMagnifier(false)}
+                // onMouseMove={handleMouseHover}
+                // onMouseEnter={() => setShowMagnifier(true)}
+                // onMouseLeave={() => setShowMagnifier(false)}
               >
                 {selectedImage && (
                   <img
@@ -195,6 +213,7 @@ export const Product = () => {
                     }}
                   />
                 )}
+                {/* <>
                 {showMagnifier && (
                   <Box
                     sx={{
@@ -208,14 +227,15 @@ export const Product = () => {
                     <Box
                       className='magnifier-image'
                       sx={{
-                        width: '250px',
-                        height: '250px',
+                        width: '200px',
+                        height: '200px',
                         backgroundImage: `url(${process.env.REACT_APP_BACKEND_URL}${selectedImage})`,
                         backgroundPosition: `${position.x}% ${position.y}%`,
                       }}
                     />
                   </Box>
                 )}
+                </> */}
               </Box>
 
               {/* Thumbnails */}

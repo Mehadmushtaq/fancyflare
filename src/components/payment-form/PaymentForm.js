@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-// import Cards from 'react-credit-cards-2';
 import { usePayment, usePaymentFormSchema } from '../../hooks';
 import { useFormik } from 'formik';
 import { isError, isErrorMessage, transformError } from '../../helpers';
@@ -71,7 +70,7 @@ const PaymentForm = ({ setActiveStep, activeStep, orderId }) => {
         quantity: item.quantity,
         variant: item.variant,
         price: item.totalPrice,
-        // color: item.color,
+        color: item.color,
       };
       products.push(productObj);
     });

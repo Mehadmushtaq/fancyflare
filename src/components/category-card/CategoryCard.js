@@ -9,7 +9,7 @@ export const CategoryCard = ({ category }) => {
   const category_name = category?.name?.toUpperCase() || '';
 
   return (
-    <Link to={`/products/${category.name}`} state={category}>
+    <Link to={`/products/${category.id}`}>
       <Box className={Styles.box}>
         <img alt={category_name} src={image_url} />
 

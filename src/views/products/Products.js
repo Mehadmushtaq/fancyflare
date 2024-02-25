@@ -11,55 +11,45 @@ import React, { useEffect, useState } from 'react';
 import { ProductCard } from '../../components/product-card/ProductCard';
 import { ProductSkeleton } from '../../components';
 import { useProductApi } from '../../hooks';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 export const Products = () => {
-  const location = useLocation();
-  const cat = location?.state && location?.state;
   const { category } = useParams();
 
   const [filter, setFilter] = React.useState('');
-  const { loading, products, getAllProducts, getProductByCategoryId } =
-    useProductApi();
+  const { loading, products, getProductByCategoryId } = useProductApi();
   const [sortedProducts, setSortedProducts] = useState(products || []);
 
   const handleChange = (event) => {
     setFilter(event.target.value);
     sortProducts(event.target.value);
   };
-  const sortProducts = (criteria) => {
-    if (products && criteria === 'A-Z') {
-      const sorted = [...products].sort((a, b) =>
+  const sortProducts = (criteria, prods) => {
+    if (prods && criteria === 'A-Z') {
+      const sorted = [...prods].sort((a, b) =>
         a.product.name.localeCompare(b.product.name)
       );
       setSortedProducts(sorted);
-    } else if (products && criteria === 'Z-A') {
-      const sorted = [...products].sort((a, b) =>
+    } else if (prods && criteria === 'Z-A') {
+      const sorted = [...prods].sort((a, b) =>
         b.product.name.localeCompare(a.product.name)
       );
       setSortedProducts(sorted);
-    } else if (products && criteria === 'TOP RATED') {
-      const sorted = [...products].sort(
+    } else if (prods && criteria === 'TOP RATED') {
+      const sorted = [...prods].sort(
         (a, b) => b.review.length - a.review.length
       );
       setSortedProducts(sorted);
     } else {
-      if (products) setSortedProducts([...products]);
+      if (prods) setSortedProducts([...prods]);
     }
   };
 
   useEffect(() => {
-    if (cat?.id) {
-      getProductByCategoryId(cat?.id);
-    }
     if (category) {
-      if (category === '5') {
-        getAllProducts();
-      } else getProductByCategoryId(category);
-    } else {
-      getAllProducts();
+      getProductByCategoryId(category);
     }
-  }, [category, cat?.id]);
+  }, [category, getProductByCategoryId]);
 
   useEffect(() => {
     window.scrollTo({
@@ -68,8 +58,12 @@ export const Products = () => {
     });
 
     if (products) {
-      sortProducts(filter);
+      sortProducts(filter, products);
     }
+  }, [products, filter]);
+
+  useEffect(() => {
+    setSortedProducts(products || []);
   }, [products]);
 
   return (
