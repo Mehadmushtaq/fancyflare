@@ -125,7 +125,7 @@ const PaymentForm = ({ setActiveStep, activeStep, orderId }) => {
         Payment Method
       </Typography>
 
-      <Accordion
+      {/* <Accordion
         sx={{ my: '2rem' }}
         expanded={expandedAccordion === 'credit_card'}
         onChange={handleAccordionChange('credit_card')}
@@ -195,7 +195,7 @@ const PaymentForm = ({ setActiveStep, activeStep, orderId }) => {
             </Grid>
           </Box>
         </AccordionDetails>
-      </Accordion>
+      </Accordion> */}
 
       <Accordion
         expanded={expandedAccordion === 'cash_on_delivery'}
