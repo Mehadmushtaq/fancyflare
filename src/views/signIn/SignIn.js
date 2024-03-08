@@ -3,7 +3,7 @@ import { Button, CircularProgress, TextField } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { IconButton, InputAdornment, Typography } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -11,6 +11,7 @@ import { useLoginFormSchema, useLoginSubmit } from '../../hooks';
 import { useFormik } from 'formik';
 import { isError, isErrorMessage } from '../../helpers';
 import { colors } from '../../utils';
+import toast from 'react-hot-toast';
 
 export function SignIn() {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -19,6 +20,11 @@ export function SignIn() {
 
   const loginFormSchema = useLoginFormSchema();
   const { initialValues, onSubmit, loading } = useLoginSubmit();
+
+  const location = useLocation();
+  if (location?.state) {
+    toast.error(location.state);
+  }
 
   const {
     handleSubmit,

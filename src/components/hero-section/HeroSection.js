@@ -17,7 +17,7 @@ const divStyle = {
 
 export const HeroSection = () => {
   const { loading, heroImages, fetchHeroImages } = useFetchImages();
-
+  
   useEffect(() => {
     fetchHeroImages();
   }, []);
@@ -36,8 +36,9 @@ export const HeroSection = () => {
                 style={{
                   ...divStyle,
                   backgroundImage: `url(${process.env.REACT_APP_BACKEND_URL}${slideImage.image_url})`,
+
                 }}
-              ></Box>
+              />
             </Box>
           ))
         )}

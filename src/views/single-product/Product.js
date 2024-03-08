@@ -27,6 +27,8 @@ import { colors } from '../../utils';
 import { useCartContext } from '../../context/cart/CartContainer';
 import { useProductApi } from '../../hooks';
 import { useToast } from '../../hooks/useToast';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 
 export const Product = () => {
   const { addToCart } = useCartContext();
@@ -37,6 +39,55 @@ export const Product = () => {
   const location = useLocation();
   const productData = location?.state;
 
+  const [variant, setVariant] = useState('');
+  const [color, setColor] = useState('');
+  
+  const averageRating = calculateAverageRating(productData?.reviews);
+  
+  // Extracting unique colors
+  const allColors = Array.from(
+    new Set(productData?.product_color?.map((item) => item.color))
+  );
+
+  // Extracting sizes with quantity more than one
+  const availableSizes = productData?.product_color?.reduce(
+    (sizes, product) => {
+      if (product.available_stock > 0) {
+        if (product.small_size_quantity > 0) sizes.add('small');
+        if (product.medium_size_quantity > 0) sizes.add('medium');
+        if (product.large_size_quantity > 0) sizes.add('large');
+        if (product.extra_large_size_quantity > 0) sizes.add('extra_large');
+      }
+      return sizes;
+    },
+    new Set()
+  );
+
+  const responsive = {
+    superLargeDesktop: {
+      breakpoint: { max: 4000, min: 3000 },
+      items: 5,
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 3,
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2,
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+    },
+  };
+
+
+  let percentage_off = 0;
+  if (productData?.product?.is_discount === 1) {
+    percentage_off = productData.product.after_discount_price / 100; //after_discount_price is actually percentage off like 10%
+  }
+
   const [selectedImage, setSelectedImage] = useState(
     productData?.image_product.find((img) => img.is_main === 1)?.image_url ||
       null
@@ -45,23 +96,14 @@ export const Product = () => {
   // const [showMagnifier, setShowMagnifier] = useState(false);
   // const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
 
-  const averageRating = calculateAverageRating(productData?.reviews);
-
-  let percentage_off = 0;
-  if (productData?.product?.is_discount === 1) {
-    percentage_off = productData.product.after_discount_price / 100; //after_discount_price is actually percentage off like 10%
-  }
-
-  const [variant, setVariant] = useState('medium');
-  const [color, setColor] = useState(
-    productData?.product_color[0]?.color || ''
-  );
-
-  const handleChange = (event) => {
-    setVariant(event.target.value);
-  };
+  // Function to handle color change
   const handleColorChange = (event) => {
     setColor(event.target.value);
+  };
+
+  // Function to handle size change
+  const handleSizeChange = (event) => {
+    setVariant(event.target.value);
   };
 
   const handleIncrement = () => {
@@ -103,10 +145,7 @@ export const Product = () => {
   // };
 
   const getPrice = () => {
-    const selectedColor = productData.product_color.find(
-      (c) => c.color === color
-    );
-    if (!selectedColor) return 0;
+    const selectedColor = productData.product_color.find((c) => c.color === color);
 
     let origionalPrice;
     let discountPrice;
@@ -124,7 +163,7 @@ export const Product = () => {
         origionalPrice = selectedColor.extra_large_size_price || 0;
         break;
       default:
-        origionalPrice = selectedColor.medium_size_price || 0;
+        origionalPrice = productData.product.price || 0;
     }
 
     if (productData.product.is_discount === 1) {
@@ -135,10 +174,12 @@ export const Product = () => {
   };
 
   const handleAddToCart = () => {
-    const selectedColor = productData.product_color.find(
-      (c) => c.color === color
-    );
-    if (!selectedColor) return;
+    let selectedColor;
+
+    if (productData?.product?.is_stiched === 1) {
+      selectedColor = productData.product_color.find((c) => c.color === color);
+      if (!selectedColor) return;
+    }
 
     let availableStock;
     switch (variant) {
@@ -155,7 +196,8 @@ export const Product = () => {
         availableStock = selectedColor.extra_large_size_quantity || 0;
         break;
       default:
-        availableStock = selectedColor.medium_size_quantity || 0;
+        // availableStock = selectedColor.medium_size_quantity || 0;
+        availableStock = productData?.product?.available_stock || 0;
     }
 
     // Check if stock is available
@@ -316,38 +358,43 @@ export const Product = () => {
               </Table>
             </TableContainer>
 
-            <FormControl sx={{ minWidth: { xs: 175, md: 275 } }}>
-              <InputLabel id='color-select-label'>Color</InputLabel>
-              <Select
-                labelId='color-select-label'
-                id='color-select'
-                value={color}
-                label='Color'
-                onChange={handleColorChange}
-              >
-                {productData?.product_color.map((color, index) => (
-                  <MenuItem key={index} value={color.color}>
-                    {color.color}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            <FormControl sx={{ minWidth: { xs: 175, md: 275 } }}>
-              <InputLabel id='variant-select-label'>variant</InputLabel>
-              <Select
-                labelId='variant-select-label'
-                id='variant-select'
-                value={variant}
-                label='variant'
-                onChange={handleChange}
-              >
-                <MenuItem value='small'>Small</MenuItem>
-                <MenuItem value='medium'>Medium</MenuItem>
-                <MenuItem value='large'>Large</MenuItem>
-                <MenuItem value='extra_large'>Extra Large</MenuItem>
-              </Select>
-            </FormControl>
+            {productData.product?.is_stiched === 1 && (
+              <>
+                {' '}
+                <FormControl sx={{ minWidth: { xs: 175, md: 275 } }}>
+                  <InputLabel id='color-select-label'>Color</InputLabel>
+                  <Select
+                    labelId='color-select-label'
+                    id='color-select'
+                    value={color}
+                    label='Color'
+                    onChange={handleColorChange}
+                  >
+                    {allColors.map((color, index) => (
+                      <MenuItem key={index} value={color}>
+                        {color}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <FormControl sx={{ minWidth: { xs: 175, md: 275 } }}>
+                  <InputLabel id='variant-select-label'>variant</InputLabel>
+                  <Select
+                    labelId='variant-select-label'
+                    id='variant-select'
+                    value={variant}
+                    label='variant'
+                    onChange={handleSizeChange}
+                  >
+                    {[...availableSizes].map((size, index) => (
+                      <MenuItem key={index} value={size}>
+                        {size}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </>
+            )}
 
             <Grid container spacing={2} sx={{ marginTop: '1rem' }}>
               <Grid item xs={12}>
@@ -385,6 +432,28 @@ export const Product = () => {
             </Grid>
           </Grid>
         </Grid>
+      )}
+
+      {productData?.review && productData?.review.length > 0 && (
+        <Carousel responsive={responsive}>
+          {productData.review.map((review, index) => {
+            return (
+              <div key={index}>
+                <Box>
+                  <Typography variant='h6'>{review.review}</Typography>
+                  <Rating
+                    name='read-only'
+                    value={review.start}
+                    readOnly
+                    size='small'
+                    sx={{ color: 'black' }}
+                  />
+                  <Typography variant='body1'>{review.review}</Typography>
+                </Box>
+              </div>
+            );
+          })}
+        </Carousel>
       )}
     </Container>
   );

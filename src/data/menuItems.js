@@ -4,7 +4,7 @@ import MegaMenu from '../components/mega-menu/MegaMenu';
 export const menuItems = [
   {
     label: <Link to='/products'>New Arrival</Link>,
-    key: 'New Arrival',
+    key: 'newArrival',
   },
   {
     label: 'Summer',
@@ -15,11 +15,11 @@ export const menuItems = [
     key: '2',
   },
   {
-    label: 'Stiched',
+    label: 'Stitched',
     key: '3',
   },
   {
-    label: 'unStiched',
+    label: 'unStitched',
     key: '4',
   },
   {

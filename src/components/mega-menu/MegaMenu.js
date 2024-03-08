@@ -55,12 +55,12 @@ const MegaMenu = () => {
           }))
         }
       />
-      <Box>
+      {/* <Box>
         <img
           src='https://sameersain.pk/cdn/shop/products/728A2729.jpg?v=1649608059'
           width={150}
         />
-      </Box>
+      </Box> */}
     </Box>
   );
 };

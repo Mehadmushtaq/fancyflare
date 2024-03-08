@@ -79,6 +79,7 @@ const PaymentForm = ({ setActiveStep, activeStep, orderId }) => {
       payment_method,
       order_id: orderId,
       products,
+      total_amount: totalPrice,
     };
     try {
       setLoading(true);

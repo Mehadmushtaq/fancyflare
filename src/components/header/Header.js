@@ -20,7 +20,7 @@ export const Header = () => {
 
   const onClick = (e) => {
     if (e.key === 'MegaMenu') return;
-    if (e.key === 'New Arrival') {
+    if (e.key === 'newArrival') {
       navigate('/products');
     } else {
       navigate(`/products/${e.key}`);

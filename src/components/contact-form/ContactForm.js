@@ -6,26 +6,48 @@ import { useToast } from '../../hooks/useToast';
 const ContactForm = () => {
   const toast = useToast();
   const [phone, setPhone] = useState('');
+  const [error, setError] = useState('');
+
+  const validatePhoneNumber = (phoneNumber) => {
+    const regex = /^(\+92|92|0)?[3456789]\d{9}$/;
+    return regex.test(phoneNumber);
+  };
 
   const handleSubscribe = async () => {
+    if (!validatePhoneNumber(phone)) {
+      setError('Invalid phone number');
+      return;
+    }
+
     try {
       await AxiosClient.post('api/subscribers-phone/post', { phone });
-      toast.success('Joined Succesfuly');
+      toast.success('Joined Successfully');
+      setPhone('');
+      setError('');
     } catch (error) {
       toast.error(error?.message);
     }
-    setPhone('');
+  };
+  
+  const handleBlur = () => {
+    if (error) {
+      setError('');
+    }
   };
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', marginTop: '0.5rem' }}>
       <TextField
         variant='outlined'
-        label='Whatsapp Number'
+        label='WhatsApp Number'
         value={phone}
         onChange={(e) => {
           setPhone(e.target.value);
+          setError('');
         }}
+        error={!!error}
+        onBlur={handleBlur} 
+        helperText={error}
         InputProps={{
           endAdornment: (
             <InputAdornment position='end'>

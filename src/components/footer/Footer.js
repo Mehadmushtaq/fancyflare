@@ -122,8 +122,8 @@ export const Footer = () => {
             </Typography>
             <CustomLink title='Summer' linkKey={1} />
             <CustomLink title='Winter' linkKey={2} />
-            <CustomLink title='Stiched' linkKey={3} />
-            <CustomLink title='unStiched' linkKey={4} />
+            <CustomLink title='Stitched' linkKey={3} />
+            <CustomLink title='unStitched' linkKey={4} />
           </Grid>
           <Grid
             item
@@ -143,8 +143,8 @@ export const Footer = () => {
               <AccordionDetails>
                 <CustomLink title='Summer' linkKey={1} />
                 <CustomLink title='Winter' linkKey={2} />
-                <CustomLink title='Stiched' linkKey={3} />
-                <CustomLink title='unStiched' linkKey={4} />
+                <CustomLink title='Stitched' linkKey={3} />
+                <CustomLink title='unStitched' linkKey={4} />
               </AccordionDetails>
             </Accordion>
           </Grid>

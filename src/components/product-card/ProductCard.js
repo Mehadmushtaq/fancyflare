@@ -10,27 +10,12 @@ import { useProductApi } from '../../hooks';
 export function ProductCard({ item }) {
   const { calculateAverageRating } = useProductApi();
   const { review, product, image_product, product_color } = item;
-
+  
   const averageRating = calculateAverageRating(review);
-
-  let percentageOff = 0;
-  if (product.is_discount === 1) {
-    percentageOff = product.after_discount_price / 100; //after_discount_price actually percentage off like 10%
-  }
-
-  let origionalPrice = 0;
-  let newPrice = 0;
-
-  if (product_color && product_color[0] !== null) {
-    origionalPrice = product_color[0]?.medium_size_price;
-    newPrice =
-      product_color[0]?.medium_size_price -
-      product_color[0]?.medium_size_price * percentageOff;
-  } else {
-    origionalPrice = product.price;
-    newPrice = product.price - product.price * percentageOff;
-  }
-
+  
+  const origionalPrice = product.price;
+  const newPrice = product.price - (product.price * product.after_discount_price) / 100;
+  
   const imageUrl = React.useMemo(
     () =>
       `${process.env.REACT_APP_BACKEND_URL}${
@@ -38,7 +23,7 @@ export function ProductCard({ item }) {
       }`,
     [item]
   );
-
+  
   return (
     <Link
       to={`/product/${product.id}`}
@@ -108,18 +93,18 @@ export function ProductCard({ item }) {
             <Typography variant='body1'>
               {product.is_discount === 1 && (
                 <>
-                  {newPrice}
+                  {`${newPrice} PKR`}
                   <span
                     style={{
                       textDecoration: 'line-through',
                       marginLeft: '0.5rem',
                     }}
                   >
-                    {origionalPrice}
+                    {`${origionalPrice} PKR`}
                   </span>
                 </>
               )}
-              {!product.is_discount === 1 && `${origionalPrice} PKR`}
+              {product.is_discount === 0 && `${origionalPrice} PKR`}
             </Typography>
           </CardContent>
         </CardActionArea>
