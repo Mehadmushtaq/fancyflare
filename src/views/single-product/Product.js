@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import {
   Box,
@@ -25,8 +25,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { colors } from '../../utils';
 import { useCartContext } from '../../context/cart/CartContainer';
-import { useProductApi } from '../../hooks';
-import { useToast } from '../../hooks/useToast';
+import { useProductApi, useToast } from '../../hooks';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 
@@ -41,27 +40,24 @@ export const Product = () => {
 
   const [variant, setVariant] = useState('');
   const [color, setColor] = useState('');
-  
+
   const averageRating = calculateAverageRating(productData?.reviews);
-  
+
   // Extracting unique colors
-  const allColors = Array.from(
-    new Set(productData?.product_color?.map((item) => item.color))
-  );
+  const allColors = useMemo(() => [...new Set(productData?.product_color?.map((item) => item.color))], [productData?.product_color]);
+
 
   // Extracting sizes with quantity more than one
-  const availableSizes = productData?.product_color?.reduce(
-    (sizes, product) => {
-      if (product.available_stock > 0) {
-        if (product.small_size_quantity > 0) sizes.add('small');
-        if (product.medium_size_quantity > 0) sizes.add('medium');
-        if (product.large_size_quantity > 0) sizes.add('large');
-        if (product.extra_large_size_quantity > 0) sizes.add('extra_large');
-      }
-      return sizes;
-    },
-    new Set()
-  );
+  const availableSizes = useMemo(() => productData?.product_color?.reduce((sizes, product) => {
+    if (product.available_stock > 0) {
+      if (product.small_size_quantity > 0) sizes.add('small');
+      if (product.medium_size_quantity > 0) sizes.add('medium');
+      if (product.large_size_quantity > 0) sizes.add('large');
+      if (product.extra_large_size_quantity > 0) sizes.add('extra_large');
+    }
+    return sizes;
+  }, new Set()), [productData?.product_color]);
+
 
   const responsive = {
     superLargeDesktop: {
@@ -81,7 +77,6 @@ export const Product = () => {
       items: 1,
     },
   };
-
 
   let percentage_off = 0;
   if (productData?.product?.is_discount === 1) {
@@ -145,7 +140,9 @@ export const Product = () => {
   // };
 
   const getPrice = () => {
-    const selectedColor = productData.product_color.find((c) => c.color === color);
+    const selectedColor = productData.product_color.find(
+      (c) => c.color === color
+    );
 
     let origionalPrice;
     let discountPrice;
@@ -174,39 +171,16 @@ export const Product = () => {
   };
 
   const handleAddToCart = () => {
-    let selectedColor;
+    const selectedColor = productData.product_color.find((c) => c.color === color) || {};
+    const availableStock = selectedColor[`${variant}_size_quantity`] || productData?.product?.available_stock || 0;
 
-    if (productData?.product?.is_stiched === 1) {
-      selectedColor = productData.product_color.find((c) => c.color === color);
-      if (!selectedColor) return;
-    }
-
-    let availableStock;
-    switch (variant) {
-      case 'small':
-        availableStock = selectedColor.small_size_quantity || 0;
-        break;
-      case 'medium':
-        availableStock = selectedColor.medium_size_quantity || 0;
-        break;
-      case 'large':
-        availableStock = selectedColor.large_size_quantity || 0;
-        break;
-      case 'extra_large':
-        availableStock = selectedColor.extra_large_size_quantity || 0;
-        break;
-      default:
-        // availableStock = selectedColor.medium_size_quantity || 0;
-        availableStock = productData?.product?.available_stock || 0;
-    }
-
-    // Check if stock is available
     if (availableStock > 0 && availableStock >= quantity) {
       addToCart({ ...productData, quantity, variant, color });
     } else {
       toast.error('Cannot add more than available stock');
     }
   };
+
 
   useEffect(() => {
     window.scrollTo({

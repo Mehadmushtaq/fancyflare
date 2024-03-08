@@ -15,16 +15,10 @@ import toast from 'react-hot-toast';
 
 export function SignIn() {
   const [showPassword, setShowPassword] = React.useState(false);
-
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
   const loginFormSchema = useLoginFormSchema();
   const { initialValues, onSubmit, loading } = useLoginSubmit();
-
   const location = useLocation();
-  if (location?.state) {
-    toast.error(location.state);
-  }
 
   const {
     handleSubmit,
@@ -39,7 +33,19 @@ export function SignIn() {
     validationSchema: loginFormSchema,
     onSubmit,
   });
-
+  
+  
+  React.useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  
+    if (location?.state) {
+      toast.error(location.state);
+    }
+  }, []); 
+  
   return (
     <Grid container maxWidth='xl' margin='1rem auto'>
       <Grid item xs={false} sm={6} md={7} padding='0.5rem'>
