@@ -24,9 +24,10 @@ import { useToast } from '../../hooks/useToast';
 
 const PaymentForm = ({ setActiveStep, activeStep, orderId }) => {
   const paymentFormSchema = usePaymentFormSchema();
-  const { items, totalPrice, clearCart } = useCartContext();
+  const { items, totalCartPrice, clearCart } = useCartContext();
   const { initialValues, onSubmit } = usePayment();
   const [loading, setLoading] = React.useState(false);
+  const [deliveryCharges, setDeliveryCharges] = React.useState(0);
 
   const toast = useToast();
 
@@ -69,7 +70,7 @@ const PaymentForm = ({ setActiveStep, activeStep, orderId }) => {
         product_id: item.product.id,
         quantity: item.quantity,
         variant: item.variant,
-        price: item.totalPrice,
+        price: item.itemTotal,
         color: item.color,
       };
       products.push(productObj);
@@ -79,7 +80,7 @@ const PaymentForm = ({ setActiveStep, activeStep, orderId }) => {
       payment_method,
       order_id: orderId,
       products,
-      total_amount: totalPrice,
+      total_amount: totalCartPrice + deliveryCharges,
     };
     try {
       setLoading(true);
@@ -99,6 +100,24 @@ const PaymentForm = ({ setActiveStep, activeStep, orderId }) => {
       setLoading(false);
     }
   };
+  
+  const getDeliveryCharges = async () => {
+    try {
+      const result = await AxiosClient.get('api/user/get-delivery-charges');
+      console.log(result);
+      console.log(result.data.result.delivery_charges);
+      if(result.data.error_code === 0){
+        setDeliveryCharges(result.data.result.delivery_charges);
+      }
+      else setDeliveryCharges(0);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  
+  React.useEffect(()=>{
+    getDeliveryCharges();
+  },[])
 
   return (
     <React.Fragment>
@@ -112,13 +131,25 @@ const PaymentForm = ({ setActiveStep, activeStep, orderId }) => {
               primary={`${item.product.name} (${item.quantity} items)`}
               secondary={`color: ${item.color} size: ${item.product.size} variant: ${item.variant}`}
             />
-            <Typography variant='body2'>{item.totalPrice}</Typography>
+            <Typography variant='body2'>{item.itemTotal}</Typography>
           </ListItem>
         ))}
         <ListItem sx={{ py: 1, px: 0 }}>
           <ListItemText primary='Total' />
           <Typography variant='subtitle1' sx={{ fontWeight: 700 }}>
-            PKR {totalPrice}
+            PKR {totalCartPrice}
+          </Typography>
+        </ListItem>
+        <ListItem sx={{ py: 1, px: 0 }}>
+          <ListItemText primary='Delivery Charges' />
+          <Typography variant='subtitle1' sx={{ fontWeight: 700 }}>
+            PKR {deliveryCharges}
+          </Typography>
+        </ListItem>
+        <ListItem sx={{ py: 1, px: 0 }}>
+          <ListItemText primary='Total' />
+          <Typography variant='subtitle1' sx={{ fontWeight: 700 }}>
+            PKR {totalCartPrice + deliveryCharges}
           </Typography>
         </ListItem>
       </List>

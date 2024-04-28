@@ -15,9 +15,26 @@ import { Link } from 'react-router-dom';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import LockIcon from '@mui/icons-material/Lock';
 import { useCartContext } from '../../context';
+import { AxiosClient } from '../../services';
 
 export function Cart() {
-  const { items, totalPrice } = useCartContext();
+  const { items, totalCartPrice } = useCartContext();
+  const [deliveryCharges, setDeliveryCharges] = React.useState(0);
+
+  const getDeliveryCharges = async () => {
+    try {
+      const result = await AxiosClient.get('api/user/get-delivery-charges');
+      if (result.data.error_code === 0) {
+        setDeliveryCharges(result.data.result.delivery_charges);
+      } else setDeliveryCharges(0);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  React.useEffect(() => {
+    getDeliveryCharges();
+  }, []);
 
   return (
     <Container maxWidth='lg'>
@@ -111,11 +128,25 @@ export function Cart() {
                 sx={{ mb: '0.5rem' }}
               >
                 <Typography>Sub Total:</Typography>
-                <Typography>PKR {totalPrice}</Typography>
+                <Typography>PKR {totalCartPrice}</Typography>
               </Stack>
               <Divider light sx={{ marginBottom: '0.5rem' }} />
 
-              <Stack
+              {items.length > 0 && (
+                <>
+                  <Stack
+                    direction='row'
+                    justifyContent='space-between'
+                    sx={{ mb: '0.5rem' }}
+                  >
+                    <Typography>Delivery Charges:</Typography>
+                    <Typography>PKR {deliveryCharges}</Typography>
+                  </Stack>
+                  <Divider light sx={{ marginBottom: '0.5rem' }} />
+                </>
+              )}
+
+              {/* <Stack
                 direction='row'
                 justifyContent='space-between'
                 sx={{ mb: '0.5rem' }}
@@ -123,7 +154,7 @@ export function Cart() {
                 <Typography>Discount</Typography>
                 <Typography>0</Typography>
               </Stack>
-              <Divider light sx={{ marginBottom: '0.5rem' }} />
+              <Divider light sx={{ marginBottom: '0.5rem' }} /> */}
 
               {/* Total */}
               <Stack
@@ -132,7 +163,14 @@ export function Cart() {
                 sx={{ mb: '1rem' }}
               >
                 <Typography>Total Cost</Typography>
-                <Typography>PKR {totalPrice}</Typography>
+                {items.length === 0 && (
+                  <Typography>PKR {totalCartPrice}</Typography>
+                )}
+                {items.length > 0 && (
+                  <Typography>
+                    PKR {totalCartPrice + deliveryCharges}
+                  </Typography>
+                )}
               </Stack>
               <Divider light sx={{ marginBottom: '1rem' }} />
 

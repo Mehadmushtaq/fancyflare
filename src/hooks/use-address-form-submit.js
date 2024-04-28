@@ -12,7 +12,6 @@ const initialValues = {
   city: '',
   state: '',
   zip_code: '',
-  country: '',
   contact_number: '',
 };
 

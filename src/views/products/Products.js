@@ -26,26 +26,40 @@ export const Products = () => {
     sortProducts(event.target.value);
   };
   const sortProducts = (criteria) => {
-    if (products && criteria === 'A-Z') {
-      const sorted = [...products].sort((a, b) =>
-        a.product.name.localeCompare(b.product.name)
-      );
+    if (products) {
+      let sorted;
+      switch (criteria) {
+        case 'A-Z':
+          sorted = [...products].sort((a, b) =>
+            a.product.name.localeCompare(b.product.name)
+          );
+          break;
+        case 'Z-A':
+          sorted = [...products].sort((a, b) =>
+            b.product.name.localeCompare(a.product.name)
+          );
+          break;
+        case 'TOP RATED':
+          sorted = [...products].sort((a, b) => {
+            const avgRatingA = calculateAverageRating(a.review);
+            const avgRatingB = calculateAverageRating(b.review);
+            return avgRatingB - avgRatingA;
+          });
+          break;
+        default:
+          sorted = [...products];
+          break;
+      }
       setSortedProducts(sorted);
-    } else if (products && criteria === 'Z-A') {
-      const sorted = [...products].sort((a, b) =>
-        b.product.name.localeCompare(a.product.name)
-      );
-      setSortedProducts(sorted);
-    } else if (products && criteria === 'TOP RATED') {
-      const sorted = [...products].sort(
-        (a, b) => b.review.length - a.review.length
-      );
-      setSortedProducts(sorted);
-    } else {
-      if (products) setSortedProducts([...products]);
     }
   };
-
+  
+  const calculateAverageRating = (reviews) => {
+    if (!reviews || reviews.length === 0) return 0;
+    const totalStars = reviews.reduce((acc, review) => acc + review.star, 0);
+    return totalStars / reviews.length;
+  };
+  
   useEffect(() => {
     window.scrollTo({
       top: 0,

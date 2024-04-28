@@ -15,33 +15,73 @@ import { useToast } from '../../hooks/useToast';
 
 export function CartItem({ item }) {
   const toast = useToast();
-
   const { removeFromCart, increaseQuantity, decreaseQuantity } =
     useCartContext();
-  const { product, image_product, color, variant, totalPrice, product_color } =
+
+  const { product, image_product, color, variant, product_color, itemTotal } =
     item;
   const [quantity, setQuantity] = useState(item?.quantity || 1);
 
+  const getPrice = () => {
+    //percentage Off
+    let percentageOff = 0;
+    if (product?.is_discount === 1) {
+      percentageOff = product?.after_discount_price / 100;
+    }
+
+    //unstitch scenerio
+    if (product?.is_stiched === 0) {
+      const price = product?.price - product?.price * percentageOff;
+      return Math.floor(price);
+    } else {
+      //stitch scenerio
+      const selectedColor = product_color.find((c) => c.color === color);
+
+      let price;
+      switch (variant) {
+        case 'small':
+          price = selectedColor?.small_size_price || 0;
+          break;
+        case 'medium':
+          price = selectedColor?.medium_size_price || 0;
+          break;
+        case 'large':
+          price = selectedColor?.large_size_price || 0;
+          break;
+        case 'extra_large':
+          price = selectedColor?.extra_large_size_price || 0;
+          break;
+        default:
+          price = product?.price || 0;
+      }
+
+      const finalPrice =
+        product.is_discount === 1 ? price - price * percentageOff : price;
+
+      // Calculate the total price for the item
+      return Math.floor(finalPrice);
+    }
+  };
+
   const handleIncrement = () => {
     const selectedColor = product_color.find((c) => c.color === color);
-    if (!selectedColor) return;
 
     let availableStock;
     switch (variant) {
       case 'small':
-        availableStock = selectedColor.small_size_quantity || 0;
+        availableStock = selectedColor?.small_size_quantity || 0;
         break;
       case 'medium':
-        availableStock = selectedColor.medium_size_quantity || 0;
+        availableStock = selectedColor?.medium_size_quantity || 0;
         break;
       case 'large':
-        availableStock = selectedColor.large_size_quantity || 0;
+        availableStock = selectedColor?.large_size_quantity || 0;
         break;
       case 'extra_large':
-        availableStock = selectedColor.extra_large_size_quantity || 0;
+        availableStock = selectedColor?.extra_large_size_quantity || 0;
         break;
       default:
-        availableStock = selectedColor.medium_size_quantity || 0;
+        availableStock = product?.available_stock || 0;
     }
 
     if (quantity + 1 > availableStock) {
@@ -61,6 +101,7 @@ export function CartItem({ item }) {
       decreaseQuantity(product?.id);
     }
   };
+
   const handleRemoveItem = () => removeFromCart(product.id);
 
   return (
@@ -99,16 +140,19 @@ export function CartItem({ item }) {
             }}
           >
             <Typography>{product.name.toUpperCase()}</Typography>
-            <Typography>
-              color:{color} variant:{variant}
-            </Typography>
-            <Typography></Typography>
+            
+            {product?.is_stiched === 1 && (
+              <Typography>
+                  color:{color} variant:{variant}
+             </Typography>
+            )}
+           
             <DeleteIcon onClick={handleRemoveItem} />
           </Box>
         </Stack>
       </Grid>
       <Grid item xs={3} sm={2}>
-        <Typography>{totalPrice}</Typography>
+        <Typography>{getPrice()}</Typography>
       </Grid>
       <Grid item xs={5} sm={2}>
         <Stack direction='row'>
@@ -134,7 +178,7 @@ export function CartItem({ item }) {
         </Stack>
       </Grid>
       <Grid item xs={3} sm={2}>
-        <Typography>{quantity * totalPrice}</Typography>
+        <Typography>{quantity * getPrice()}</Typography>
       </Grid>
     </Grid>
   );

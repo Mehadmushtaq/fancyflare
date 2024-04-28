@@ -35,6 +35,22 @@ code {
   padding: 0.2rem !important;
 }
 
+/* MAGNIFIER IMAGE STYLING */
 
+.magnifier-image {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.magnifier-image > div {
+  width: 100% !important;
+  height: 100% !important;  
+}
+
+.magnifier-image > div > img {
+  height: 100% !important;
+  width: 100% !important;
+  object-fit: cover !important;
+}
 
 

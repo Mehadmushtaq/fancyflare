@@ -9,3 +9,4 @@ export { PageNotFound } from './404-page/PageNotFound';
 export { PrivacyPolicy } from './privacy-policy/PrivacyPolicy';
 export { TermsAndConditions } from './terms-and-conditions/TermsAndConditions';
 export { ReturnsRefundsPolicy } from './returns-refend-policy/ReturnsRefundsPolicy';
+export {ProductReview} from './product-reviews/ProductReview';

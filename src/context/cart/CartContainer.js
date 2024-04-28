@@ -33,40 +33,43 @@ export const CartContextContainer = ({ children }) => {
   }, [clearCart, toast]);
 
   const calculateItemPrice = (item) => {
-    const { color, variant, quantity } = item;
+    const { color, variant, quantity, product } = item;
 
     let percentageOff = 0;
     if (item.product.is_discount === 1) {
-      percentageOff = item.product.after_discount_price / 100; //after_discount_price actually percentage off like 10%
+      percentageOff = item.product.after_discount_price / 100;
     }
 
-    const selectedColor = item.product_color.find((c) => c.color === color);
-    if (!selectedColor) return 0;
+    if (product?.is_stiched === 0) {
+      const price = product?.price - product?.price * percentageOff;
+      return Math.floor(price * quantity);
+    } else {
+      const selectedColor = item?.product_color.find((c) => c.color === color);
 
-    // Determine the price based on the selected variant
-    let price;
-    switch (variant) {
-      case 'small':
-        price = selectedColor.small_size_price || 0;
-        break;
-      case 'medium':
-        price = selectedColor.medium_size_price || 0;
-        break;
-      case 'large':
-        price = selectedColor.large_size_price || 0;
-        break;
-      case 'extra_large':
-        price = selectedColor.extra_large_size_price || 0;
-        break;
-      default:
-        price = selectedColor.medium_size_price || 0;
+      let price;
+      switch (variant) {
+        case 'small':
+          price = selectedColor?.small_size_price || 0;
+          break;
+        case 'medium':
+          price = selectedColor?.medium_size_price || 0;
+          break;
+        case 'large':
+          price = selectedColor?.large_size_price || 0;
+          break;
+        case 'extra_large':
+          price = selectedColor?.extra_large_size_price || 0;
+          break;
+        default:
+          price = product?.price || 0;
+      }
+
+      const discountedPrice =
+        item.product.is_discount === 1 ? price - price * percentageOff : price;
+
+      // Calculate the total price for the item
+      return Math.floor(discountedPrice * quantity);
     }
-
-    const discountedPrice =
-      item.product.is_discount === 1 ? price - price * percentageOff : price;
-
-    // Calculate the total price for the item
-    return discountedPrice * quantity;
   };
 
   const calculateTotalPrice = () => {
@@ -85,7 +88,7 @@ export const CartContextContainer = ({ children }) => {
       if (!itemExists) {
         const newItem = {
           ...item,
-          totalPrice: calculateItemPrice(item),
+          itemTotal: calculateItemPrice(item),
         };
 
         setState((prevState) => ({
@@ -115,7 +118,7 @@ export const CartContextContainer = ({ children }) => {
       updateCartItem(itemId, (item) => ({
         ...item,
         quantity: item.quantity + 1,
-        totalPrice: calculateItemPrice({
+        itemTotal: calculateItemPrice({
           ...item,
           quantity: item.quantity + 1,
         }),
@@ -129,7 +132,7 @@ export const CartContextContainer = ({ children }) => {
       updateCartItem(itemId, (item) => ({
         ...item,
         quantity: item.quantity > 1 ? item.quantity - 1 : 1,
-        totalPrice: calculateItemPrice({
+        itemTotal: calculateItemPrice({
           ...item,
           quantity: item.quantity > 1 ? item.quantity - 1 : 1,
         }),
@@ -155,7 +158,7 @@ export const CartContextContainer = ({ children }) => {
         increaseQuantity,
         decreaseQuantity,
         count: state.items.length,
-        totalPrice: calculateTotalPrice(),
+        totalCartPrice: calculateTotalPrice(),
       }}
     >
       {children}

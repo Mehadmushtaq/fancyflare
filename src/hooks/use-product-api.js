@@ -88,20 +88,24 @@ export const useProductApi = () => {
 
   const calculateAverageRating = (review) => {
     let averageRating;
-
+  
     if (review && review.length > 0) {
       let totalRatings = 0;
+      let totalReviews = 0;
+  
       for (const rev of review) {
         totalRatings += rev.review.star;
+        totalReviews++;
       }
-      averageRating = Math.round(totalRatings / review.length);
-    }
-    if (!review || review.length === 0) {
+      averageRating = Math.round(totalRatings / totalReviews);
+    } else {
+      // Default rating if there are no reviews
       averageRating = 5;
     }
-
+  
     return averageRating;
   };
+  
 
   return {
     loading,

@@ -19,6 +19,7 @@ export const Header = () => {
   const [current, setCurrent] = useState();
 
   const onClick = (e) => {
+    console.log(e);
     if (e.key === 'MegaMenu') return;
     if (e.key === 'newArrival') {
       navigate('/products');

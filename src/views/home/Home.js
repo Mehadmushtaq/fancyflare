@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { Grid, Container, Typography, Divider } from '@mui/material';
+import { FloatingWhatsApp } from 'react-floating-whatsapp'
+
 
 import {
   HeroSection,
@@ -8,6 +10,7 @@ import {
   CategorySection,
 } from '../../components';
 import { useProductApi } from '../../hooks';
+import logo from '../../assets/images/customer-care-icon.png';
 
 export const Home = () => {
   const { loading, latestProducts, getLatestProducts } = useProductApi();
@@ -41,7 +44,7 @@ export const Home = () => {
           {loading ? (
             <>
               {[...Array(8)].map((_, index) => (
-                <Grid item xs={6} sm={3} key={index}>
+                <Grid item xs={6} sm={4} md={3} key={index}>
                   <ProductSkeleton />
                 </Grid>
               ))}
@@ -50,7 +53,7 @@ export const Home = () => {
             <>
               {latestProducts?.map((item) => {
                 return (
-                  <Grid item xs={6} sm={3} key={item?.product?.id}>
+                  <Grid item xs={6} sm={4} md={3} key={item?.product?.id}>
                     <ProductCard item={item} />
                   </Grid>
                 );
@@ -58,6 +61,8 @@ export const Home = () => {
             </>
           )}
         </Grid>
+        <FloatingWhatsApp phoneNumber='+923001034660'accountName='Ayeshye Fancy Flare' avatar={logo}
+        statusMessage='Typically replies within 1 hour'/>
       </Container>
     </Container>
   );

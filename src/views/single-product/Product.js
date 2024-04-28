@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import {
   Box,
   Button,
+  Chip,
   Container,
   FormControl,
   Grid,
@@ -26,8 +27,8 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import { colors } from '../../utils';
 import { useCartContext } from '../../context/cart/CartContainer';
 import { useProductApi, useToast } from '../../hooks';
-import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
+import { ProductReview } from '../product-reviews/ProductReview';
+import {GlassMagnifier, Magnifier} from 'react-image-magnifiers';
 
 export const Product = () => {
   const { addToCart } = useCartContext();
@@ -35,57 +36,66 @@ export const Product = () => {
   const toast = useToast();
   const [quantity, setQuantity] = useState(1);
 
+  const [isErr, setIsErr] = useState(false);
+  const [errMessage, setErrMessage] = useState('');
+
   const location = useLocation();
   const productData = location?.state;
+  const { product_color, product, review, image_product } = productData;
 
   const [variant, setVariant] = useState('');
   const [color, setColor] = useState('');
 
-  const averageRating = calculateAverageRating(productData?.reviews);
+  const averageRating = calculateAverageRating(review);
 
   // Extracting unique colors
-  const allColors = useMemo(() => [...new Set(productData?.product_color?.map((item) => item.color))], [productData?.product_color]);
-
+  const allColors = useMemo(
+    () => [...new Set(product_color?.map((item) => item.color))],
+    [product_color]
+  );
 
   // Extracting sizes with quantity more than one
-  const availableSizes = useMemo(() => productData?.product_color?.reduce((sizes, product) => {
-    if (product.available_stock > 0) {
-      if (product.small_size_quantity > 0) sizes.add('small');
-      if (product.medium_size_quantity > 0) sizes.add('medium');
-      if (product.large_size_quantity > 0) sizes.add('large');
-      if (product.extra_large_size_quantity > 0) sizes.add('extra_large');
+  const availableSizes = useMemo(
+    () =>
+      product_color?.reduce((sizes, product) => {
+        if (product.small_size_quantity > 0) sizes.add('small');
+        if (product.medium_size_quantity > 0) sizes.add('medium');
+        if (product.large_size_quantity > 0) sizes.add('large');
+        if (product.extra_large_size_quantity > 0) sizes.add('extra_large');
+        return sizes;
+      }, new Set()),
+    [product_color]
+  );
+
+  let isOutOfStock = false;
+  if (product?.is_stiched === 0) {
+    //unstitched
+    isOutOfStock =
+      product?.available_stock === 0 ||
+      product?.available_stock === null ||
+      product?.available_stock === undefined;
+  } else if (product?.is_stiched === 1) {
+    //stitched
+    if (
+      product_color.every(
+        (variant) =>
+          variant.small_size_quantity === 0 &&
+          variant.medium_size_quantity === 0 &&
+          variant.large_size_quantity === 0 &&
+          variant.extra_large_size_quantity === 0
+      )
+    ) {
+      isOutOfStock = true;
     }
-    return sizes;
-  }, new Set()), [productData?.product_color]);
-
-
-  const responsive = {
-    superLargeDesktop: {
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5,
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 3,
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 2,
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1,
-    },
-  };
+  }
 
   let percentage_off = 0;
-  if (productData?.product?.is_discount === 1) {
-    percentage_off = productData.product.after_discount_price / 100; //after_discount_price is actually percentage off like 10%
+  if (product?.is_discount === 1) {
+    percentage_off = product.after_discount_price / 100; //after_discount_price is actually percentage off like 10%
   }
 
   const [selectedImage, setSelectedImage] = useState(
-    productData?.image_product.find((img) => img.is_main === 1)?.image_url ||
-      null
+    image_product.find((img) => img.is_main === 1)?.image_url || null
   );
   // const [position, setPosition] = useState({ x: 0, y: 0 });
   // const [showMagnifier, setShowMagnifier] = useState(false);
@@ -93,11 +103,13 @@ export const Product = () => {
 
   // Function to handle color change
   const handleColorChange = (event) => {
+    setIsErr(false);
     setColor(event.target.value);
   };
 
   // Function to handle size change
   const handleSizeChange = (event) => {
+    setIsErr(false);
     setVariant(event.target.value);
   };
 
@@ -140,48 +152,58 @@ export const Product = () => {
   // };
 
   const getPrice = () => {
-    const selectedColor = productData.product_color.find(
-      (c) => c.color === color
-    );
 
+    const selectedColor = product_color.find((c) => c.color === color);
     let origionalPrice;
     let discountPrice;
     switch (variant) {
       case 'small':
-        origionalPrice = selectedColor.small_size_price || 0;
+        origionalPrice = selectedColor?.small_size_price || 0;
         break;
       case 'medium':
-        origionalPrice = selectedColor.medium_size_price || 0;
+        origionalPrice = selectedColor?.medium_size_price || 0;
         break;
       case 'large':
-        origionalPrice = selectedColor.large_size_price || 0;
+        origionalPrice = selectedColor?.large_size_price || 0;
         break;
       case 'extra_large':
-        origionalPrice = selectedColor.extra_large_size_price || 0;
+        origionalPrice = selectedColor?.extra_large_size_price || 0;
         break;
       default:
-        origionalPrice = productData.product.price || 0;
+        origionalPrice = product?.price || 0;
     }
 
-    if (productData.product.is_discount === 1) {
+    if (product.is_discount === 1) {
       discountPrice = origionalPrice - origionalPrice * percentage_off;
     }
+
+    origionalPrice = Math.floor(origionalPrice);
+    discountPrice = Math.floor(discountPrice);
 
     return { origionalPrice, discountPrice };
   };
 
   const handleAddToCart = () => {
-    const selectedColor = productData.product_color.find((c) => c.color === color) || {};
-    const availableStock = selectedColor[`${variant}_size_quantity`] || productData?.product?.available_stock || 0;
-
-    if (availableStock > 0 && availableStock >= quantity) {
-      addToCart({ ...productData, quantity, variant, color });
-    } else {
-      toast.error('Cannot add more than available stock');
+    if (product?.is_stiched === 1 && (!color || !variant)) {
+      setIsErr(true);
+      setErrMessage("Please select color and variant before adding to cart.");
+      return;
     }
+  
+    const selectedColor = product_color.find((c) => c.color === color) || {};
+    const availableStock =
+      selectedColor[`${variant}_size_quantity`] ||
+      product?.available_stock ||
+      0;
+  
+    // if (availableStock > 0 && availableStock >= quantity) {
+      addToCart({ ...productData, quantity, variant, color });
+      setIsErr(false); // Reset error state
+    // } else {
+    //   toast.error('Cannot add more than available stock');
+    // }
   };
-
-
+  
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -217,17 +239,24 @@ export const Product = () => {
                 // onMouseLeave={() => setShowMagnifier(false)}
               >
                 {selectedImage && (
-                  <img
-                    src={`${process.env.REACT_APP_BACKEND_URL}${selectedImage}`}
+                  
+                  <Magnifier
+                    imageSrc={`${process.env.REACT_APP_BACKEND_URL}${selectedImage}`}
                     alt='Main Product'
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      objectPosition: '50% 50%',
-                      transition: 'transform 0.3s ease-in-out',
-                    }}
+                    // magnifierSize='30%'
+                    className='magnifier-image'                   
                   />
+                // <img
+                  //   src={`${process.env.REACT_APP_BACKEND_URL}${selectedImage}`}
+                  //   alt='Main Product'
+                  //   style={{
+                  //     width: '100%',
+                  //     height: '100%',
+                  //     objectFit: 'cover',
+                  //     objectPosition: '50% 50%',
+                  //     transition: 'transform 0.3s ease-in-out',
+                  //   }}
+                  // />
                 )}
                 {/* <>
                 {showMagnifier && (
@@ -260,7 +289,7 @@ export const Product = () => {
                 spacing={1}
                 style={{ marginTop: '0.2rem', justifyContent: 'center' }}
               >
-                {productData.image_product.map((image, index) => (
+                {image_product.map((image, index) => (
                   <Grid item xs={3} key={index}>
                     <img
                       src={`${process.env.REACT_APP_BACKEND_URL}${image.image_url}`}
@@ -288,7 +317,7 @@ export const Product = () => {
           </Grid>
           <Grid item xs={12} sm={6} sx={{ p: '1rem' }}>
             <Typography variant='h5' marginTop='1rem'>
-              {productData.product.name.toUpperCase()}
+              {product.name.toUpperCase()}
             </Typography>
             <Stack direction='row' alignItems='center' marginTop='0.5rem'>
               <Typography variant='body1'>Rating: </Typography>
@@ -300,20 +329,28 @@ export const Product = () => {
                 sx={{ color: 'black' }}
               />
             </Stack>
-            {productData.product?.is_discount === 1 ? (
+
+            {product?.is_discount === 1 ? (
               <>
                 <Typography variant='h6' mt='0.5rem'>
                   <span style={{ textDecoration: 'line-through' }}>
-                    Rs. {getPrice().origionalPrice}
+                    Rs. {getPrice()?.origionalPrice}
                   </span>{' '}
                   Rs. {getPrice().discountPrice}
                 </Typography>
               </>
             ) : (
               <Typography variant='h6' mt='0.5rem'>
-                {getPrice().origionalPrice}
+                {getPrice()?.origionalPrice}
               </Typography>
             )}
+            <div
+              style={{
+                marginTop: '0.5rem',
+              }}
+            >
+              {isOutOfStock && <Chip label='Out of stock' color='error' />}
+            </div>
 
             {/* DETAILS SECTION */}
             <TableContainer sx={{ paddingLeft: 0, my: '1rem' }}>
@@ -322,17 +359,17 @@ export const Product = () => {
                 <TableBody>
                   <TableRow>
                     <TableCell sx={{ fontWeight: 'bold' }}>Size</TableCell>
-                    <TableCell>{productData.product.size}</TableCell>
+                    <TableCell>{product.size}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell sx={{ fontWeight: 'bold' }}>Category</TableCell>
-                    <TableCell>{productData.product.category_name}</TableCell>
+                    <TableCell>{product.category_name}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
             </TableContainer>
 
-            {productData.product?.is_stiched === 1 && (
+            {product?.is_stiched === 1 && (
               <>
                 {' '}
                 <FormControl sx={{ minWidth: { xs: 175, md: 275 } }}>
@@ -397,6 +434,7 @@ export const Product = () => {
                       color='primary'
                       fullWidth
                       onClick={handleAddToCart}
+                      disabled={isOutOfStock}
                     >
                       Add to Cart
                     </Button>
@@ -404,31 +442,18 @@ export const Product = () => {
                 </Grid>
               </Grid>
             </Grid>
+
+            {isErr && (
+              <Typography variant='body1' color='error' marginTop='1rem'>
+                {errMessage}
+              </Typography>
+            )}
           </Grid>
         </Grid>
       )}
 
-      {productData?.review && productData?.review.length > 0 && (
-        <Carousel responsive={responsive}>
-          {productData.review.map((review, index) => {
-            return (
-              <div key={index}>
-                <Box>
-                  <Typography variant='h6'>{review.review}</Typography>
-                  <Rating
-                    name='read-only'
-                    value={review.start}
-                    readOnly
-                    size='small'
-                    sx={{ color: 'black' }}
-                  />
-                  <Typography variant='body1'>{review.review}</Typography>
-                </Box>
-              </div>
-            );
-          })}
-        </Carousel>
-      )}
+      <ProductReview reviews={review} prodId={product?.id} />
+      {/* )}  */}
     </Container>
   );
 };

@@ -1,22 +1,13 @@
-import { Box, Skeleton } from '@mui/material';
+import { Box, Skeleton, useMediaQuery } from '@mui/material';
 import React, { useEffect } from 'react';
 import { Fade } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css';
 import { useFetchImages } from '../../hooks';
 
-const divStyle = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  backgroundSize: 'cover',
-  height: '60vh',
-  width: '100%',
-  backgroundPosition: 'center center',
-  backgroundRepeat: 'no-repeat',
-};
-
 export const HeroSection = () => {
   const { loading, heroImages, fetchHeroImages } = useFetchImages();
+  
+  const isMobile = useMediaQuery('(max-width:600px)');
   
   useEffect(() => {
     fetchHeroImages();
@@ -26,18 +17,28 @@ export const HeroSection = () => {
     <Box sx={{ '.indicators': { paddingLeft: '0' } }}>
       <Fade indicators={true} arrows={false}>
         {loading ? (
-          <Box style={{ ...divStyle }}>
-            <Skeleton variant='rectangular' width='100%' height='70vh' />
-          </Box>
+            <Skeleton variant='rectangular' width='100%'
+            height={isMobile ? '20vh' : '60vh'}
+             />
         ) : (
-          heroImages.map((slideImage, index) => (
-            <Box key={index}>
-              <Box
+          heroImages?.map((slideImage, index) => (
+            <Box key={index}
+            sx={{
+              height: "auto",
+              width: "100vw",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              overflow: "hidden",
+            }}>
+              <img
                 style={{
-                  ...divStyle,
-                  backgroundImage: `url(${process.env.REACT_APP_BACKEND_URL}${slideImage.image_url})`,
-
+                  width: '100%',
+                  height: '100%',
+                  objectFit:'cover'
                 }}
+                src={`${process.env.REACT_APP_BACKEND_URL}${slideImage.image_url}`}
+                alt={`Slide ${index}`}
               />
             </Box>
           ))
